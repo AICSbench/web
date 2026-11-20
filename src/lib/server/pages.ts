@@ -1,6 +1,7 @@
 // Maps the export's pages to SvelteKit routes. Paths come from pages.json
 // unchanged: entries() splits each path into the route's parameters, and the
-// load rebuilds exactly that path to look the page up. No slug is ever made here.
+// load finds the page whose path splits into the same parameters. No path or
+// slug is ever built here, so any spelling the export uses survives.
 import { loadExport, pageAt, ExportError } from '../load-export.ts';
 import type { Page } from '../types/export.ts';
 
@@ -23,22 +24,27 @@ function segments(routeId: string): string[] {
 	return routeId.split('/').filter(Boolean);
 }
 
+/** The route parameters `page.path` gives for `kind`'s route, or null when it does not fit. */
+function paramsOf(kind: Kind, page: Page): Record<string, string> | null {
+	const pattern = segments(ROUTES[kind]);
+	const parts = segments(page.path);
+	if (parts.length !== pattern.length) return null;
+	const params: Record<string, string> = {};
+	for (const [index, segment] of pattern.entries()) {
+		const name = /^\[(\w+)\]$/.exec(segment)?.[1];
+		if (name) params[name] = decodeURIComponent(parts[index]);
+		else if (segment !== parts[index]) return null;
+	}
+	return params;
+}
+
 /** Route parameters for every page of `kind`, taken from the page paths. */
 export function entriesFor(kind: Kind): Record<string, string>[] {
-	const pattern = segments(ROUTES[kind]);
 	return loadExport()
 		.pages.filter((page) => page.kind === kind)
 		.map((page) => {
-			const parts = segments(page.path);
-			const params: Record<string, string> = {};
-			const fits =
-				parts.length === pattern.length &&
-				pattern.every((segment, index) => {
-					const name = /^\[(\w+)\]$/.exec(segment)?.[1];
-					if (name) params[name] = decodeURIComponent(parts[index]);
-					return name !== undefined || segment === parts[index];
-				});
-			if (!fits) {
+			const params = paramsOf(kind, page);
+			if (!params) {
 				throw new ExportError(
 					`pages.json: ${kind} page ${page.path} does not fit route ${ROUTES[kind]}`
 				);
@@ -103,8 +109,10 @@ export function pageData(kind: Kind, params: Record<string, string> = {}) {
 				? runPages
 						.map((run) => ({ run, first: runOf(run.params.run_id ?? '') }))
 						.filter((entry) => entry.first !== undefined)
-						.sort((a, b) =>
-							(b.first?.submitted_at ?? '').localeCompare(a.first?.submitted_at ?? '')
+						// submitted_at may carry any UTC offset, so compare instants, not strings.
+						.sort(
+							(a, b) =>
+								Date.parse(b.first?.submitted_at ?? '') - Date.parse(a.first?.submitted_at ?? '')
 						)
 						.slice(0, 10)
 						.map(({ run, first }) => ({
@@ -128,13 +136,18 @@ export function pageData(kind: Kind, params: Record<string, string> = {}) {
 	};
 }
 
-/** The page of `kind` whose path the route parameters came from. */
+/** The page of `kind` whose path splits into these route parameters. */
 export function pageFor(kind: Kind, params: Record<string, string> = {}): Page {
-	const path = segments(ROUTES[kind])
-		.map((segment) => {
-			const name = /^\[(\w+)\]$/.exec(segment)?.[1];
-			return name ? encodeURIComponent(params[name]) : segment;
-		})
-		.join('/');
-	return pageAt(path ? `/${path}/` : '/', kind);
+	const wanted = Object.entries(params);
+	const page = loadExport().pages.find((candidate) => {
+		const found = paramsOf(kind, candidate);
+		return (
+			found !== null &&
+			Object.keys(found).length === wanted.length &&
+			wanted.every(([name, value]) => found[name] === value)
+		);
+	});
+	if (!page)
+		throw new ExportError(`pages.json lists no ${kind} page for ${JSON.stringify(params)}`);
+	return pageAt(page.path, kind);
 }

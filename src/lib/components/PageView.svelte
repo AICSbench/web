@@ -48,7 +48,7 @@
 	</p>
 	{#each community as section, index (index)}
 		{#if section.matrix}
-			<Matrix {section} matrix={section.matrix} />
+			<Matrix {section} matrix={section.matrix} headingLevel={3} />
 		{:else}
 			<Leaderboard {section} headingLevel={3} />
 		{/if}

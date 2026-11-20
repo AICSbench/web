@@ -138,6 +138,28 @@ describe('edge-case build', () => {
 				board.sections[0].matrix.columns[0].refused = 'mixes acceptance suites';
 				board.sections[0].matrix.rows[1].overall.success_rate = null;
 				board.sections[0].matrix.rows[1].overall.mean_rank = null;
+				// A path spelled with a raw reserved character, used exactly as exported.
+				data.pages.push({
+					path: '/tasks/task-management-api/models/vendor:model/',
+					kind: 'model',
+					title: 'Model vendor:model',
+					description: 'A model whose path keeps a raw colon.',
+					params: { task: 'task-management-api', model: 'vendor:model' },
+					sections: [],
+					links: []
+				});
+				// A long label must not run into the chart's value.
+				task.sections[0].rows[0].value =
+					'claude + anthropic/claude-opus-5-5-with-a-very-long-gateway-model-identifier-20261120';
+			});
+			// The verified run is newer as an instant but sorts older as a string.
+			json('data/trials.json', (rows) => {
+				for (const row of rows) {
+					row.submitted_at =
+						row.run_id === 'run-verified-001'
+							? '2026-11-18T22:00:00Z'
+							: '2026-11-19T01:00:00+05:00';
+				}
 			});
 		});
 		result = build(dir, { BASE_PATH: '/web' });
@@ -172,6 +194,38 @@ describe('edge-case build', () => {
 			'Evil </script><script>alert(2)</script> & co'
 		);
 		expect(attr(doc, /<title>([^<]*)<\/title>/)).toContain('&lt;/script>');
+	});
+
+	it('renders a page at its exported path, without re-encoding it', () => {
+		const doc = html(result.dir, '/tasks/task-management-api/models/vendor:model/');
+		expect(attr(doc, /<h1>([^<]*)<\/h1>/)).toBe('Model vendor:model');
+		expect(attr(doc, /<link rel="canonical" href="([^"]+)"/)).toBe(
+			'https://aicsbench.github.io/web/tasks/task-management-api/models/vendor:model/'
+		);
+	});
+
+	it('lists the latest runs newest first by instant, not by string', () => {
+		const home = html(result.dir, '/');
+		const verified = home.indexOf('Run run-verified-001<!----></a>');
+		const community = home.indexOf('Run run-community-001<!----></a>');
+		expect(verified).toBeGreaterThan(0);
+		expect(community).toBeGreaterThan(verified);
+	});
+
+	it('nests community matrices under the community heading', () => {
+		const dir = editedExport((json) =>
+			json('pages.json', (data) => {
+				const board = data.pages.find((page: { kind: string }) => page.kind === 'leaderboard');
+				board.sections.push({
+					...board.sections[0],
+					verified_only: false,
+					heading: 'Community matrix'
+				});
+			})
+		);
+		const community = build(dir);
+		if (community.status !== 0) throw new Error(community.output);
+		expect(html(community.dir, '/leaderboard/')).toMatch(/<h3 id="[^"]+">Community matrix</);
 	});
 
 	it('links under BASE_PATH with relative URLs', () => {

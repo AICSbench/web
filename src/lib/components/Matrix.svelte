@@ -6,7 +6,11 @@
 	import { duration, percent } from '#lib/format.ts';
 	import type { Matrix, Section } from '#lib/types/export.ts';
 
-	let { section, matrix }: { section: Section; matrix: Matrix } = $props();
+	let {
+		section,
+		matrix,
+		headingLevel = 2
+	}: { section: Section; matrix: Matrix; headingLevel?: 2 | 3 } = $props();
 
 	const id = $props.id();
 	const rank = (n: number) => n.toFixed(2);
@@ -14,7 +18,7 @@
 </script>
 
 <section class="matrix" aria-labelledby="{id}-heading">
-	<SectionHeader {section} id="{id}-heading" />
+	<SectionHeader {section} id="{id}-heading" level={headingLevel} />
 
 	{#if section.refused !== null}
 		<p class="refused" role="note"><strong>Not compared:</strong> {section.refused}</p>

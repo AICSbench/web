@@ -1,14 +1,11 @@
 <script lang="ts">
-	// Inline SVG bars, prerendered with the page. Bar positions use percentages so the
-	// chart stretches to its container while the text keeps its size on small screens.
+	// Bars drawn as inline SVG, prerendered with the page. Each row's label and value are
+	// HTML text above its bar, so a long label wraps instead of running into the value.
 	import { duration, percent } from '#lib/format.ts';
 	import type { Row } from '#lib/types/export.ts';
 
 	let { rows, metric, label }: { rows: Row[]; metric: 'success' | 'time'; label: string } =
 		$props();
-
-	const id = $props.id();
-	const ROW = 44;
 
 	const title = $derived(
 		metric === 'success' ? `Success rate by ${label}` : `Mean agent time by ${label}, ± 1 SD`
@@ -30,53 +27,43 @@
 		const sd = row.stdev_seconds === null ? '' : ` ± ${duration(row.stdev_seconds)}`;
 		return `${duration(row.mean_seconds)}${sd}`;
 	}
-
-	const summary = $derived(rows.map((row) => `${row.value}: ${text(row)}`).join('; '));
 </script>
 
 <figure class="chart">
-	<svg
-		width="100%"
-		height={rows.length * ROW + 4}
-		role="img"
-		aria-labelledby="{id}-title {id}-desc"
-	>
-		<title id="{id}-title">{title}</title>
-		<desc id="{id}-desc">{summary}</desc>
+	<ul>
 		{#each rows as row, index (index)}
-			{@const y = index * ROW}
-			<text class="label" x="0" y={y + 14}>{row.value}</text>
-			<text
-				class="value"
-				class:missing={metric === 'time' && row.mean_seconds === null}
-				x="100%"
-				y={y + 14}
-				text-anchor="end"
-			>
-				{text(row)}
-			</text>
-			<rect class="track" x="0" y={y + 20} width="100%" height="14" rx="2" />
-			{#if metric === 'success'}
-				<rect class="bar" x="0" y={y + 20} width="{share(row.success_rate)}%" height="14" rx="2" />
-			{:else if row.mean_seconds !== null}
-				<rect
-					class="bar time"
-					x="0"
-					y={y + 20}
-					width="{share(row.mean_seconds)}%"
-					height="14"
-					rx="2"
-				/>
-				{#if row.stdev_seconds !== null && row.stdev_seconds > 0}
-					{@const low = share(Math.max(0, row.mean_seconds - row.stdev_seconds))}
-					{@const high = share(row.mean_seconds + row.stdev_seconds)}
-					<line class="whisker" x1="{low}%" x2="{high}%" y1={y + 27} y2={y + 27} />
-					<line class="whisker" x1="{low}%" x2="{low}%" y1={y + 22} y2={y + 32} />
-					<line class="whisker" x1="{high}%" x2="{high}%" y1={y + 22} y2={y + 32} />
-				{/if}
-			{/if}
+			<li>
+				<div class="head">
+					<span class="label">{row.value}</span>
+					<span class="value" class:missing={metric === 'time' && row.mean_seconds === null}>
+						{text(row)}
+					</span>
+				</div>
+				<svg width="100%" height="14" aria-hidden="true">
+					<rect class="track" x="0" y="0" width="100%" height="14" rx="2" />
+					{#if metric === 'success'}
+						<rect class="bar" x="0" y="0" width="{share(row.success_rate)}%" height="14" rx="2" />
+					{:else if row.mean_seconds !== null}
+						<rect
+							class="bar time"
+							x="0"
+							y="0"
+							width="{share(row.mean_seconds)}%"
+							height="14"
+							rx="2"
+						/>
+						{#if row.stdev_seconds !== null && row.stdev_seconds > 0}
+							{@const low = share(Math.max(0, row.mean_seconds - row.stdev_seconds))}
+							{@const high = share(row.mean_seconds + row.stdev_seconds)}
+							<line class="whisker" x1="{low}%" x2="{high}%" y1="7" y2="7" />
+							<line class="whisker" x1="{low}%" x2="{low}%" y1="2" y2="12" />
+							<line class="whisker" x1="{high}%" x2="{high}%" y1="2" y2="12" />
+						{/if}
+					{/if}
+				</svg>
+			</li>
 		{/each}
-	</svg>
+	</ul>
 	<figcaption>{title}</figcaption>
 </figure>
 
@@ -86,23 +73,45 @@
 		min-width: 0;
 	}
 
-	svg {
-		display: block;
-		overflow: visible;
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
 	}
 
-	text {
-		fill: var(--text);
+	li {
+		margin-bottom: 0.6rem;
+	}
+
+	.head {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 0 0.75rem;
 		font-size: 13px;
+		line-height: 1.35;
+		margin-bottom: 0.2rem;
+	}
+
+	.label {
+		min-width: 0;
+		overflow-wrap: anywhere;
 	}
 
 	.value {
+		margin-left: auto;
 		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
 	}
 
 	.missing {
-		fill: var(--muted);
+		color: var(--muted);
 		font-style: italic;
+	}
+
+	svg {
+		display: block;
+		overflow: visible;
 	}
 
 	.track {

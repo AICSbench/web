@@ -15,7 +15,7 @@ test.describe('without JavaScript', () => {
 		await expect(rows.nth(2)).toContainText('codex + gpt-6-luna');
 		await expect(rows.nth(2)).toContainText('66.7%');
 		await expect(
-			page.getByRole('img', { name: /Success rate by Harness \+ model/ }).first()
+			page.getByRole('figure', { name: /Success rate by Harness \+ model/ }).first()
 		).toBeVisible();
 	});
 

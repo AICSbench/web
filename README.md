@@ -10,7 +10,13 @@ published export live in [aicsbench/data](https://github.com/aicsbench/data) (it
 
 ## Preview locally
 
-Requires the Node version in `.nvmrc` and the pnpm version in `package.json` (`corepack enable`).
+Requires the Node version in `.nvmrc` and the pnpm version pinned in `package.json`
+(`packageManager`). Node 25 and later no longer ship Corepack, so install that pnpm version
+directly:
+
+```bash
+npm install --global pnpm@12.0.0
+```
 
 ```bash
 pnpm install && pnpm dev
@@ -35,6 +41,7 @@ pnpm check        # svelte-check
 pnpm lint         # Prettier and ESLint
 pnpm test         # Vitest, including builds of edited exports
 pnpm build
+pnpm exec playwright install --with-deps chromium   # once per machine
 pnpm test:e2e     # Playwright against pnpm preview, with and without JavaScript
 ```
 
