@@ -52,9 +52,28 @@ for (const path of [TASK, '/compare/', '/leaderboard/', '/runs/run-verified-001/
 }
 
 test('client-side navigation keeps working after hydration', async ({ page }) => {
-	await page.goto('/');
+	await page.goto('/', { waitUntil: 'networkidle' });
+	// A full page load would request a new document; client-side routing does not.
+	const documents: string[] = [];
+	page.on('request', (request) => {
+		if (request.isNavigationRequest() && request.frame() === page.mainFrame()) {
+			documents.push(request.url());
+		}
+	});
 	await page.getByRole('link', { name: 'Leaderboard', exact: true }).first().click();
 	await expect(page).toHaveURL(/\/leaderboard\/$/);
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Leaderboard');
 	await expect(page).toHaveTitle('Leaderboard · AICSbench');
+	expect(documents).toEqual([]);
+});
+
+test('the skip link moves keyboard focus to the main content', async ({ page }) => {
+	await page.goto('/tasks/task-management-api/');
+	await page.keyboard.press('Tab');
+	await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
+	await page.keyboard.press('Enter');
+	await expect(page.locator('main')).toBeFocused();
+	await page.keyboard.press('Tab');
+	const focused = await page.evaluate(() => !!document.activeElement?.closest('main'));
+	expect(focused).toBe(true);
 });

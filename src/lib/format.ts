@@ -43,7 +43,7 @@ export function axisLabel(by: string): string {
 		framework: 'Framework',
 		task: 'Task'
 	};
-	return labels[by] ?? by;
+	return Object.hasOwn(labels, by) ? labels[by] : by;
 }
 
 /** Labels for the values a section holds fixed. */

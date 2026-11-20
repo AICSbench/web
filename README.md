@@ -29,7 +29,8 @@ a checkout of the data repository's `export` branch:
 EXPORT_DIR=/path/to/export pnpm build && pnpm preview
 ```
 
-The build validates every export file against the export's own `schema/*.schema.json` and stops
+The build validates the schema-backed export files (`export.json`, `data/trials.json`,
+`data/meta.json` and `pages.json`) against the export's own `schema/*.schema.json` and stops
 with the file and JSON path of the first problem. It refuses an `export_schema` other than 1.
 `BASE_PATH=/web` builds for the GitHub Pages path.
 

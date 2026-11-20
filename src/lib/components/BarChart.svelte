@@ -24,7 +24,7 @@
 	function text(row: Row): string {
 		if (metric === 'success') return `${percent(row.success_rate)} (${row.passed}/${row.trials})`;
 		if (row.mean_seconds === null) return 'unavailable';
-		const sd = row.stdev_seconds === null ? '' : ` ± ${duration(row.stdev_seconds)}`;
+		const sd = ` ± ${row.stdev_seconds === null ? 'SD unavailable' : duration(row.stdev_seconds)}`;
 		return `${duration(row.mean_seconds)}${sd}`;
 	}
 </script>

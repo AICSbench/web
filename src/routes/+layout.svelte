@@ -20,7 +20,7 @@
 		<Link path="/methodology/">Methodology</Link>
 	</nav>
 </header>
-<main id="main">
+<main id="main" tabindex="-1">
 	{@render children()}
 </main>
 <footer class="site">
@@ -57,6 +57,10 @@
 		max-width: 72rem;
 		margin: 0 auto;
 		padding: 0.75rem 1rem;
+	}
+
+	main:focus {
+		outline: none;
 	}
 
 	main {

@@ -148,10 +148,12 @@ export function readExport(dir: string): SiteExport {
 				const ok =
 					typeof raw?.submitter?.name === 'string' &&
 					typeof raw.notes === 'string' &&
-					typeof raw.submitted_at === 'string';
+					typeof raw.submitted_at === 'string' &&
+					typeof raw.platform_version === 'string' &&
+					typeof raw.logs_included === 'boolean';
 				if (!ok) {
 					throw new ExportError(
-						`${join(dir, 'runs', runId, 'submission.json')}: missing submitter, notes or submitted_at`
+						`${join(dir, 'runs', runId, 'submission.json')}: missing or invalid submitter, notes, submitted_at, platform_version or logs_included`
 					);
 				}
 				// Only the fields the run page shows, so the page payload stays small.
@@ -160,7 +162,7 @@ export function readExport(dir: string): SiteExport {
 					notes: raw.notes,
 					submitted_at: raw.submitted_at,
 					platform_version: raw.platform_version,
-					logs_included: raw.logs_included === true
+					logs_included: raw.logs_included
 				};
 				submissions.set(runId, found);
 			}

@@ -148,6 +148,10 @@ describe('edge-case build', () => {
 					sections: [],
 					links: []
 				});
+				// A mean without a standard deviation.
+				task.sections[2].rows[0].stdev_seconds = null;
+				// A verified home section with no rows.
+				data.pages[0].sections[0].rows = [];
 				// A long label must not run into the chart's value.
 				task.sections[0].rows[0].value =
 					'claude + anthropic/claude-opus-5-5-with-a-very-long-gateway-model-identifier-20261120';
@@ -226,6 +230,22 @@ describe('edge-case build', () => {
 		const community = build(dir);
 		if (community.status !== 0) throw new Error(community.output);
 		expect(html(community.dir, '/leaderboard/')).toMatch(/<h3 id="[^"]+">Community matrix</);
+	});
+
+	it('marks a missing standard deviation as unavailable in the table and the chart', () => {
+		const task = html(result.dir, '/tasks/task-management-api/');
+		const start = task.indexOf('By stack · harness codex');
+		const section = task.slice(start, task.indexOf('</section>', start));
+		expect(section).toMatch(
+			/10m 30s(?:<!--[^>]*-->)*\u00a0± (?:<!--[^>]*-->)*<span class="unavailable">unavailable<\/span>/
+		);
+		expect(section).toContain('10m 30s ± SD unavailable');
+	});
+
+	it('says there are no verified runs when verified sections are empty', () => {
+		const home = html(result.dir, '/');
+		expect(home).toContain('No verified runs yet.');
+		expect(home).not.toContain('Leaderboard per task');
 	});
 
 	it('links under BASE_PATH with relative URLs', () => {

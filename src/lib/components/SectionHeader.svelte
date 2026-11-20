@@ -23,7 +23,7 @@
 	{#each Object.entries(section.fixed) as [key, value] (key)}
 		{#if value !== undefined}
 			<li>
-				<span class="key">{FIXED_LABELS[key] ?? key}</span>
+				<span class="key">{Object.hasOwn(FIXED_LABELS, key) ? FIXED_LABELS[key] : key}</span>
 				<code title={value}>{shown(key, value)}</code>
 			</li>
 		{/if}

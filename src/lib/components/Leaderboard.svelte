@@ -48,11 +48,8 @@
 								<span class="sub">({row.passed}/{row.trials})</span>
 							</td>
 							<td class="num">
-								<Metric
-									value={row.mean_seconds}
-									format={duration}
-								/>{#if row.mean_seconds !== null && row.stdev_seconds !== null}
-									{` ± ${duration(row.stdev_seconds)}`}{/if}
+								<Metric value={row.mean_seconds} format={duration} />{#if row.mean_seconds !== null}
+									&nbsp;± <Metric value={row.stdev_seconds} format={duration} />{/if}
 								{#if row.mean_seconds !== null}<span class="sub">({row.timed} timed)</span>{/if}
 							</td>
 							<td class="num">
@@ -109,7 +106,7 @@
 
 	.charts {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
 		gap: 1rem 2rem;
 	}
 </style>

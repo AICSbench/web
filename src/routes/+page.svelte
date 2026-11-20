@@ -38,7 +38,7 @@
 			</ul>
 		</section>
 	{/if}
-	{#if data.page.sections.some((section) => section.verified_only)}
+	{#if data.page.sections.some((section) => section.verified_only && (section.rows.length > 0 || (section.matrix?.rows.length ?? 0) > 0))}
 		<h2>Leaderboard per task</h2>
 	{:else}
 		<p class="unavailable">No verified runs yet.</p>

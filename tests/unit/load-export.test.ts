@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { ExportError, jsonPath, readExport } from '../../src/lib/load-export.ts';
+import { axisLabel } from '../../src/lib/format.ts';
 import { FIXTURE, editedExport } from './helpers.ts';
 
 describe('readExport', () => {
@@ -60,6 +61,32 @@ describe('readExport', () => {
 			json('data/trials.json', (rows) => (rows[0].framework_version_changed = true));
 		});
 		expect(readExport(dir).trials[0]).toMatchObject({ framework_version_changed: true });
+	});
+});
+
+describe('run submissions', () => {
+	it('refuses a submission without a boolean logs_included or a platform_version', () => {
+		for (const change of [
+			(data: any) => (data.logs_included = 'yes'),
+			(data: any) => delete data.platform_version
+		]) {
+			const dir = editedExport((json) =>
+				json('runs/run-verified-001/submission.json', (data) => {
+					change(data);
+				})
+			);
+			expect(() => readExport(dir).submission('run-verified-001')).toThrow(
+				/run-verified-001\/submission\.json: missing or invalid .*platform_version or logs_included/
+			);
+		}
+	});
+});
+
+describe('axisLabel', () => {
+	it('labels known axes and shows any other axis as is', () => {
+		expect(axisLabel('harness_model')).toBe('Harness + model');
+		expect(axisLabel('constructor')).toBe('constructor');
+		expect(axisLabel('toString')).toBe('toString');
 	});
 });
 
