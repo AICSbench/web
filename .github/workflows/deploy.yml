@@ -1,0 +1,70 @@
+name: deploy
+
+# aicsbench/data sends `data-published` after it commits a new export to its
+# `export` branch, with client_payload.data_commit set to the data commit.
+on:
+  repository_dispatch:
+    types: [data-published]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check out the published export
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: aicsbench/data
+          ref: export
+          path: export
+          persist-credentials: false
+      - name: Export matches the dispatched data commit
+        if: github.event_name == 'repository_dispatch' && github.event.client_payload.data_commit
+        env:
+          EXPECTED: ${{ github.event.client_payload.data_commit }}
+        run: |
+          actual="$(jq -r '.data_commit' export/export.json)"
+          if [ "$actual" != "$EXPECTED" ]; then
+            echo "::error::export/export.json has data_commit $actual, but the dispatch announced $EXPECTED"
+            exit 1
+          fi
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+        env:
+          EXPORT_DIR: export
+          BASE_PATH: /web
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: build/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

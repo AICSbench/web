@@ -1,0 +1,403 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Link": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "label"
+      ],
+      "title": "Link",
+      "type": "object"
+    },
+    "Matrix": {
+      "additionalProperties": false,
+      "description": "``comparison.compare_matrix``: used by the ``/leaderboard/`` page.",
+      "properties": {
+        "columns": {
+          "items": {
+            "$ref": "#/$defs/MatrixColumn"
+          },
+          "title": "Columns",
+          "type": "array"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/MatrixRow"
+          },
+          "title": "Rows",
+          "type": "array"
+        }
+      },
+      "required": [
+        "columns",
+        "rows"
+      ],
+      "title": "Matrix",
+      "type": "object"
+    },
+    "MatrixColumn": {
+      "additionalProperties": false,
+      "properties": {
+        "task": {
+          "title": "Task",
+          "type": "string"
+        },
+        "task_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Task Version"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "refused": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Refused"
+        }
+      },
+      "required": [
+        "task",
+        "task_version",
+        "path",
+        "refused"
+      ],
+      "title": "MatrixColumn",
+      "type": "object"
+    },
+    "MatrixOverall": {
+      "additionalProperties": false,
+      "properties": {
+        "success_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Success Rate"
+        },
+        "covered": {
+          "title": "Covered",
+          "type": "integer"
+        },
+        "columns": {
+          "title": "Columns",
+          "type": "integer"
+        },
+        "mean_rank": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mean Rank"
+        },
+        "complete": {
+          "title": "Complete",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success_rate",
+        "covered",
+        "columns",
+        "mean_rank",
+        "complete"
+      ],
+      "title": "MatrixOverall",
+      "type": "object"
+    },
+    "MatrixRow": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "title": "Value",
+          "type": "string"
+        },
+        "cells": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Row"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Cells",
+          "type": "array"
+        },
+        "overall": {
+          "$ref": "#/$defs/MatrixOverall"
+        }
+      },
+      "required": [
+        "value",
+        "cells",
+        "overall"
+      ],
+      "title": "MatrixRow",
+      "type": "object"
+    },
+    "Page": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "home",
+            "task",
+            "harness",
+            "model",
+            "stack",
+            "leaderboard",
+            "run",
+            "compare",
+            "methodology"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "params": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Params",
+          "type": "object"
+        },
+        "sections": {
+          "items": {
+            "$ref": "#/$defs/Section"
+          },
+          "title": "Sections",
+          "type": "array"
+        },
+        "links": {
+          "items": {
+            "$ref": "#/$defs/Link"
+          },
+          "title": "Links",
+          "type": "array"
+        }
+      },
+      "required": [
+        "path",
+        "kind",
+        "title",
+        "description",
+        "params",
+        "sections",
+        "links"
+      ],
+      "title": "Page",
+      "type": "object"
+    },
+    "Row": {
+      "additionalProperties": false,
+      "description": "``dataclasses.asdict(comparison.ComparisonRow)`` plus ``success_rate``.",
+      "properties": {
+        "value": {
+          "title": "Value",
+          "type": "string"
+        },
+        "trials": {
+          "title": "Trials",
+          "type": "integer"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "integer"
+        },
+        "rate_limited": {
+          "title": "Rate Limited",
+          "type": "integer"
+        },
+        "timed": {
+          "title": "Timed",
+          "type": "integer"
+        },
+        "mean_seconds": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mean Seconds"
+        },
+        "stdev_seconds": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Stdev Seconds"
+        },
+        "mean_cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mean Cost Usd"
+        },
+        "cost_samples": {
+          "title": "Cost Samples",
+          "type": "integer"
+        },
+        "low_confidence": {
+          "title": "Low Confidence",
+          "type": "boolean"
+        },
+        "success_rate": {
+          "title": "Success Rate",
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "trials",
+        "passed",
+        "rate_limited",
+        "timed",
+        "mean_seconds",
+        "stdev_seconds",
+        "mean_cost_usd",
+        "cost_samples",
+        "low_confidence",
+        "success_rate"
+      ],
+      "title": "Row",
+      "type": "object"
+    },
+    "Section": {
+      "additionalProperties": false,
+      "properties": {
+        "heading": {
+          "title": "Heading",
+          "type": "string"
+        },
+        "fixed": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Fixed",
+          "type": "object"
+        },
+        "by": {
+          "title": "By",
+          "type": "string"
+        },
+        "verified_only": {
+          "title": "Verified Only",
+          "type": "boolean"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/Row"
+          },
+          "title": "Rows",
+          "type": "array"
+        },
+        "refused": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Refused"
+        },
+        "matrix": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Matrix"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "heading",
+        "fixed",
+        "by",
+        "verified_only",
+        "rows",
+        "refused"
+      ],
+      "title": "Section",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "``pages.json``.",
+  "properties": {
+    "pages": {
+      "items": {
+        "$ref": "#/$defs/Page"
+      },
+      "title": "Pages",
+      "type": "array"
+    }
+  },
+  "required": [
+    "pages"
+  ],
+  "title": "Pages",
+  "type": "object"
+}

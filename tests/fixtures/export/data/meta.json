@@ -1,0 +1,12 @@
+{
+  "runs": 2,
+  "trials": 7,
+  "tasks": [
+    {
+      "id": "task-management-api",
+      "version": "2",
+      "name": "Task Management REST API",
+      "description": "Build a JSON REST API for managing projects and the tasks inside them, persisted in the provided relational database."
+    }
+  ]
+}

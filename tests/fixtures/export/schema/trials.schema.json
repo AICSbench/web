@@ -1,0 +1,385 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "TrialRow": {
+      "additionalProperties": false,
+      "description": "One object of ``data/trials.json``: ``reporting.trial_row`` plus export-only keys.",
+      "properties": {
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "trial_id": {
+          "title": "Trial Id",
+          "type": "string"
+        },
+        "trial_index": {
+          "title": "Trial Index",
+          "type": "integer"
+        },
+        "max_repairs": {
+          "title": "Max Repairs",
+          "type": "integer"
+        },
+        "max_parallel": {
+          "title": "Max Parallel",
+          "type": "integer"
+        },
+        "task": {
+          "title": "Task",
+          "type": "string"
+        },
+        "task_version": {
+          "title": "Task Version",
+          "type": "string"
+        },
+        "agent": {
+          "title": "Agent",
+          "type": "string"
+        },
+        "model": {
+          "title": "Model",
+          "type": "string"
+        },
+        "stack": {
+          "title": "Stack",
+          "type": "string"
+        },
+        "language": {
+          "title": "Language",
+          "type": "string"
+        },
+        "language_version": {
+          "title": "Language Version",
+          "type": "string"
+        },
+        "framework": {
+          "title": "Framework",
+          "type": "string"
+        },
+        "framework_version": {
+          "title": "Framework Version",
+          "type": "string"
+        },
+        "tooling_mode": {
+          "title": "Tooling Mode",
+          "type": "string"
+        },
+        "auth_mode": {
+          "title": "Auth Mode",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "rate_limited": {
+          "title": "Rate Limited",
+          "type": "boolean"
+        },
+        "agent_seconds": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Agent Seconds"
+        },
+        "wall_seconds": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Wall Seconds"
+        },
+        "tests_passed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Tests Passed"
+        },
+        "tests_failed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Tests Failed"
+        },
+        "tests_total": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Tests Total"
+        },
+        "repair_iterations": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Repair Iterations"
+        },
+        "token_scheme": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Token Scheme"
+        },
+        "input_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Input Tokens"
+        },
+        "cached_input_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cached Input Tokens"
+        },
+        "output_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Output Tokens"
+        },
+        "reasoning_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reasoning Tokens"
+        },
+        "total_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Total Tokens"
+        },
+        "cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cost Usd"
+        },
+        "cost_availability": {
+          "title": "Cost Availability",
+          "type": "string"
+        },
+        "harness": {
+          "title": "Harness",
+          "type": "string"
+        },
+        "harness_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Harness Version"
+        },
+        "requested_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Requested Model"
+        },
+        "reasoning_effort": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reasoning Effort"
+        },
+        "language_version_installed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Language Version Installed"
+        },
+        "framework_version_installed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Framework Version Installed"
+        },
+        "provider": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider"
+        },
+        "endpoint_host": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Endpoint Host"
+        },
+        "verified": {
+          "title": "Verified",
+          "type": "boolean"
+        },
+        "logs_available": {
+          "title": "Logs Available",
+          "type": "boolean"
+        },
+        "suite_sha256": {
+          "title": "Suite Sha256",
+          "type": "string"
+        },
+        "submitted_at": {
+          "format": "date-time",
+          "title": "Submitted At",
+          "type": "string"
+        },
+        "submitter": {
+          "title": "Submitter",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "trial_id",
+        "trial_index",
+        "max_repairs",
+        "max_parallel",
+        "task",
+        "task_version",
+        "agent",
+        "model",
+        "stack",
+        "language",
+        "language_version",
+        "framework",
+        "framework_version",
+        "tooling_mode",
+        "auth_mode",
+        "status",
+        "rate_limited",
+        "agent_seconds",
+        "wall_seconds",
+        "tests_passed",
+        "tests_failed",
+        "tests_total",
+        "repair_iterations",
+        "token_scheme",
+        "input_tokens",
+        "cached_input_tokens",
+        "output_tokens",
+        "reasoning_tokens",
+        "total_tokens",
+        "cost_usd",
+        "cost_availability",
+        "harness",
+        "harness_version",
+        "requested_model",
+        "reasoning_effort",
+        "language_version_installed",
+        "framework_version_installed",
+        "verified",
+        "logs_available",
+        "suite_sha256",
+        "submitted_at",
+        "submitter"
+      ],
+      "title": "TrialRow",
+      "type": "object"
+    }
+  },
+  "items": {
+    "$ref": "#/$defs/TrialRow"
+  },
+  "type": "array"
+}
