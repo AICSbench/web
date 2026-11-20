@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "MetaTask": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Name"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Description"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "name",
+        "description"
+      ],
+      "title": "MetaTask",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "``data/meta.json``.",
+  "properties": {
+    "runs": {
+      "title": "Runs",
+      "type": "integer"
+    },
+    "trials": {
+      "title": "Trials",
+      "type": "integer"
+    },
+    "tasks": {
+      "items": {
+        "$ref": "#/$defs/MetaTask"
+      },
+      "title": "Tasks",
+      "type": "array"
+    }
+  },
+  "required": [
+    "runs",
+    "trials",
+    "tasks"
+  ],
+  "title": "Meta",
+  "type": "object"
+}

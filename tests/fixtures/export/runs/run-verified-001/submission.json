@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "run_id": "run-verified-001",
+  "task_id": "task-management-api",
+  "task_version": "2",
+  "submitted_at": "2026-11-18T00:00:00Z",
+  "submitter": {
+    "name": "Verified Submitter",
+    "github": "verified-submitter"
+  },
+  "notes": "Verified fixture run.",
+  "platform_version": "0.1.0",
+  "platform_git_commit": "3547a18",
+  "acceptance_suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+  "suite_hash_source": "run",
+  "logs_included": false,
+  "files": {
+    "manifest.json": "ed465aed9308df711dc600162ec1c51db528efb2f092b8e7e4a9965a7d0b1bd9",
+    "trials/trial-001.json": "8932bd263ec9755cc80aa5d89930c3068ad370dfcfa04fa333c16cf39b523610",
+    "trials/trial-002.json": "ba12613f4ead6a6d89e703f590a3f8c5c0e0aa45dc70efaa72d0a05d62e61e61",
+    "trials/trial-003.json": "2e08912def5fb6b0ec8e9c8dc5b6170bb95fcca1690b1bbab80a6d30fa02534d",
+    "trials/trial-004.json": "c64b13346c6f685b2c489ebe163aa9c897deec3e56d7eaebbeb258dd18ba2a0f",
+    "trials/trial-005.json": "f890e7316107800c17a8d57a0c4c78253c39f8c96f54e4e4379c505e881711da"
+  }
+}

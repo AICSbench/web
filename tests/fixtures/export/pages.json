@@ -1,0 +1,1114 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "kind": "home",
+      "title": "AI coding stack benchmark",
+      "description": "How AI coding agents (harness + model) perform across programming languages and frameworks, from verified benchmark runs.",
+      "params": {},
+      "sections": [
+        {
+          "heading": "By harness + model · stack fastapi · Task Management REST API · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "stack": "fastapi"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude + claude-opus-5-5",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 510.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            },
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 630.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/task-management-api/",
+          "label": "Task Management REST API"
+        },
+        {
+          "path": "/leaderboard/",
+          "label": "Leaderboard"
+        },
+        {
+          "path": "/compare/",
+          "label": "Compare"
+        },
+        {
+          "path": "/methodology/",
+          "label": "Methodology"
+        },
+        {
+          "path": "/runs/run-community-001/",
+          "label": "Run run-community-001"
+        },
+        {
+          "path": "/runs/run-verified-001/",
+          "label": "Run run-verified-001"
+        }
+      ]
+    },
+    {
+      "path": "/leaderboard/",
+      "kind": "leaderboard",
+      "title": "Leaderboard",
+      "description": "Harness + model results across every task (newest version each), one table per stack, verified runs only.",
+      "params": {},
+      "sections": [
+        {
+          "heading": "Harness + model across tasks · stack fastapi",
+          "fixed": {
+            "stack": "fastapi"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [],
+          "refused": null,
+          "matrix": {
+            "columns": [
+              {
+                "task": "task-management-api",
+                "task_version": "2",
+                "path": "/tasks/task-management-api/",
+                "refused": null
+              }
+            ],
+            "rows": [
+              {
+                "value": "claude + claude-opus-5-5",
+                "cells": [
+                  {
+                    "value": "claude + claude-opus-5-5",
+                    "trials": 2,
+                    "passed": 2,
+                    "rate_limited": 0,
+                    "timed": 2,
+                    "mean_seconds": 510.0,
+                    "stdev_seconds": 42.42640687119285,
+                    "mean_cost_usd": null,
+                    "cost_samples": 0,
+                    "low_confidence": true,
+                    "success_rate": 1.0
+                  }
+                ],
+                "overall": {
+                  "success_rate": 1.0,
+                  "covered": 1,
+                  "columns": 1,
+                  "mean_rank": 1.0,
+                  "complete": true
+                }
+              },
+              {
+                "value": "codex + gpt-6-luna",
+                "cells": [
+                  {
+                    "value": "codex + gpt-6-luna",
+                    "trials": 3,
+                    "passed": 2,
+                    "rate_limited": 0,
+                    "timed": 2,
+                    "mean_seconds": 630.0,
+                    "stdev_seconds": 42.42640687119285,
+                    "mean_cost_usd": null,
+                    "cost_samples": 0,
+                    "low_confidence": false,
+                    "success_rate": 0.6666666666666666
+                  }
+                ],
+                "overall": {
+                  "success_rate": 0.6666666666666666,
+                  "covered": 1,
+                  "columns": 1,
+                  "mean_rank": 2.0,
+                  "complete": true
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/task-management-api/",
+          "label": "Task Management REST API"
+        }
+      ]
+    },
+    {
+      "path": "/compare/",
+      "kind": "compare",
+      "title": "Compare results",
+      "description": "Build a custom comparison of benchmark results in the browser.",
+      "params": {},
+      "sections": [],
+      "links": []
+    },
+    {
+      "path": "/methodology/",
+      "kind": "methodology",
+      "title": "Methodology",
+      "description": "How trials run, what each metric means, which results are comparable, and verified versus community runs.",
+      "params": {},
+      "sections": [],
+      "links": []
+    },
+    {
+      "path": "/tasks/task-management-api/",
+      "kind": "task",
+      "title": "Task Management REST API",
+      "description": "Build a JSON REST API for managing projects and the tasks inside them, persisted in the provided relational database.",
+      "params": {
+        "task": "task-management-api"
+      },
+      "sections": [
+        {
+          "heading": "By harness + model · stack fastapi · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "stack": "fastapi"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude + claude-opus-5-5",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 510.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            },
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 630.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness claude · model claude-opus-5-5 · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "harness": "claude",
+            "model": "claude-opus-5-5"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 510.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness codex · model gpt-6-luna · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "harness": "codex",
+            "model": "gpt-6-luna"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 630.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness + model · stack laravel · version 2 · community results",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "stack": "laravel"
+          },
+          "by": "harness_model",
+          "verified_only": false,
+          "rows": [
+            {
+              "value": "claude + claude-opus-5-5",
+              "trials": 2,
+              "passed": 0,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 0.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness claude · model claude-opus-5-5 · version 2 · community results",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "harness": "claude",
+            "model": "claude-opus-5-5"
+          },
+          "by": "stack",
+          "verified_only": false,
+          "rows": [
+            {
+              "value": "laravel",
+              "trials": 2,
+              "passed": 0,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 0.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/task-management-api/harnesses/claude/",
+          "label": "Harness claude"
+        },
+        {
+          "path": "/tasks/task-management-api/harnesses/codex/",
+          "label": "Harness codex"
+        },
+        {
+          "path": "/tasks/task-management-api/models/claude-opus-5-5/",
+          "label": "Model claude-opus-5-5"
+        },
+        {
+          "path": "/tasks/task-management-api/models/gpt-6-luna/",
+          "label": "Model gpt-6-luna"
+        },
+        {
+          "path": "/tasks/task-management-api/stacks/fastapi/",
+          "label": "Stack fastapi"
+        },
+        {
+          "path": "/tasks/task-management-api/stacks/laravel/",
+          "label": "Stack laravel"
+        },
+        {
+          "path": "/runs/run-community-001/",
+          "label": "Run run-community-001"
+        },
+        {
+          "path": "/runs/run-verified-001/",
+          "label": "Run run-verified-001"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/task-management-api/harnesses/claude/",
+      "kind": "harness",
+      "title": "Harness claude on Task Management REST API",
+      "description": "Results of harness claude on the Task Management REST API task, by model, by stack and by harness version.",
+      "params": {
+        "task": "task-management-api",
+        "harness": "claude"
+      },
+      "sections": [
+        {
+          "heading": "By model · stack fastapi · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "stack": "fastapi"
+          },
+          "by": "model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude-opus-5-5",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 510.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · model claude-opus-5-5 · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "model": "claude-opus-5-5"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 510.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness version · model claude-opus-5-5 · stack fastapi · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "model": "claude-opus-5-5",
+            "stack": "fastapi"
+          },
+          "by": "harness_version",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude 2.1.323",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 510.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By model · stack laravel · version 2 · community results",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "stack": "laravel"
+          },
+          "by": "model",
+          "verified_only": false,
+          "rows": [
+            {
+              "value": "claude-opus-5-5",
+              "trials": 2,
+              "passed": 0,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 0.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · model claude-opus-5-5 · version 2 · community results",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "model": "claude-opus-5-5"
+          },
+          "by": "stack",
+          "verified_only": false,
+          "rows": [
+            {
+              "value": "laravel",
+              "trials": 2,
+              "passed": 0,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 0.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness version · model claude-opus-5-5 · stack laravel · version 2 · community results",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "model": "claude-opus-5-5",
+            "stack": "laravel"
+          },
+          "by": "harness_version",
+          "verified_only": false,
+          "rows": [
+            {
+              "value": "claude 2.1.323",
+              "trials": 2,
+              "passed": 0,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 0.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/task-management-api/",
+          "label": "Task Management REST API"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/task-management-api/harnesses/codex/",
+      "kind": "harness",
+      "title": "Harness codex on Task Management REST API",
+      "description": "Results of harness codex on the Task Management REST API task, by model, by stack and by harness version.",
+      "params": {
+        "task": "task-management-api",
+        "harness": "codex"
+      },
+      "sections": [
+        {
+          "heading": "By model · stack fastapi · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "stack": "fastapi"
+          },
+          "by": "model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "gpt-6-luna",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 630.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · model gpt-6-luna · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "model": "gpt-6-luna"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 630.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness version · model gpt-6-luna · stack fastapi · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "model": "gpt-6-luna",
+            "stack": "fastapi"
+          },
+          "by": "harness_version",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex 0.167.2",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 630.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/task-management-api/",
+          "label": "Task Management REST API"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/task-management-api/models/claude-opus-5-5/",
+      "kind": "model",
+      "title": "Model claude-opus-5-5 on Task Management REST API",
+      "description": "Results of model claude-opus-5-5 on the Task Management REST API task, by harness and by stack.",
+      "params": {
+        "task": "task-management-api",
+        "model": "claude-opus-5-5"
+      },
+      "sections": [
+        {
+          "heading": "By harness · stack fastapi · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "stack": "fastapi"
+          },
+          "by": "harness",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 510.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness claude · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "harness": "claude"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 510.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness · stack laravel · version 2 · community results",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "stack": "laravel"
+          },
+          "by": "harness",
+          "verified_only": false,
+          "rows": [
+            {
+              "value": "claude",
+              "trials": 2,
+              "passed": 0,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 0.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness claude · version 2 · community results",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "harness": "claude"
+          },
+          "by": "stack",
+          "verified_only": false,
+          "rows": [
+            {
+              "value": "laravel",
+              "trials": 2,
+              "passed": 0,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 0.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/task-management-api/",
+          "label": "Task Management REST API"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/task-management-api/models/gpt-6-luna/",
+      "kind": "model",
+      "title": "Model gpt-6-luna on Task Management REST API",
+      "description": "Results of model gpt-6-luna on the Task Management REST API task, by harness and by stack.",
+      "params": {
+        "task": "task-management-api",
+        "model": "gpt-6-luna"
+      },
+      "sections": [
+        {
+          "heading": "By harness · stack fastapi · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "stack": "fastapi"
+          },
+          "by": "harness",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 630.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness codex · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+            "harness": "codex"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 630.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/task-management-api/",
+          "label": "Task Management REST API"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/task-management-api/stacks/fastapi/",
+      "kind": "stack",
+      "title": "Stack fastapi on Task Management REST API",
+      "description": "Results of stack fastapi on the Task Management REST API task, by harness + model.",
+      "params": {
+        "task": "task-management-api",
+        "stack": "fastapi"
+      },
+      "sections": [
+        {
+          "heading": "By harness + model · version 2",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude + claude-opus-5-5",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 510.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            },
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 630.0,
+              "stdev_seconds": 42.42640687119285,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/task-management-api/",
+          "label": "Task Management REST API"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/task-management-api/stacks/laravel/",
+      "kind": "stack",
+      "title": "Stack laravel on Task Management REST API",
+      "description": "Results of stack laravel on the Task Management REST API task, by harness + model.",
+      "params": {
+        "task": "task-management-api",
+        "stack": "laravel"
+      },
+      "sections": [
+        {
+          "heading": "By harness + model · version 2 · community results",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b"
+          },
+          "by": "harness_model",
+          "verified_only": false,
+          "rows": [
+            {
+              "value": "claude + claude-opus-5-5",
+              "trials": 2,
+              "passed": 0,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 0.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/task-management-api/",
+          "label": "Task Management REST API"
+        }
+      ]
+    },
+    {
+      "path": "/runs/run-community-001/",
+      "kind": "run",
+      "title": "Run run-community-001",
+      "description": "Run run-community-001 of Task Management REST API (version 2): 2 trial(s), community result.",
+      "params": {
+        "run_id": "run-community-001",
+        "task": "task-management-api",
+        "task_version": "2",
+        "bundle": "submissions/task-management-api/run-community-001/"
+      },
+      "sections": [],
+      "links": [
+        {
+          "path": "/tasks/task-management-api/",
+          "label": "Task Management REST API"
+        }
+      ]
+    },
+    {
+      "path": "/runs/run-verified-001/",
+      "kind": "run",
+      "title": "Run run-verified-001",
+      "description": "Run run-verified-001 of Task Management REST API (version 2): 5 trial(s), verified.",
+      "params": {
+        "run_id": "run-verified-001",
+        "task": "task-management-api",
+        "task_version": "2",
+        "bundle": "submissions/task-management-api/run-verified-001/"
+      },
+      "sections": [],
+      "links": [
+        {
+          "path": "/tasks/task-management-api/",
+          "label": "Task Management REST API"
+        }
+      ]
+    }
+  ]
+}

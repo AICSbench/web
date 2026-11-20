@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "run_id": "run-community-001",
+  "task_id": "task-management-api",
+  "task_version": "2",
+  "submitted_at": "2026-11-19T00:00:00Z",
+  "submitter": {
+    "name": "<script>alert(1)</script>",
+    "github": null
+  },
+  "notes": "Community fixture run. <script>alert(1)</script>",
+  "platform_version": "0.1.0",
+  "platform_git_commit": "3547a18",
+  "acceptance_suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b",
+  "suite_hash_source": "run",
+  "logs_included": false,
+  "files": {
+    "manifest.json": "c4b7519b2ce0da7c0d3ec786d800c3d58ccfd6b34ae32b96fe565181c77d6888",
+    "trials/trial-001.json": "cd17ed7207535068025f190ca9b23bdcc0fc8d2789c5ff0aff580b94fff9094a",
+    "trials/trial-002.json": "aa1124b6054538e8872bf6c81bb6fb495b373b88698179d3540ce99bee2ef519"
+  }
+}

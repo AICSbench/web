@@ -1,0 +1,24 @@
+{
+  "run_id": "run-verified-001",
+  "created_at": "2026-11-17T06:45:00Z",
+  "platform_version": "0.1.0",
+  "platform_git_commit": "3547a18",
+  "seed": 7,
+  "auth_mode": "subscription",
+  "experiment": {
+    "task": "task-management-api"
+  },
+  "task_snapshot": {
+    "id": "task-management-api",
+    "version": "2"
+  },
+  "trial_ids": [
+    "trial-001",
+    "trial-002",
+    "trial-003",
+    "trial-004",
+    "trial-005"
+  ],
+  "host": {},
+  "acceptance_suite_sha256": "bdb9517ac7138804403bef6c0ea36941de29d5cb1fb51a33448f6360c556d20b"
+}

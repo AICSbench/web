@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "``export.json``.",
+  "properties": {
+    "export_schema": {
+      "const": 1,
+      "title": "Export Schema",
+      "type": "integer"
+    },
+    "built_at": {
+      "format": "date-time",
+      "title": "Built At",
+      "type": "string"
+    },
+    "platform_version": {
+      "title": "Platform Version",
+      "type": "string"
+    },
+    "platform_git_commit": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Platform Git Commit"
+    },
+    "data_commit": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Data Commit"
+    },
+    "base_url": {
+      "title": "Base Url",
+      "type": "string"
+    }
+  },
+  "required": [
+    "export_schema",
+    "built_at",
+    "platform_version",
+    "platform_git_commit",
+    "data_commit",
+    "base_url"
+  ],
+  "title": "ExportInfo",
+  "type": "object"
+}
