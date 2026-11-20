@@ -26,7 +26,10 @@ export default defineConfig({
 			prerender: {
 				handleHttpError: 'fail',
 				handleMissingId: 'fail',
-				handleUnseenRoutes: 'fail'
+				// A route whose page kind the export does not list (an export without
+				// submissions has no task or run pages) has no entries; that is valid.
+				// Every listed page is still prerendered through entries().
+				handleUnseenRoutes: 'ignore'
 			}
 		})
 	],
