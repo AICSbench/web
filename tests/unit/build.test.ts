@@ -1,5 +1,5 @@
 // Builds real exports with `vite build` and checks the prerendered files.
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
 import {
@@ -252,6 +252,37 @@ describe('edge-case build', () => {
 		const doc = html(result.dir, '/tasks/task-management-api/');
 		expect(doc).toContain('href="../../runs/run-verified-001/"');
 		expect(doc).toContain('href="../../_app/');
+	});
+});
+
+describe('export without submissions', () => {
+	it('builds only the pages it lists', () => {
+		const dir = editedExport((json) => {
+			json('pages.json', (data) => {
+				data.pages = data.pages
+					.filter((page: { kind: string }) =>
+						['home', 'leaderboard', 'compare', 'methodology'].includes(page.kind)
+					)
+					.map((page: { sections: unknown[]; links: unknown[] }) => ({
+						...page,
+						sections: [],
+						links: []
+					}));
+			});
+			json('data/trials.json', (rows) => rows.splice(0));
+			json('data/meta.json', (meta) => {
+				meta.runs = 0;
+				meta.trials = 0;
+				meta.tasks = [];
+			});
+		});
+		rmSync(join(dir, 'runs'), { recursive: true });
+		const result = build(dir);
+		expect(result.status, result.output).toBe(0);
+		expect(htmlFiles(result.dir)).toHaveLength(4);
+		expect(html(result.dir, '/')).toContain('No verified runs yet.');
+		expect(html(result.dir, '/leaderboard/')).toContain('No verified runs yet.');
+		expect(readFileSync(join(result.dir, 'sitemap.xml'), 'utf8').match(/<loc>/g)).toHaveLength(4);
 	});
 });
 
