@@ -49,6 +49,18 @@ describe('fixture build', () => {
 		expect(html(result.dir, '/leaderboard/')).toContain('claude + claude-opus-5-5');
 	});
 
+	it('shows the provider next to a harness + model row and labels legacy trials', () => {
+		const task = html(result.dir, '/tasks/task-management-api/');
+		expect(task).toContain('claude + claude-opus-5-5');
+		expect(task).toContain('badge provider');
+		expect(task).toContain('anthropic');
+		const run = html(result.dir, '/runs/run-notes-001/');
+		expect(run).toContain('provider not recorded');
+		expect(run).toContain('openrouter');
+		expect(run).toContain('via openrouter.ai');
+		expect(html(result.dir, '/methodology/')).toContain('Gateway runs include the gateway');
+	});
+
 	it('renders a null mean as "unavailable", never 0', () => {
 		const task = html(result.dir, '/tasks/task-management-api/');
 		const community = task.slice(task.indexOf('community results'));
@@ -130,14 +142,23 @@ describe('edge-case build', () => {
 	beforeAll(() => {
 		const dir = editedExport((json) => {
 			json('pages.json', (data) => {
-				const task = data.pages.find((page: { kind: string }) => page.kind === 'task');
+				const task = data.pages.find(
+					(page: { kind: string; params: { task?: string } }) =>
+						page.kind === 'task' && page.params.task === 'task-management-api'
+				);
 				task.title = 'Evil </script><script>alert(2)</script> & co';
 				task.sections[1].refused = 'cannot compare stacks: harness differs';
 				task.sections[1].rows = [];
 				const board = data.pages.find((page: { kind: string }) => page.kind === 'leaderboard');
-				board.sections[0].matrix.columns[0].refused = 'mixes acceptance suites';
-				board.sections[0].matrix.rows[1].overall.success_rate = null;
-				board.sections[0].matrix.rows[1].overall.mean_rank = null;
+				// The fastapi section has no rows now that one task version has two suites;
+				// use a section that does have rows to exercise a refused column.
+				const target = board.sections.find(
+					(section: { matrix: { rows: unknown[] } | null }) =>
+						(section.matrix?.rows.length ?? 0) > 1
+				);
+				target.matrix.columns[0].refused = 'mixes acceptance suites';
+				target.matrix.rows[1].overall.success_rate = null;
+				target.matrix.rows[1].overall.mean_rank = null;
 				// A path spelled with a raw reserved character, used exactly as exported.
 				data.pages.push({
 					path: '/tasks/task-management-api/models/vendor:model/',
@@ -150,8 +171,8 @@ describe('edge-case build', () => {
 				});
 				// A mean without a standard deviation.
 				task.sections[2].rows[0].stdev_seconds = null;
-				// A verified home section with no rows.
-				data.pages[0].sections[0].rows = [];
+				// No verified rows anywhere on the home page.
+				for (const section of data.pages[0].sections) section.rows = [];
 				// A long label must not run into the chart's value.
 				task.sections[0].rows[0].value =
 					'claude + anthropic/claude-opus-5-5-with-a-very-long-gateway-model-identifier-20261120';

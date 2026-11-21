@@ -11,13 +11,24 @@
 		data,
 		children
 	}: {
-		data: { page: Page; canonical: string; jsonLd: object };
+		data: {
+			page: Page;
+			canonical: string;
+			jsonLd: object;
+			providers?: Record<string, string>[];
+		};
 		children?: Snippet;
 	} = $props();
 
 	const page = $derived(data.page);
-	const verified = $derived(page.sections.filter((section) => section.verified_only));
-	const community = $derived(page.sections.filter((section) => !section.verified_only));
+	const sections = $derived(
+		page.sections.map((section, index) => ({
+			section,
+			providers: data.providers?.[index] ?? {}
+		}))
+	);
+	const verified = $derived(sections.filter((entry) => entry.section.verified_only));
+	const community = $derived(sections.filter((entry) => !entry.section.verified_only));
 </script>
 
 <SeoHead
@@ -32,11 +43,11 @@
 
 {@render children?.()}
 
-{#each verified as section, index (index)}
-	{#if section.matrix}
-		<Matrix {section} matrix={section.matrix} />
+{#each verified as entry, index (index)}
+	{#if entry.section.matrix}
+		<Matrix section={entry.section} matrix={entry.section.matrix} providers={entry.providers} />
 	{:else}
-		<Leaderboard {section} />
+		<Leaderboard section={entry.section} providers={entry.providers} />
 	{/if}
 {/each}
 
@@ -46,11 +57,16 @@
 		These runs are not verified by a maintainer. They are listed apart and never mixed into the
 		verified rankings above.
 	</p>
-	{#each community as section, index (index)}
-		{#if section.matrix}
-			<Matrix {section} matrix={section.matrix} headingLevel={3} />
+	{#each community as entry, index (index)}
+		{#if entry.section.matrix}
+			<Matrix
+				section={entry.section}
+				matrix={entry.section.matrix}
+				providers={entry.providers}
+				headingLevel={3}
+			/>
 		{:else}
-			<Leaderboard {section} headingLevel={3} />
+			<Leaderboard section={entry.section} providers={entry.providers} headingLevel={3} />
 		{/if}
 	{/each}
 {/if}

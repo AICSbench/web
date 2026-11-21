@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "run_id": "run-suite-b-001",
+  "task_id": "task-management-api",
+  "task_version": "2",
+  "submitted_at": "2026-11-17T00:00:00Z",
+  "submitter": {
+    "name": "Suite B Submitter",
+    "github": null
+  },
+  "notes": "Second acceptance suite for the same task version.",
+  "platform_version": "0.1.0",
+  "platform_git_commit": "3547a18",
+  "acceptance_suite_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "suite_hash_source": "run",
+  "logs_included": false,
+  "files": {
+    "manifest.json": "3a45008f310e11c177365d9e9a344105bf126fa3861b794b1ed5bb3d3f332fc9",
+    "trials/trial-001.json": "3a1facf116cdee34b2e923e7e4d0e0d1e4496cb2b604f7f8f3873eb9d93f04d1",
+    "trials/trial-002.json": "b889f2079e6ded0f4d2ee6eee607de2a42571bd91f9676ae78ea312e59b0a315"
+  }
+}

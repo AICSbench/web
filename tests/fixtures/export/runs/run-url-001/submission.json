@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "run_id": "run-url-001",
+  "task_id": "url-shortener-api",
+  "task_version": "1",
+  "submitted_at": "2026-11-16T00:00:00Z",
+  "submitter": {
+    "name": "URL Submitter",
+    "github": null
+  },
+  "notes": "Two harnesses on one model, plus a second stack.",
+  "platform_version": "0.1.0",
+  "platform_git_commit": "3547a18",
+  "acceptance_suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "suite_hash_source": "run",
+  "logs_included": false,
+  "files": {
+    "manifest.json": "1e7b8a076c0b2e51a8ab06c50533bcc53d0156059d90dc102f1b1eb56dc302a4",
+    "trials/trial-001.json": "087b5252a7ba432ca38f0f71fa67045acc61d1101aa640ce6f1f63e9714386bc",
+    "trials/trial-002.json": "6dbece1fcebaccdc0413fcce8f389242beb366046251e873733d27d9ef5ad499",
+    "trials/trial-003.json": "8dd59f3179b2090469dabaa94c5607d9fc0858324037baff9bfe48b2d2f7f69d",
+    "trials/trial-004.json": "f4845033871d18c02251d34e14496df2be0238157ae638c9d923b7eaead259bd",
+    "trials/trial-005.json": "e35707a14f6b78723dc81f3a582225fc2695346dafb44f3d519bb7073b6d0f35",
+    "trials/trial-006.json": "7a7965d75ce7270a21b91893d533b47d5beeb80d47003d7c02a842e1c8983ca0",
+    "trials/trial-007.json": "131b0ba999bf2e79eee5d9c2f53f6822651b1c6770ffd9c9ee0b0634f1936679",
+    "trials/trial-008.json": "ebd5c080918ed492f018c6a61f642bab2b375383f53b70936dc76f9183c744d9"
+  }
+}

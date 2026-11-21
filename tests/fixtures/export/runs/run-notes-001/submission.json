@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "run_id": "run-notes-001",
+  "task_id": "notes-api",
+  "task_version": "1",
+  "submitted_at": "2026-11-14T00:00:00Z",
+  "submitter": {
+    "name": "Notes Submitter",
+    "github": null
+  },
+  "notes": "Direct, gateway and legacy-provider trials.",
+  "platform_version": "0.1.0",
+  "platform_git_commit": "3547a18",
+  "acceptance_suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+  "suite_hash_source": "run",
+  "logs_included": false,
+  "files": {
+    "manifest.json": "20c07a11d04707982992157d2e0d21cd47db4bc8ab7ee9c19f4a50830f2b3556",
+    "trials/trial-001.json": "6c3e2313cc7d11ed585281b5529d4f69e92eaa69e2046b20aaa585f10a4d0ffe",
+    "trials/trial-002.json": "3d0844927d890d1950d32a24abf5a368de92693c9cd345f7caa6143bc64db5ef",
+    "trials/trial-003.json": "19f4baa0f89df44e0422f5a5ee2530a37090ae18536e883e8b229c1a89503183",
+    "trials/trial-004.json": "c5ec671af47871f2598934eaafd528aabd50be8d8c912c38f4e9d94b399c9053",
+    "trials/trial-005.json": "9632a5e7ca7b6af4aef64dccc3b5e2c7d852ff949342850a9dec7ba413df9505",
+    "trials/trial-006.json": "e370168222e160925e761d4bf160c5f3b61be456af97246f5a8a1c048f9265c2",
+    "trials/trial-007.json": "df1ccc48e86afb5331f3732aa2a34dd15a9f98df0c8c735ef64508def4056420"
+  }
+}

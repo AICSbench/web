@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
-      AICSBENCH_REF: 6854e138ad6e262089dda9406345342c352a3ca3
+      AICSBENCH_REF: 3a234a9877cc0424da216176ed693e840127d011
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -60,8 +60,8 @@ jobs:
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.13'
-      - name: Install aicsbench
-        run: python -m pip install ./aicsbench
+      - name: Install aicsbench and DuckDB
+        run: python -m pip install ./aicsbench 'duckdb==2.0.1'
       - name: Export the fixture submissions
         working-directory: aicsbench
         run: >-
@@ -75,3 +75,5 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Build the fresh export
         run: EXPORT_DIR="$RUNNER_TEMP/export" pnpm build
+      - name: Browser and CLI agree on comparisons
+        run: python tests/contract/compare_contract.py

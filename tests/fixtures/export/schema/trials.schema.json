@@ -307,6 +307,18 @@
           "default": null,
           "title": "Endpoint Host"
         },
+        "framework_version_changed": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Framework Version Changed"
+        },
         "verified": {
           "title": "Verified",
           "type": "boolean"

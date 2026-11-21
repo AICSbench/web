@@ -3,17 +3,27 @@
 	import BarChart from './BarChart.svelte';
 	import Metric from './Metric.svelte';
 	import SectionHeader from './SectionHeader.svelte';
-	import { axisLabel, duration, percent, usd } from '#lib/format.ts';
+	import { axisLabel, duration, percent, providerLabel, usd } from '#lib/format.ts';
 	import type { Section } from '#lib/types/export.ts';
 
-	let { section, headingLevel = 2 }: { section: Section; headingLevel?: 2 | 3 } = $props();
+	let {
+		section,
+		headingLevel = 2,
+		status,
+		providers = {}
+	}: {
+		section: Section;
+		headingLevel?: 2 | 3;
+		status?: 'verified' | 'community' | 'mixed' | null;
+		providers?: Record<string, string>;
+	} = $props();
 
 	const id = $props.id();
 	const label = $derived(axisLabel(section.by));
 </script>
 
 <section class="leaderboard" aria-labelledby="{id}-heading">
-	<SectionHeader {section} id="{id}-heading" level={headingLevel} />
+	<SectionHeader {section} id="{id}-heading" level={headingLevel} {status} />
 
 	{#if section.refused !== null}
 		<p class="refused" role="note">
@@ -42,7 +52,12 @@
 					{#each section.rows as row, index (index)}
 						<tr>
 							<td class="num">{index + 1}</td>
-							<th scope="row" class="value">{row.value}</th>
+							<th scope="row" class="value">
+								{section.by === 'provider' ? providerLabel(row.value) : row.value}
+								{#if providers[row.value]}
+									<span class="badge provider">{providerLabel(providers[row.value])}</span>
+								{/if}
+							</th>
 							<td class="num">
 								{percent(row.success_rate)}
 								<span class="sub">({row.passed}/{row.trials})</span>

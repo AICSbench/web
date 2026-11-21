@@ -195,6 +195,7 @@ export interface TrialRow {
 	framework_version_installed: string | null;
 	provider?: string | null;
 	endpoint_host?: string | null;
+	framework_version_changed?: boolean | null;
 	verified: boolean;
 	logs_available: boolean;
 	suite_sha256: string;

@@ -48,6 +48,22 @@
 			+ model leaderboard ranks whole packages, so its rows can use different providers.
 		</p>
 
+		<h2>Providers and gateways</h2>
+		<p>
+			Every trial records the provider it ran against: the harness's vendor, the model's provider,
+			or the gateway's slug. A harness comparison needs one recorded provider, so a direct Codex run
+			is never ranked against a Claude Code run through OpenRouter. A harness + model row may differ
+			from the next row, but one row never pools a direct run and a gateway run of the same harness
+			and model. Trials recorded before provider tracking show
+			<span class="unavailable">provider not recorded</span> and are excluded from harness comparisons;
+			the compare page has a provider filter.
+		</p>
+		<p>
+			Gateway runs include the gateway's latency in agent time, and a gateway may route or quantize
+			a model differently from its vendor. Treat those results as comparable only within the same
+			provider.
+		</p>
+
 		<h2>Verified and community results</h2>
 		<p>
 			Anyone can submit a run as a pull request to

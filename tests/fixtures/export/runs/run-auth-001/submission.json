@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "run_id": "run-auth-001",
+  "task_id": "auth-api",
+  "task_version": "1",
+  "submitted_at": "2026-11-15T00:00:00Z",
+  "submitter": {
+    "name": "Auth Submitter",
+    "github": null
+  },
+  "notes": "Codex and OpenCode on the same model key and provider.",
+  "platform_version": "0.1.0",
+  "platform_git_commit": "3547a18",
+  "acceptance_suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+  "suite_hash_source": "run",
+  "logs_included": false,
+  "files": {
+    "manifest.json": "57308850cd8feee30a0ca8ef1d0dfc9fb89a683bf7c7391812dec829c56bf793",
+    "trials/trial-001.json": "b514c9ac83f5b8e44e02528c9b5f7514600a0210cd9e0fc1a34cf4a142c47ef3",
+    "trials/trial-002.json": "7397b5279144bb4656ed5717fe1ed01df2e8346be2966ce06bb416b9d0208400",
+    "trials/trial-003.json": "11a1267c8aed7aea7cbef38c313dff64c86ebfaef122383969680aed8bc18150",
+    "trials/trial-004.json": "c545dddffdd7c91a7bb0a73a393f89a78ba399d04f2858f67bbf6c2319974611",
+    "trials/trial-005.json": "385d3acfaf24587573bccdda0cfbf58522593cab47f137bcedd898be7e954b77",
+    "trials/trial-006.json": "dd3b322d5b19ee90acb452e48cb70e470d414b4185d11f0ecf8ba30b45fbe596"
+  }
+}
