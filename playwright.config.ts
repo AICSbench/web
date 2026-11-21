@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
-// Runs against `pnpm preview` of an existing build (CI runs `pnpm build` first).
+// Runs against an e2e build of the fixture plus one setup-only group. The
+// build goes to a separate directory so the normal preview build is untouched.
 export default defineConfig({
 	testDir: 'tests/e2e',
 	testMatch: '**/*.e2e.ts',
@@ -9,8 +10,10 @@ export default defineConfig({
 	use: { baseURL: 'http://127.0.0.1:4173' },
 	projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
 	webServer: {
-		command: 'pnpm preview --host 127.0.0.1 --port 4173 --strictPort',
+		command:
+			'node tests/e2e/build-e2e-export.mjs && BUILD_DIR=/tmp/aicsbench-e2e-build pnpm preview --host 127.0.0.1 --port 4173 --strictPort',
 		url: 'http://127.0.0.1:4173/',
-		reuseExistingServer: !process.env.CI
+		reuseExistingServer: !process.env.CI,
+		timeout: 120_000
 	}
 });

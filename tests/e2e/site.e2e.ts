@@ -42,9 +42,9 @@ test.describe('without JavaScript', () => {
 		await expect(page.getByRole('heading', { name: 'Official pricing' })).toBeVisible();
 		await expect(page.getByText('18 of 20 verified trials passed')).toBeVisible();
 
-		await page.goto('/models/glm-5.3-flash/');
+		await page.goto('/models/deepseek-v4.1-flash/');
 		await expect(page.getByText('No verified results yet.')).toBeVisible();
-		await expect(page.getByText('$0.15', { exact: true })).toBeVisible();
+		await expect(page.getByText('$0.30', { exact: true })).toBeVisible();
 	});
 });
 
@@ -127,6 +127,21 @@ test('a model profile fits a phone viewport without page overflow', async ({ pag
 		() => document.documentElement.scrollWidth - document.documentElement.clientWidth
 	);
 	expect(overflow).toBe(0);
+});
+
+test('hydrates a profile with groups that differ only in repair budget', async ({ page }) => {
+	const errors: string[] = [];
+	page.on('pageerror', (error) => errors.push(error.message));
+	await page.goto('/models/glm-5.3-flash/', { waitUntil: 'networkidle' });
+	await expect(page.getByText('2 of 2 verified trials passed')).toBeVisible();
+	const groups = page
+		.getByRole('row')
+		.filter({ hasText: 'misc-api v1' })
+		.filter({ hasText: 'codex' });
+	await expect(groups).toHaveCount(2);
+	await expect(groups.filter({ hasText: '0 repairs' })).toHaveCount(1);
+	await expect(groups.filter({ hasText: '1 repairs' })).toHaveCount(1);
+	expect(errors).toEqual([]);
 });
 
 test.describe('the compare page', () => {
