@@ -40,7 +40,7 @@ export function groupRunTrials(trials: TrialRow[]): RunStackGroup[] {
 		.map(([stack, stackTrials]) => {
 			const byCombination = new Map<string, TrialRow[]>();
 			for (const trial of stackTrials) {
-				const key = `${trial.harness}\u0000${trial.model}`;
+				const key = JSON.stringify([trial.harness, trial.model]);
 				const combination = byCombination.get(key);
 				if (combination) combination.push(trial);
 				else byCombination.set(key, [trial]);

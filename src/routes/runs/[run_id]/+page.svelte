@@ -98,9 +98,9 @@
 						<th scope="col" class="num">Mean agent time</th>
 					</tr>
 				</thead>
-				<tbody>
-					{#each groups as group (group.stack)}
-						{#each group.rows as row, rowIndex (`${row.harness}\u0000${row.model}`)}
+				{#each groups as group (group.stack)}
+					<tbody>
+						{#each group.rows as row, rowIndex (JSON.stringify([row.harness, row.model]))}
 							<tr>
 								{#if rowIndex === 0}
 									<th scope="rowgroup" rowspan={group.rows.length} class="stack-cell">
@@ -120,8 +120,8 @@
 								</td>
 							</tr>
 						{/each}
-					{/each}
-				</tbody>
+					</tbody>
+				{/each}
 			</table>
 		</div>
 	</section>
