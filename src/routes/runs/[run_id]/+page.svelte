@@ -2,7 +2,7 @@
 	import Link from '#lib/components/Link.svelte';
 	import Metric from '#lib/components/Metric.svelte';
 	import PageView from '#lib/components/PageView.svelte';
-	import { day, duration, usd, versionChanged } from '#lib/format.ts';
+	import { day, duration, providerLabel, usd, versionChanged } from '#lib/format.ts';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -114,7 +114,7 @@
 								{#if trial.provider !== null && trial.provider !== undefined}{trial.provider}{:else}<span
 										class="unavailable"
 									>
-										unknown
+										{providerLabel('unknown')}
 									</span>{/if}{#if trial.endpoint_host !== null && trial.endpoint_host !== undefined}
 									<span class="sub">via {trial.endpoint_host}</span>{/if}
 							</td>

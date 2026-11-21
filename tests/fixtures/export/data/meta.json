@@ -1,12 +1,36 @@
 {
-  "runs": 2,
-  "trials": 7,
+  "runs": 7,
+  "trials": 32,
   "tasks": [
+    {
+      "id": "auth-api",
+      "version": "1",
+      "name": null,
+      "description": null
+    },
+    {
+      "id": "misc-api",
+      "version": "1",
+      "name": null,
+      "description": null
+    },
+    {
+      "id": "notes-api",
+      "version": "1",
+      "name": null,
+      "description": null
+    },
     {
       "id": "task-management-api",
       "version": "2",
       "name": "Task Management REST API",
       "description": "Build a JSON REST API for managing projects and the tasks inside them, persisted in the provided relational database."
+    },
+    {
+      "id": "url-shortener-api",
+      "version": "1",
+      "name": "URL Shortener API",
+      "description": "Build a persistent URL shortener with click tracking."
     }
   ]
 }

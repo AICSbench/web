@@ -3,14 +3,20 @@
 	import Link from './Link.svelte';
 	import Metric from './Metric.svelte';
 	import SectionHeader from './SectionHeader.svelte';
-	import { duration, percent } from '#lib/format.ts';
+	import { duration, percent, providerLabel } from '#lib/format.ts';
 	import type { Matrix, Section } from '#lib/types/export.ts';
 
 	let {
 		section,
 		matrix,
-		headingLevel = 2
-	}: { section: Section; matrix: Matrix; headingLevel?: 2 | 3 } = $props();
+		headingLevel = 2,
+		providers = {}
+	}: {
+		section: Section;
+		matrix: Matrix;
+		headingLevel?: 2 | 3;
+		providers?: Record<string, string>;
+	} = $props();
 
 	const id = $props.id();
 	const rank = (n: number) => n.toFixed(2);
@@ -54,6 +60,9 @@
 						<tr>
 							<th scope="row" class="value">
 								{row.value}
+								{#if providers[row.value]}
+									<span class="badge provider">{providerLabel(providers[row.value])}</span>
+								{/if}
 								{#if !row.overall.complete}<span class="badge warn">Incomplete</span>{/if}
 							</th>
 							{#each row.cells as cell, index (index)}

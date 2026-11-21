@@ -41,9 +41,15 @@ export function axisLabel(by: string): string {
 		stack: 'Stack',
 		language: 'Language',
 		framework: 'Framework',
+		provider: 'Provider',
 		task: 'Task'
 	};
 	return Object.hasOwn(labels, by) ? labels[by] : by;
+}
+
+/** A provider slug for display; legacy trials have no recorded provider. */
+export function providerLabel(provider: string): string {
+	return provider === 'unknown' ? 'provider not recorded' : provider;
 }
 
 /** Labels for the values a section holds fixed. */
@@ -57,7 +63,8 @@ export const FIXED_LABELS: Record<string, string> = {
 	suite_sha256: 'Suite',
 	stack: 'Stack',
 	harness: 'Harness',
-	model: 'Model'
+	model: 'Model',
+	provider: 'Provider'
 };
 
 /**

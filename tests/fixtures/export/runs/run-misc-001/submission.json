@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "run_id": "run-misc-001",
+  "task_id": "misc-api",
+  "task_version": "1",
+  "submitted_at": "2026-11-13T00:00:00Z",
+  "submitter": {
+    "name": "Misc Submitter",
+    "github": null
+  },
+  "notes": "No agent time was reported.",
+  "platform_version": "0.1.0",
+  "platform_git_commit": "3547a18",
+  "acceptance_suite_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+  "suite_hash_source": "run",
+  "logs_included": false,
+  "files": {
+    "manifest.json": "4dc5a6558d8d5434e0c8337211e618dd9e3b134d2ea774c5b774b1232f96c5b6",
+    "trials/trial-001.json": "58a995227e70469f67426c8f21908d51b7ec1ce93eb5cd67b335e89a4552189a",
+    "trials/trial-002.json": "eb4897c30b8ddfa0e7601dc269891d3daafa0bd57612fa993b04ae06b12d4b83"
+  }
+}

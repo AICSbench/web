@@ -3,7 +3,7 @@
 // load finds the page whose path splits into the same parameters. No path or
 // slug is ever built here, so any spelling the export uses survives.
 import { loadExport, pageAt, ExportError } from '../load-export.ts';
-import type { Page } from '../types/export.ts';
+import type { Page, TrialRow } from '../types/export.ts';
 
 /** The route that renders each page kind. */
 export const ROUTES = {
@@ -91,6 +91,89 @@ function jsonLd(page: Page): object {
 	};
 }
 
+/** Python's model_key: lower case, with only OpenCode's provider prefix removed. */
+function modelKey(row: TrialRow): string {
+	const label = row.model.toLowerCase();
+	if (row.harness === 'opencode') {
+		const slash = label.indexOf('/');
+		if (slash > 0 && slash < label.length - 1) return label.slice(slash + 1);
+	}
+	return label;
+}
+
+/** The value a section's `by` dimension gives a trial (comparison.dimension_value). */
+function dimensionValue(row: TrialRow, by: string): string {
+	switch (by) {
+		case 'harness':
+			return row.harness;
+		case 'harness_version':
+			return `${row.harness} ${row.harness_version ?? 'unknown'}`;
+		case 'model':
+			return row.model;
+		case 'harness_model':
+			return `${row.harness} + ${row.model}`;
+		case 'stack':
+			return row.stack;
+		case 'language':
+			return row.language;
+		case 'framework':
+			return row.framework;
+		case 'provider':
+			return row.provider ?? 'unknown';
+		case 'task':
+			return row.task;
+		default:
+			return '';
+	}
+}
+
+/** True when a trial belongs to a section's fixed values and verified pool. */
+function inSection(row: TrialRow, page: Page, section: Page['sections'][number]): boolean {
+	if (row.verified !== section.verified_only) return false;
+	const fixed: Record<string, string | undefined> = { ...page.params, ...section.fixed };
+	if (fixed.task !== undefined && row.task !== fixed.task) return false;
+	if (fixed.task_version !== undefined && row.task_version !== fixed.task_version) return false;
+	if (fixed.tooling_mode !== undefined && row.tooling_mode !== fixed.tooling_mode) return false;
+	if (fixed.auth_mode !== undefined && row.auth_mode !== fixed.auth_mode) return false;
+	if (fixed.max_repairs !== undefined && row.max_repairs !== Number(fixed.max_repairs)) {
+		return false;
+	}
+	if (fixed.max_parallel !== undefined && row.max_parallel !== Number(fixed.max_parallel)) {
+		return false;
+	}
+	if (fixed.suite_sha256 !== undefined && row.suite_sha256 !== fixed.suite_sha256) return false;
+	if (fixed.stack !== undefined && row.stack !== fixed.stack) return false;
+	if (fixed.harness !== undefined && row.harness !== fixed.harness) return false;
+	if (fixed.model !== undefined && modelKey(row) !== fixed.model) return false;
+	if (page.params.run_id !== undefined && row.run_id !== page.params.run_id) return false;
+	return true;
+}
+
+/**
+ * The provider to show next to each row of a section. Rows that are a harness
+ * or a harness + model package hold one provider; model and stack rows may
+ * pool several, so they get no badge. Legacy trials have no provider and show
+ * as "unknown" (the component labels it "provider not recorded").
+ */
+function sectionProviders(
+	page: Page,
+	section: Page['sections'][number],
+	trials: TrialRow[]
+): Record<string, string> {
+	if (!['harness', 'harness_version', 'harness_model'].includes(section.by)) return {};
+	const providers = new Map<string, Set<string>>();
+	for (const row of trials) {
+		if (!inSection(row, page, section)) continue;
+		const value = dimensionValue(row, section.by);
+		const seen = providers.get(value) ?? new Set<string>();
+		seen.add(row.provider ?? 'unknown');
+		providers.set(value, seen);
+	}
+	return Object.fromEntries(
+		[...providers].flatMap(([value, seen]) => (seen.size === 1 ? [[value, [...seen][0]]] : []))
+	);
+}
+
 /** Everything a page template needs: the page, its SEO fields, and per-kind extras. */
 export function pageData(kind: Kind, params: Record<string, string> = {}) {
 	const site = loadExport();
@@ -101,6 +184,8 @@ export function pageData(kind: Kind, params: Record<string, string> = {}) {
 		page,
 		canonical: absolute(page.path),
 		jsonLd: jsonLd(page),
+		// A provider badge for harness and harness + model rows, where one row holds one provider.
+		providers: page.sections.map((section) => sectionProviders(page, section, site.trials)),
 		// The task's versions from data/meta.json (every page under /tasks/<task>/ has params.task).
 		versions: site.meta.tasks.filter((task) => task.id === page.params.task),
 		// Home: the newest submissions first, as listed by the export's run pages.

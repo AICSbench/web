@@ -7,7 +7,9 @@ test.describe('without JavaScript', () => {
 
 	test('a task page shows its leaderboard', async ({ page }) => {
 		await page.goto(TASK);
-		const board = page.getByRole('region', { name: /By harness \+ model · stack fastapi/ });
+		const board = page.getByRole('region', {
+			name: /By harness \+ model · stack fastapi · version 2 · suite bdb9517a/
+		});
 		await expect(board.getByRole('table')).toBeVisible();
 		const rows = board.getByRole('row');
 		await expect(rows.nth(1)).toContainText('claude + claude-opus-5-5');
@@ -76,4 +78,93 @@ test('the skip link moves keyboard focus to the main content', async ({ page }) 
 	await page.keyboard.press('Tab');
 	const focused = await page.evaluate(() => !!document.activeElement?.closest('main'));
 	expect(focused).toBe(true);
+});
+
+test.describe('the compare page', () => {
+	test('picks a harness comparison and writes the canonical URL', async ({ page }) => {
+		await page.goto('/compare/?task=auth-api');
+		await expect(page.getByRole('heading', { level: 1 })).toHaveText('Compare results');
+		await expect(page.getByRole('combobox', { name: 'Task' })).toHaveValue('auth-api');
+
+		// Default is harness + model; turn the model dimension off to compare harnesses.
+		await page.getByRole('checkbox', { name: 'Compare by: Model' }).uncheck();
+		await expect(
+			page.getByRole('checkbox', { name: 'Compare by: Harness', exact: true })
+		).toBeChecked();
+
+		const table = page.getByRole('table');
+		await expect(table).toBeVisible();
+		const rows = table.getByRole('row');
+		await expect(rows.nth(1)).toContainText('codex');
+		await expect(rows.nth(1)).toContainText('openai');
+		await expect(rows.nth(1)).toContainText('100%');
+		await expect(rows.nth(2)).toContainText('opencode');
+		await expect(page.getByRole('figure', { name: /Success rate by Harness/ })).toBeVisible();
+		await expect(page).toHaveURL(/task=auth-api&by=harness$/);
+
+		// Changing a control writes the canonical URL with defaults left out.
+		await page.getByRole('checkbox', { name: 'Exclude rate-limited trials' }).uncheck();
+		await expect(page).toHaveURL(/task=auth-api&by=harness&rl=1$/);
+		const keys = [...new URL(page.url()).searchParams.keys()];
+		expect(keys).toEqual(['task', 'by', 'rl']);
+	});
+
+	test('restores a shared URL and shows CLI refusal messages', async ({ page }) => {
+		const shared =
+			'/compare/?task=url-shortener-api&by=harness&model=gpt-6-luna&stack=fastapi-latest';
+		await page.goto(shared);
+		await expect(page.getByRole('combobox', { name: 'Task' })).toHaveValue('url-shortener-api');
+		await expect(
+			page.getByRole('checkbox', { name: 'Compare by: Harness', exact: true })
+		).toBeChecked();
+		await expect(page).toHaveURL(new RegExp(`${shared.replaceAll('?', '\\?')}$`));
+
+		// A harness comparison across two stacks is refused with the CLI's message.
+		await page.goto('/compare/?task=url-shortener-api&by=harness&model=gpt-6-luna');
+		await expect(
+			page.getByText('harness comparison mixes stacks; filter to one stack')
+		).toBeVisible();
+		await expect(page.getByRole('table')).toHaveCount(0);
+
+		// A stack comparison across two harness + model pairs is refused too.
+		await page.goto('/compare/?task=task-management-api&by=stack&suite=bdb9517a');
+		await expect(
+			page.getByText('stack comparison mixes harnesses and models; filter to one harness and model')
+		).toBeVisible();
+		await expect(page.getByRole('table')).toHaveCount(0);
+
+		// Two suites for one task version are refused until a suite is chosen.
+		await page.goto('/compare/?task=task-management-api&by=harness_model');
+		await expect(
+			page.getByText('comparison mixes acceptance suites; pick one suite')
+		).toBeVisible();
+		await expect(page.getByRole('table')).toHaveCount(0);
+		await page.getByRole('combobox', { name: 'Acceptance suite' }).selectOption({
+			label: 'bdb9517a…'
+		});
+		await expect(page.getByRole('table')).toBeVisible();
+
+		// The provider filter and badge expose gateway rows.
+		await page.goto('/compare/?task=notes-api&by=harness_model&provider=openrouter');
+		const gateway = page.getByRole('table');
+		await expect(gateway).toBeVisible();
+		await expect(gateway).toContainText('openrouter');
+		await expect(gateway).toContainText('codex + gpt-6-luna');
+	});
+
+	test('shows a matrix with one refused column left out of the overall', async ({ page }) => {
+		await page.goto(
+			'/compare/?view=matrix&task=auth-api,url-shortener-api,notes-api&by=harness_model&stack=fastapi-latest'
+		);
+		await expect(page.getByRole('heading', { name: 'Harness + model across tasks' })).toBeVisible();
+		const table = page.getByRole('table');
+		await expect(table).toBeVisible();
+		await expect(table).toContainText('notes-api');
+		await expect(table).toContainText('Not compared');
+		await expect(table).toContainText(
+			'harness comparison needs a recorded provider; exclude trials recorded before provider tracking'
+		);
+		// The refused column is not in the coverage count: two columns remain.
+		await expect(table.getByRole('row').nth(1)).toContainText('2/2');
+	});
 });

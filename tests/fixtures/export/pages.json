@@ -8,7 +8,7 @@
       "params": {},
       "sections": [
         {
-          "heading": "By harness + model · stack fastapi · Task Management REST API · version 2",
+          "heading": "By harness + model · stack fastapi · Task Management REST API · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -51,12 +51,232 @@
           ],
           "refused": null,
           "matrix": null
+        },
+        {
+          "heading": "By harness + model · stack fastapi · Task Management REST API · version 2 · suite ffffffff",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "stack": "fastapi"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 410.0,
+              "stdev_seconds": 14.142135623730951,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness + model · stack fastapi-latest · auth-api · version 1",
+          "fixed": {
+            "task": "auth-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 0,
+              "timed": 3,
+              "mean_seconds": 210.0,
+              "stdev_seconds": 10.0,
+              "mean_cost_usd": 0.05,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 1.0
+            },
+            {
+              "value": "opencode + openai/gpt-6-luna",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 235.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness + model · stack fastapi-latest · misc-api · version 1",
+          "fixed": {
+            "task": "misc-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude + claude-opus-5-5",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness + model · stack fastapi-latest · notes-api · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [],
+          "refused": "harness comparison needs a recorded provider; exclude trials recorded before provider tracking",
+          "matrix": null
+        },
+        {
+          "heading": "By harness + model · stack fastapi-latest · URL Shortener API · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude + claude-opus-5-5",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 105.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.2,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            },
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 125.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.125,
+              "cost_samples": 2,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness + model · stack laravel · URL Shortener API · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "stack": "laravel"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 305.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
         }
       ],
       "links": [
         {
+          "path": "/tasks/auth-api/",
+          "label": "auth-api"
+        },
+        {
+          "path": "/tasks/misc-api/",
+          "label": "misc-api"
+        },
+        {
+          "path": "/tasks/notes-api/",
+          "label": "notes-api"
+        },
+        {
           "path": "/tasks/task-management-api/",
           "label": "Task Management REST API"
+        },
+        {
+          "path": "/tasks/url-shortener-api/",
+          "label": "URL Shortener API"
         },
         {
           "path": "/leaderboard/",
@@ -77,6 +297,26 @@
         {
           "path": "/runs/run-verified-001/",
           "label": "Run run-verified-001"
+        },
+        {
+          "path": "/runs/run-suite-b-001/",
+          "label": "Run run-suite-b-001"
+        },
+        {
+          "path": "/runs/run-url-001/",
+          "label": "Run run-url-001"
+        },
+        {
+          "path": "/runs/run-auth-001/",
+          "label": "Run run-auth-001"
+        },
+        {
+          "path": "/runs/run-notes-001/",
+          "label": "Run run-notes-001"
+        },
+        {
+          "path": "/runs/run-misc-001/",
+          "label": "Run run-misc-001"
         }
       ]
     },
@@ -99,24 +339,254 @@
           "matrix": {
             "columns": [
               {
+                "task": "auth-api",
+                "task_version": "1",
+                "path": "/tasks/auth-api/",
+                "refused": null
+              },
+              {
+                "task": "misc-api",
+                "task_version": "1",
+                "path": "/tasks/misc-api/",
+                "refused": null
+              },
+              {
+                "task": "notes-api",
+                "task_version": "1",
+                "path": "/tasks/notes-api/",
+                "refused": null
+              },
+              {
                 "task": "task-management-api",
                 "task_version": "2",
                 "path": "/tasks/task-management-api/",
+                "refused": "comparison mixes acceptance suites; pick one suite"
+              },
+              {
+                "task": "url-shortener-api",
+                "task_version": "1",
+                "path": "/tasks/url-shortener-api/",
+                "refused": null
+              }
+            ],
+            "rows": []
+          }
+        },
+        {
+          "heading": "Harness + model across tasks · stack fastapi-latest",
+          "fixed": {
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [],
+          "refused": null,
+          "matrix": {
+            "columns": [
+              {
+                "task": "auth-api",
+                "task_version": "1",
+                "path": "/tasks/auth-api/",
+                "refused": null
+              },
+              {
+                "task": "misc-api",
+                "task_version": "1",
+                "path": "/tasks/misc-api/",
+                "refused": null
+              },
+              {
+                "task": "notes-api",
+                "task_version": "1",
+                "path": "/tasks/notes-api/",
+                "refused": "harness comparison needs a recorded provider; exclude trials recorded before provider tracking"
+              },
+              {
+                "task": "task-management-api",
+                "task_version": "2",
+                "path": "/tasks/task-management-api/",
+                "refused": null
+              },
+              {
+                "task": "url-shortener-api",
+                "task_version": "1",
+                "path": "/tasks/url-shortener-api/",
                 "refused": null
               }
             ],
             "rows": [
               {
+                "value": "codex + gpt-6-luna",
+                "cells": [
+                  {
+                    "value": "codex + gpt-6-luna",
+                    "trials": 3,
+                    "passed": 3,
+                    "rate_limited": 0,
+                    "timed": 3,
+                    "mean_seconds": 210.0,
+                    "stdev_seconds": 10.0,
+                    "mean_cost_usd": 0.05,
+                    "cost_samples": 1,
+                    "low_confidence": false,
+                    "success_rate": 1.0
+                  },
+                  null,
+                  null,
+                  null,
+                  {
+                    "value": "codex + gpt-6-luna",
+                    "trials": 3,
+                    "passed": 3,
+                    "rate_limited": 1,
+                    "timed": 2,
+                    "mean_seconds": 125.0,
+                    "stdev_seconds": 7.0710678118654755,
+                    "mean_cost_usd": 0.125,
+                    "cost_samples": 2,
+                    "low_confidence": false,
+                    "success_rate": 1.0
+                  }
+                ],
+                "overall": {
+                  "success_rate": 1.0,
+                  "covered": 2,
+                  "columns": 4,
+                  "mean_rank": 1.5,
+                  "complete": false
+                }
+              },
+              {
                 "value": "claude + claude-opus-5-5",
                 "cells": [
+                  null,
                   {
                     "value": "claude + claude-opus-5-5",
                     "trials": 2,
                     "passed": 2,
                     "rate_limited": 0,
+                    "timed": 0,
+                    "mean_seconds": null,
+                    "stdev_seconds": null,
+                    "mean_cost_usd": null,
+                    "cost_samples": 0,
+                    "low_confidence": true,
+                    "success_rate": 1.0
+                  },
+                  null,
+                  null,
+                  {
+                    "value": "claude + claude-opus-5-5",
+                    "trials": 3,
+                    "passed": 2,
+                    "rate_limited": 0,
                     "timed": 2,
-                    "mean_seconds": 510.0,
-                    "stdev_seconds": 42.42640687119285,
+                    "mean_seconds": 105.0,
+                    "stdev_seconds": 7.0710678118654755,
+                    "mean_cost_usd": 0.2,
+                    "cost_samples": 1,
+                    "low_confidence": false,
+                    "success_rate": 0.6666666666666666
+                  }
+                ],
+                "overall": {
+                  "success_rate": 0.8333333333333333,
+                  "covered": 2,
+                  "columns": 4,
+                  "mean_rank": 1.0,
+                  "complete": false
+                }
+              },
+              {
+                "value": "opencode + openai/gpt-6-luna",
+                "cells": [
+                  {
+                    "value": "opencode + openai/gpt-6-luna",
+                    "trials": 3,
+                    "passed": 2,
+                    "rate_limited": 1,
+                    "timed": 2,
+                    "mean_seconds": 235.0,
+                    "stdev_seconds": 7.0710678118654755,
+                    "mean_cost_usd": null,
+                    "cost_samples": 0,
+                    "low_confidence": false,
+                    "success_rate": 0.6666666666666666
+                  },
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "overall": {
+                  "success_rate": 0.6666666666666666,
+                  "covered": 1,
+                  "columns": 4,
+                  "mean_rank": 2.0,
+                  "complete": false
+                }
+              }
+            ]
+          }
+        },
+        {
+          "heading": "Harness + model across tasks · stack laravel",
+          "fixed": {
+            "stack": "laravel"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [],
+          "refused": null,
+          "matrix": {
+            "columns": [
+              {
+                "task": "auth-api",
+                "task_version": "1",
+                "path": "/tasks/auth-api/",
+                "refused": null
+              },
+              {
+                "task": "misc-api",
+                "task_version": "1",
+                "path": "/tasks/misc-api/",
+                "refused": null
+              },
+              {
+                "task": "notes-api",
+                "task_version": "1",
+                "path": "/tasks/notes-api/",
+                "refused": null
+              },
+              {
+                "task": "task-management-api",
+                "task_version": "2",
+                "path": "/tasks/task-management-api/",
+                "refused": null
+              },
+              {
+                "task": "url-shortener-api",
+                "task_version": "1",
+                "path": "/tasks/url-shortener-api/",
+                "refused": null
+              }
+            ],
+            "rows": [
+              {
+                "value": "codex + gpt-6-luna",
+                "cells": [
+                  null,
+                  null,
+                  null,
+                  null,
+                  {
+                    "value": "codex + gpt-6-luna",
+                    "trials": 2,
+                    "passed": 2,
+                    "rate_limited": 0,
+                    "timed": 2,
+                    "mean_seconds": 305.0,
+                    "stdev_seconds": 7.0710678118654755,
                     "mean_cost_usd": null,
                     "cost_samples": 0,
                     "low_confidence": true,
@@ -126,34 +596,9 @@
                 "overall": {
                   "success_rate": 1.0,
                   "covered": 1,
-                  "columns": 1,
+                  "columns": 5,
                   "mean_rank": 1.0,
-                  "complete": true
-                }
-              },
-              {
-                "value": "codex + gpt-6-luna",
-                "cells": [
-                  {
-                    "value": "codex + gpt-6-luna",
-                    "trials": 3,
-                    "passed": 2,
-                    "rate_limited": 0,
-                    "timed": 2,
-                    "mean_seconds": 630.0,
-                    "stdev_seconds": 42.42640687119285,
-                    "mean_cost_usd": null,
-                    "cost_samples": 0,
-                    "low_confidence": false,
-                    "success_rate": 0.6666666666666666
-                  }
-                ],
-                "overall": {
-                  "success_rate": 0.6666666666666666,
-                  "covered": 1,
-                  "columns": 1,
-                  "mean_rank": 2.0,
-                  "complete": true
+                  "complete": false
                 }
               }
             ]
@@ -162,8 +607,24 @@
       ],
       "links": [
         {
+          "path": "/tasks/auth-api/",
+          "label": "auth-api"
+        },
+        {
+          "path": "/tasks/misc-api/",
+          "label": "misc-api"
+        },
+        {
+          "path": "/tasks/notes-api/",
+          "label": "notes-api"
+        },
+        {
           "path": "/tasks/task-management-api/",
           "label": "Task Management REST API"
+        },
+        {
+          "path": "/tasks/url-shortener-api/",
+          "label": "URL Shortener API"
         }
       ]
     },
@@ -186,6 +647,1403 @@
       "links": []
     },
     {
+      "path": "/tasks/auth-api/",
+      "kind": "task",
+      "title": "auth-api",
+      "description": "Benchmark results for task auth-api.",
+      "params": {
+        "task": "auth-api"
+      },
+      "sections": [
+        {
+          "heading": "By harness + model · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "auth-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 0,
+              "timed": 3,
+              "mean_seconds": 210.0,
+              "stdev_seconds": 10.0,
+              "mean_cost_usd": 0.05,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 1.0
+            },
+            {
+              "value": "opencode + openai/gpt-6-luna",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 235.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness codex · model gpt-6-luna · version 1",
+          "fixed": {
+            "task": "auth-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "harness": "codex",
+            "model": "gpt-6-luna"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 0,
+              "timed": 3,
+              "mean_seconds": 210.0,
+              "stdev_seconds": 10.0,
+              "mean_cost_usd": 0.05,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness opencode · model gpt-6-luna · version 1",
+          "fixed": {
+            "task": "auth-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "harness": "opencode",
+            "model": "gpt-6-luna"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 235.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/auth-api/harnesses/codex/",
+          "label": "Harness codex"
+        },
+        {
+          "path": "/tasks/auth-api/harnesses/opencode/",
+          "label": "Harness opencode"
+        },
+        {
+          "path": "/tasks/auth-api/models/gpt-6-luna/",
+          "label": "Model gpt-6-luna"
+        },
+        {
+          "path": "/tasks/auth-api/stacks/fastapi-latest/",
+          "label": "Stack fastapi-latest"
+        },
+        {
+          "path": "/runs/run-auth-001/",
+          "label": "Run run-auth-001"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/auth-api/harnesses/codex/",
+      "kind": "harness",
+      "title": "Harness codex on auth-api",
+      "description": "Results of harness codex on the auth-api task, by model, by stack and by harness version.",
+      "params": {
+        "task": "auth-api",
+        "harness": "codex"
+      },
+      "sections": [
+        {
+          "heading": "By model · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "auth-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "stack": "fastapi-latest"
+          },
+          "by": "model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "gpt-6-luna",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 0,
+              "timed": 3,
+              "mean_seconds": 210.0,
+              "stdev_seconds": 10.0,
+              "mean_cost_usd": 0.05,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · model gpt-6-luna · version 1",
+          "fixed": {
+            "task": "auth-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "model": "gpt-6-luna"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 0,
+              "timed": 3,
+              "mean_seconds": 210.0,
+              "stdev_seconds": 10.0,
+              "mean_cost_usd": 0.05,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness version · model gpt-6-luna · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "auth-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "model": "gpt-6-luna",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_version",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex 0.167.2",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 0,
+              "timed": 3,
+              "mean_seconds": 210.0,
+              "stdev_seconds": 10.0,
+              "mean_cost_usd": 0.05,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/auth-api/",
+          "label": "auth-api"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/auth-api/harnesses/opencode/",
+      "kind": "harness",
+      "title": "Harness opencode on auth-api",
+      "description": "Results of harness opencode on the auth-api task, by model, by stack and by harness version.",
+      "params": {
+        "task": "auth-api",
+        "harness": "opencode"
+      },
+      "sections": [
+        {
+          "heading": "By model · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "auth-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "stack": "fastapi-latest"
+          },
+          "by": "model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "openai/gpt-6-luna",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 235.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · model gpt-6-luna · version 1",
+          "fixed": {
+            "task": "auth-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "model": "gpt-6-luna"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 235.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness version · model gpt-6-luna · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "auth-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "model": "gpt-6-luna",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_version",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "opencode 1.19.5",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 235.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/auth-api/",
+          "label": "auth-api"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/auth-api/models/gpt-6-luna/",
+      "kind": "model",
+      "title": "Model gpt-6-luna on auth-api",
+      "description": "Results of model gpt-6-luna on the auth-api task, by harness and by stack.",
+      "params": {
+        "task": "auth-api",
+        "model": "gpt-6-luna"
+      },
+      "sections": [
+        {
+          "heading": "By harness · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "auth-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 0,
+              "timed": 3,
+              "mean_seconds": 210.0,
+              "stdev_seconds": 10.0,
+              "mean_cost_usd": 0.05,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 1.0
+            },
+            {
+              "value": "opencode",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 235.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness codex · version 1",
+          "fixed": {
+            "task": "auth-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "harness": "codex"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 0,
+              "timed": 3,
+              "mean_seconds": 210.0,
+              "stdev_seconds": 10.0,
+              "mean_cost_usd": 0.05,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness opencode · version 1",
+          "fixed": {
+            "task": "auth-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "harness": "opencode"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 235.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/auth-api/",
+          "label": "auth-api"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/auth-api/stacks/fastapi-latest/",
+      "kind": "stack",
+      "title": "Stack fastapi-latest on auth-api",
+      "description": "Results of stack fastapi-latest on the auth-api task, by harness + model.",
+      "params": {
+        "task": "auth-api",
+        "stack": "fastapi-latest"
+      },
+      "sections": [
+        {
+          "heading": "By harness + model · version 1",
+          "fixed": {
+            "task": "auth-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 0,
+              "timed": 3,
+              "mean_seconds": 210.0,
+              "stdev_seconds": 10.0,
+              "mean_cost_usd": 0.05,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 1.0
+            },
+            {
+              "value": "opencode + openai/gpt-6-luna",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 235.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/auth-api/",
+          "label": "auth-api"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/misc-api/",
+      "kind": "task",
+      "title": "misc-api",
+      "description": "Benchmark results for task misc-api.",
+      "params": {
+        "task": "misc-api"
+      },
+      "sections": [
+        {
+          "heading": "By harness + model · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "misc-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude + claude-opus-5-5",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness claude · model claude-opus-5-5 · version 1",
+          "fixed": {
+            "task": "misc-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+            "harness": "claude",
+            "model": "claude-opus-5-5"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/misc-api/harnesses/claude/",
+          "label": "Harness claude"
+        },
+        {
+          "path": "/tasks/misc-api/models/claude-opus-5-5/",
+          "label": "Model claude-opus-5-5"
+        },
+        {
+          "path": "/tasks/misc-api/stacks/fastapi-latest/",
+          "label": "Stack fastapi-latest"
+        },
+        {
+          "path": "/runs/run-misc-001/",
+          "label": "Run run-misc-001"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/misc-api/harnesses/claude/",
+      "kind": "harness",
+      "title": "Harness claude on misc-api",
+      "description": "Results of harness claude on the misc-api task, by model, by stack and by harness version.",
+      "params": {
+        "task": "misc-api",
+        "harness": "claude"
+      },
+      "sections": [
+        {
+          "heading": "By model · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "misc-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+            "stack": "fastapi-latest"
+          },
+          "by": "model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude-opus-5-5",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · model claude-opus-5-5 · version 1",
+          "fixed": {
+            "task": "misc-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+            "model": "claude-opus-5-5"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness version · model claude-opus-5-5 · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "misc-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+            "model": "claude-opus-5-5",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_version",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude 2.1.323",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/misc-api/",
+          "label": "misc-api"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/misc-api/models/claude-opus-5-5/",
+      "kind": "model",
+      "title": "Model claude-opus-5-5 on misc-api",
+      "description": "Results of model claude-opus-5-5 on the misc-api task, by harness and by stack.",
+      "params": {
+        "task": "misc-api",
+        "model": "claude-opus-5-5"
+      },
+      "sections": [
+        {
+          "heading": "By harness · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "misc-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness claude · version 1",
+          "fixed": {
+            "task": "misc-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+            "harness": "claude"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/misc-api/",
+          "label": "misc-api"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/misc-api/stacks/fastapi-latest/",
+      "kind": "stack",
+      "title": "Stack fastapi-latest on misc-api",
+      "description": "Results of stack fastapi-latest on the misc-api task, by harness + model.",
+      "params": {
+        "task": "misc-api",
+        "stack": "fastapi-latest"
+      },
+      "sections": [
+        {
+          "heading": "By harness + model · version 1",
+          "fixed": {
+            "task": "misc-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude + claude-opus-5-5",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 0,
+              "mean_seconds": null,
+              "stdev_seconds": null,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/misc-api/",
+          "label": "misc-api"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/notes-api/",
+      "kind": "task",
+      "title": "notes-api",
+      "description": "Benchmark results for task notes-api.",
+      "params": {
+        "task": "notes-api"
+      },
+      "sections": [
+        {
+          "heading": "By harness + model · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [],
+          "refused": "harness comparison needs a recorded provider; exclude trials recorded before provider tracking",
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness claude · model claude-opus-5-5 · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "harness": "claude",
+            "model": "claude-opus-5-5"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 0,
+              "timed": 3,
+              "mean_seconds": 616.6666666666666,
+              "stdev_seconds": 15.275252316519467,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness codex · model gpt-6-luna · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "harness": "codex",
+            "model": "gpt-6-luna"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 4,
+              "passed": 4,
+              "rate_limited": 0,
+              "timed": 4,
+              "mean_seconds": 515.0,
+              "stdev_seconds": 12.909944487358056,
+              "mean_cost_usd": 0.3,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/notes-api/harnesses/claude/",
+          "label": "Harness claude"
+        },
+        {
+          "path": "/tasks/notes-api/harnesses/codex/",
+          "label": "Harness codex"
+        },
+        {
+          "path": "/tasks/notes-api/models/claude-opus-5-5/",
+          "label": "Model claude-opus-5-5"
+        },
+        {
+          "path": "/tasks/notes-api/models/gpt-6-luna/",
+          "label": "Model gpt-6-luna"
+        },
+        {
+          "path": "/tasks/notes-api/stacks/fastapi-latest/",
+          "label": "Stack fastapi-latest"
+        },
+        {
+          "path": "/runs/run-notes-001/",
+          "label": "Run run-notes-001"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/notes-api/harnesses/claude/",
+      "kind": "harness",
+      "title": "Harness claude on notes-api",
+      "description": "Results of harness claude on the notes-api task, by model, by stack and by harness version.",
+      "params": {
+        "task": "notes-api",
+        "harness": "claude"
+      },
+      "sections": [
+        {
+          "heading": "By model · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "stack": "fastapi-latest"
+          },
+          "by": "model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude-opus-5-5",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 0,
+              "timed": 3,
+              "mean_seconds": 616.6666666666666,
+              "stdev_seconds": 15.275252316519467,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · model claude-opus-5-5 · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "model": "claude-opus-5-5"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 0,
+              "timed": 3,
+              "mean_seconds": 616.6666666666666,
+              "stdev_seconds": 15.275252316519467,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness version · model claude-opus-5-5 · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "model": "claude-opus-5-5",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_version",
+          "verified_only": true,
+          "rows": [],
+          "refused": "harness comparison needs a recorded provider; exclude trials recorded before provider tracking",
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/notes-api/",
+          "label": "notes-api"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/notes-api/harnesses/codex/",
+      "kind": "harness",
+      "title": "Harness codex on notes-api",
+      "description": "Results of harness codex on the notes-api task, by model, by stack and by harness version.",
+      "params": {
+        "task": "notes-api",
+        "harness": "codex"
+      },
+      "sections": [
+        {
+          "heading": "By model · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "stack": "fastapi-latest"
+          },
+          "by": "model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "gpt-6-luna",
+              "trials": 4,
+              "passed": 4,
+              "rate_limited": 0,
+              "timed": 4,
+              "mean_seconds": 515.0,
+              "stdev_seconds": 12.909944487358056,
+              "mean_cost_usd": 0.3,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · model gpt-6-luna · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "model": "gpt-6-luna"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 4,
+              "passed": 4,
+              "rate_limited": 0,
+              "timed": 4,
+              "mean_seconds": 515.0,
+              "stdev_seconds": 12.909944487358056,
+              "mean_cost_usd": 0.3,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness version · model gpt-6-luna · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "model": "gpt-6-luna",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_version",
+          "verified_only": true,
+          "rows": [],
+          "refused": "harness comparison mixes providers; filter to one provider",
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/notes-api/",
+          "label": "notes-api"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/notes-api/models/claude-opus-5-5/",
+      "kind": "model",
+      "title": "Model claude-opus-5-5 on notes-api",
+      "description": "Results of model claude-opus-5-5 on the notes-api task, by harness and by stack.",
+      "params": {
+        "task": "notes-api",
+        "model": "claude-opus-5-5"
+      },
+      "sections": [
+        {
+          "heading": "By harness · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness",
+          "verified_only": true,
+          "rows": [],
+          "refused": "harness comparison needs a recorded provider; exclude trials recorded before provider tracking",
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness claude · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "harness": "claude"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 0,
+              "timed": 3,
+              "mean_seconds": 616.6666666666666,
+              "stdev_seconds": 15.275252316519467,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/notes-api/",
+          "label": "notes-api"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/notes-api/models/gpt-6-luna/",
+      "kind": "model",
+      "title": "Model gpt-6-luna on notes-api",
+      "description": "Results of model gpt-6-luna on the notes-api task, by harness and by stack.",
+      "params": {
+        "task": "notes-api",
+        "model": "gpt-6-luna"
+      },
+      "sections": [
+        {
+          "heading": "By harness · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness",
+          "verified_only": true,
+          "rows": [],
+          "refused": "harness comparison mixes providers; filter to one provider",
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness codex · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "harness": "codex"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 4,
+              "passed": 4,
+              "rate_limited": 0,
+              "timed": 4,
+              "mean_seconds": 515.0,
+              "stdev_seconds": 12.909944487358056,
+              "mean_cost_usd": 0.3,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/notes-api/",
+          "label": "notes-api"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/notes-api/stacks/fastapi-latest/",
+      "kind": "stack",
+      "title": "Stack fastapi-latest on notes-api",
+      "description": "Results of stack fastapi-latest on the notes-api task, by harness + model.",
+      "params": {
+        "task": "notes-api",
+        "stack": "fastapi-latest"
+      },
+      "sections": [
+        {
+          "heading": "By harness + model · version 1",
+          "fixed": {
+            "task": "notes-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "api_key",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [],
+          "refused": "harness comparison needs a recorded provider; exclude trials recorded before provider tracking",
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/notes-api/",
+          "label": "notes-api"
+        }
+      ]
+    },
+    {
       "path": "/tasks/task-management-api/",
       "kind": "task",
       "title": "Task Management REST API",
@@ -195,7 +2053,7 @@
       },
       "sections": [
         {
-          "heading": "By harness + model · stack fastapi · version 2",
+          "heading": "By harness + model · stack fastapi · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -240,7 +2098,7 @@
           "matrix": null
         },
         {
-          "heading": "By stack · harness claude · model claude-opus-5-5 · version 2",
+          "heading": "By stack · harness claude · model claude-opus-5-5 · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -273,7 +2131,7 @@
           "matrix": null
         },
         {
-          "heading": "By stack · harness codex · model gpt-6-luna · version 2",
+          "heading": "By stack · harness codex · model gpt-6-luna · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -306,7 +2164,72 @@
           "matrix": null
         },
         {
-          "heading": "By harness + model · stack laravel · version 2 · community results",
+          "heading": "By harness + model · stack fastapi · version 2 · suite ffffffff",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "stack": "fastapi"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 410.0,
+              "stdev_seconds": 14.142135623730951,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness codex · model gpt-6-luna · version 2 · suite ffffffff",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "harness": "codex",
+            "model": "gpt-6-luna"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 410.0,
+              "stdev_seconds": 14.142135623730951,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness + model · stack laravel · version 2 · suite bdb9517a · community results",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -338,7 +2261,7 @@
           "matrix": null
         },
         {
-          "heading": "By stack · harness claude · model claude-opus-5-5 · version 2 · community results",
+          "heading": "By stack · harness claude · model claude-opus-5-5 · version 2 · suite bdb9517a · community results",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -401,6 +2324,10 @@
           "label": "Run run-community-001"
         },
         {
+          "path": "/runs/run-suite-b-001/",
+          "label": "Run run-suite-b-001"
+        },
+        {
           "path": "/runs/run-verified-001/",
           "label": "Run run-verified-001"
         }
@@ -417,7 +2344,7 @@
       },
       "sections": [
         {
-          "heading": "By model · stack fastapi · version 2",
+          "heading": "By model · stack fastapi · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -449,7 +2376,7 @@
           "matrix": null
         },
         {
-          "heading": "By stack · model claude-opus-5-5 · version 2",
+          "heading": "By stack · model claude-opus-5-5 · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -481,7 +2408,7 @@
           "matrix": null
         },
         {
-          "heading": "By harness version · model claude-opus-5-5 · stack fastapi · version 2",
+          "heading": "By harness version · model claude-opus-5-5 · stack fastapi · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -514,7 +2441,7 @@
           "matrix": null
         },
         {
-          "heading": "By model · stack laravel · version 2 · community results",
+          "heading": "By model · stack laravel · version 2 · suite bdb9517a · community results",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -546,7 +2473,7 @@
           "matrix": null
         },
         {
-          "heading": "By stack · model claude-opus-5-5 · version 2 · community results",
+          "heading": "By stack · model claude-opus-5-5 · version 2 · suite bdb9517a · community results",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -578,7 +2505,7 @@
           "matrix": null
         },
         {
-          "heading": "By harness version · model claude-opus-5-5 · stack laravel · version 2 · community results",
+          "heading": "By harness version · model claude-opus-5-5 · stack laravel · version 2 · suite bdb9517a · community results",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -629,7 +2556,7 @@
       },
       "sections": [
         {
-          "heading": "By model · stack fastapi · version 2",
+          "heading": "By model · stack fastapi · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -661,7 +2588,7 @@
           "matrix": null
         },
         {
-          "heading": "By stack · model gpt-6-luna · version 2",
+          "heading": "By stack · model gpt-6-luna · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -693,7 +2620,7 @@
           "matrix": null
         },
         {
-          "heading": "By harness version · model gpt-6-luna · stack fastapi · version 2",
+          "heading": "By harness version · model gpt-6-luna · stack fastapi · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -724,6 +2651,103 @@
           ],
           "refused": null,
           "matrix": null
+        },
+        {
+          "heading": "By model · stack fastapi · version 2 · suite ffffffff",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "stack": "fastapi"
+          },
+          "by": "model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "gpt-6-luna",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 410.0,
+              "stdev_seconds": 14.142135623730951,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · model gpt-6-luna · version 2 · suite ffffffff",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "model": "gpt-6-luna"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 410.0,
+              "stdev_seconds": 14.142135623730951,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness version · model gpt-6-luna · stack fastapi · version 2 · suite ffffffff",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "model": "gpt-6-luna",
+            "stack": "fastapi"
+          },
+          "by": "harness_version",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex 0.167.2",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 410.0,
+              "stdev_seconds": 14.142135623730951,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
         }
       ],
       "links": [
@@ -744,7 +2768,7 @@
       },
       "sections": [
         {
-          "heading": "By harness · stack fastapi · version 2",
+          "heading": "By harness · stack fastapi · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -776,7 +2800,7 @@
           "matrix": null
         },
         {
-          "heading": "By stack · harness claude · version 2",
+          "heading": "By stack · harness claude · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -808,7 +2832,7 @@
           "matrix": null
         },
         {
-          "heading": "By harness · stack laravel · version 2 · community results",
+          "heading": "By harness · stack laravel · version 2 · suite bdb9517a · community results",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -840,7 +2864,7 @@
           "matrix": null
         },
         {
-          "heading": "By stack · harness claude · version 2 · community results",
+          "heading": "By stack · harness claude · version 2 · suite bdb9517a · community results",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -890,7 +2914,7 @@
       },
       "sections": [
         {
-          "heading": "By harness · stack fastapi · version 2",
+          "heading": "By harness · stack fastapi · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -922,7 +2946,7 @@
           "matrix": null
         },
         {
-          "heading": "By stack · harness codex · version 2",
+          "heading": "By stack · harness codex · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -952,6 +2976,70 @@
           ],
           "refused": null,
           "matrix": null
+        },
+        {
+          "heading": "By harness · stack fastapi · version 2 · suite ffffffff",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "stack": "fastapi"
+          },
+          "by": "harness",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 410.0,
+              "stdev_seconds": 14.142135623730951,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness codex · version 2 · suite ffffffff",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "harness": "codex"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 410.0,
+              "stdev_seconds": 14.142135623730951,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
         }
       ],
       "links": [
@@ -972,7 +3060,7 @@
       },
       "sections": [
         {
-          "heading": "By harness + model · version 2",
+          "heading": "By harness + model · version 2 · suite bdb9517a",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -1014,6 +3102,37 @@
           ],
           "refused": null,
           "matrix": null
+        },
+        {
+          "heading": "By harness + model · version 2 · suite ffffffff",
+          "fixed": {
+            "task": "task-management-api",
+            "task_version": "2",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 410.0,
+              "stdev_seconds": 14.142135623730951,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
         }
       ],
       "links": [
@@ -1034,7 +3153,7 @@
       },
       "sections": [
         {
-          "heading": "By harness + model · version 2 · community results",
+          "heading": "By harness + model · version 2 · suite bdb9517a · community results",
           "fixed": {
             "task": "task-management-api",
             "task_version": "2",
@@ -1073,6 +3192,888 @@
       ]
     },
     {
+      "path": "/tasks/url-shortener-api/",
+      "kind": "task",
+      "title": "URL Shortener API",
+      "description": "Build a persistent URL shortener with click tracking.",
+      "params": {
+        "task": "url-shortener-api"
+      },
+      "sections": [
+        {
+          "heading": "By harness + model · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude + claude-opus-5-5",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 105.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.2,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            },
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 125.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.125,
+              "cost_samples": 2,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness + model · stack laravel · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "stack": "laravel"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 305.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness claude · model claude-opus-5-5 · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "harness": "claude",
+            "model": "claude-opus-5-5"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 105.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.2,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness codex · model gpt-6-luna · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "harness": "codex",
+            "model": "gpt-6-luna"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 125.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.125,
+              "cost_samples": 2,
+              "low_confidence": false,
+              "success_rate": 1.0
+            },
+            {
+              "value": "laravel",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 305.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/url-shortener-api/harnesses/claude/",
+          "label": "Harness claude"
+        },
+        {
+          "path": "/tasks/url-shortener-api/harnesses/codex/",
+          "label": "Harness codex"
+        },
+        {
+          "path": "/tasks/url-shortener-api/models/claude-opus-5-5/",
+          "label": "Model claude-opus-5-5"
+        },
+        {
+          "path": "/tasks/url-shortener-api/models/gpt-6-luna/",
+          "label": "Model gpt-6-luna"
+        },
+        {
+          "path": "/tasks/url-shortener-api/stacks/fastapi-latest/",
+          "label": "Stack fastapi-latest"
+        },
+        {
+          "path": "/tasks/url-shortener-api/stacks/laravel/",
+          "label": "Stack laravel"
+        },
+        {
+          "path": "/runs/run-url-001/",
+          "label": "Run run-url-001"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/url-shortener-api/harnesses/claude/",
+      "kind": "harness",
+      "title": "Harness claude on URL Shortener API",
+      "description": "Results of harness claude on the URL Shortener API task, by model, by stack and by harness version.",
+      "params": {
+        "task": "url-shortener-api",
+        "harness": "claude"
+      },
+      "sections": [
+        {
+          "heading": "By model · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "stack": "fastapi-latest"
+          },
+          "by": "model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude-opus-5-5",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 105.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.2,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · model claude-opus-5-5 · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "model": "claude-opus-5-5"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 105.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.2,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness version · model claude-opus-5-5 · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "model": "claude-opus-5-5",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_version",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude 2.1.323",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 105.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.2,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/url-shortener-api/",
+          "label": "URL Shortener API"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/url-shortener-api/harnesses/codex/",
+      "kind": "harness",
+      "title": "Harness codex on URL Shortener API",
+      "description": "Results of harness codex on the URL Shortener API task, by model, by stack and by harness version.",
+      "params": {
+        "task": "url-shortener-api",
+        "harness": "codex"
+      },
+      "sections": [
+        {
+          "heading": "By model · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "stack": "fastapi-latest"
+          },
+          "by": "model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "gpt-6-luna",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 125.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.125,
+              "cost_samples": 2,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By model · stack laravel · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "stack": "laravel"
+          },
+          "by": "model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "gpt-6-luna",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 305.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · model gpt-6-luna · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "model": "gpt-6-luna"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 125.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.125,
+              "cost_samples": 2,
+              "low_confidence": false,
+              "success_rate": 1.0
+            },
+            {
+              "value": "laravel",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 305.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness version · model gpt-6-luna · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "model": "gpt-6-luna",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness_version",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex 0.167.2",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 125.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.125,
+              "cost_samples": 2,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness version · model gpt-6-luna · stack laravel · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "model": "gpt-6-luna",
+            "stack": "laravel"
+          },
+          "by": "harness_version",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex 0.167.2",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 305.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/url-shortener-api/",
+          "label": "URL Shortener API"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/url-shortener-api/models/claude-opus-5-5/",
+      "kind": "model",
+      "title": "Model claude-opus-5-5 on URL Shortener API",
+      "description": "Results of model claude-opus-5-5 on the URL Shortener API task, by harness and by stack.",
+      "params": {
+        "task": "url-shortener-api",
+        "model": "claude-opus-5-5"
+      },
+      "sections": [
+        {
+          "heading": "By harness · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 105.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.2,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness claude · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "harness": "claude"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 105.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.2,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/url-shortener-api/",
+          "label": "URL Shortener API"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/url-shortener-api/models/gpt-6-luna/",
+      "kind": "model",
+      "title": "Model gpt-6-luna on URL Shortener API",
+      "description": "Results of model gpt-6-luna on the URL Shortener API task, by harness and by stack.",
+      "params": {
+        "task": "url-shortener-api",
+        "model": "gpt-6-luna"
+      },
+      "sections": [
+        {
+          "heading": "By harness · stack fastapi-latest · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "stack": "fastapi-latest"
+          },
+          "by": "harness",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 125.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.125,
+              "cost_samples": 2,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By harness · stack laravel · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "stack": "laravel"
+          },
+          "by": "harness",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 305.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        },
+        {
+          "heading": "By stack · harness codex · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "harness": "codex"
+          },
+          "by": "stack",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "fastapi-latest",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 125.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.125,
+              "cost_samples": 2,
+              "low_confidence": false,
+              "success_rate": 1.0
+            },
+            {
+              "value": "laravel",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 305.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/url-shortener-api/",
+          "label": "URL Shortener API"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/url-shortener-api/stacks/fastapi-latest/",
+      "kind": "stack",
+      "title": "Stack fastapi-latest on URL Shortener API",
+      "description": "Results of stack fastapi-latest on the URL Shortener API task, by harness + model.",
+      "params": {
+        "task": "url-shortener-api",
+        "stack": "fastapi-latest"
+      },
+      "sections": [
+        {
+          "heading": "By harness + model · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "claude + claude-opus-5-5",
+              "trials": 3,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 105.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.2,
+              "cost_samples": 1,
+              "low_confidence": false,
+              "success_rate": 0.6666666666666666
+            },
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 3,
+              "passed": 3,
+              "rate_limited": 1,
+              "timed": 2,
+              "mean_seconds": 125.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": 0.125,
+              "cost_samples": 2,
+              "low_confidence": false,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/url-shortener-api/",
+          "label": "URL Shortener API"
+        }
+      ]
+    },
+    {
+      "path": "/tasks/url-shortener-api/stacks/laravel/",
+      "kind": "stack",
+      "title": "Stack laravel on URL Shortener API",
+      "description": "Results of stack laravel on the URL Shortener API task, by harness + model.",
+      "params": {
+        "task": "url-shortener-api",
+        "stack": "laravel"
+      },
+      "sections": [
+        {
+          "heading": "By harness + model · version 1",
+          "fixed": {
+            "task": "url-shortener-api",
+            "task_version": "1",
+            "tooling_mode": "standard",
+            "auth_mode": "subscription",
+            "max_repairs": "0",
+            "max_parallel": "1",
+            "suite_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "by": "harness_model",
+          "verified_only": true,
+          "rows": [
+            {
+              "value": "codex + gpt-6-luna",
+              "trials": 2,
+              "passed": 2,
+              "rate_limited": 0,
+              "timed": 2,
+              "mean_seconds": 305.0,
+              "stdev_seconds": 7.0710678118654755,
+              "mean_cost_usd": null,
+              "cost_samples": 0,
+              "low_confidence": true,
+              "success_rate": 1.0
+            }
+          ],
+          "refused": null,
+          "matrix": null
+        }
+      ],
+      "links": [
+        {
+          "path": "/tasks/url-shortener-api/",
+          "label": "URL Shortener API"
+        }
+      ]
+    },
+    {
+      "path": "/runs/run-auth-001/",
+      "kind": "run",
+      "title": "Run run-auth-001",
+      "description": "Run run-auth-001 of auth-api (version 1): 6 trial(s), verified.",
+      "params": {
+        "run_id": "run-auth-001",
+        "task": "auth-api",
+        "task_version": "1",
+        "bundle": "submissions/auth-api/run-auth-001/"
+      },
+      "sections": [],
+      "links": [
+        {
+          "path": "/tasks/auth-api/",
+          "label": "auth-api"
+        }
+      ]
+    },
+    {
+      "path": "/runs/run-misc-001/",
+      "kind": "run",
+      "title": "Run run-misc-001",
+      "description": "Run run-misc-001 of misc-api (version 1): 2 trial(s), verified.",
+      "params": {
+        "run_id": "run-misc-001",
+        "task": "misc-api",
+        "task_version": "1",
+        "bundle": "submissions/misc-api/run-misc-001/"
+      },
+      "sections": [],
+      "links": [
+        {
+          "path": "/tasks/misc-api/",
+          "label": "misc-api"
+        }
+      ]
+    },
+    {
+      "path": "/runs/run-notes-001/",
+      "kind": "run",
+      "title": "Run run-notes-001",
+      "description": "Run run-notes-001 of notes-api (version 1): 7 trial(s), verified.",
+      "params": {
+        "run_id": "run-notes-001",
+        "task": "notes-api",
+        "task_version": "1",
+        "bundle": "submissions/notes-api/run-notes-001/"
+      },
+      "sections": [],
+      "links": [
+        {
+          "path": "/tasks/notes-api/",
+          "label": "notes-api"
+        }
+      ]
+    },
+    {
       "path": "/runs/run-community-001/",
       "kind": "run",
       "title": "Run run-community-001",
@@ -1082,6 +4083,25 @@
         "task": "task-management-api",
         "task_version": "2",
         "bundle": "submissions/task-management-api/run-community-001/"
+      },
+      "sections": [],
+      "links": [
+        {
+          "path": "/tasks/task-management-api/",
+          "label": "Task Management REST API"
+        }
+      ]
+    },
+    {
+      "path": "/runs/run-suite-b-001/",
+      "kind": "run",
+      "title": "Run run-suite-b-001",
+      "description": "Run run-suite-b-001 of Task Management REST API (version 2): 2 trial(s), verified.",
+      "params": {
+        "run_id": "run-suite-b-001",
+        "task": "task-management-api",
+        "task_version": "2",
+        "bundle": "submissions/task-management-api/run-suite-b-001/"
       },
       "sections": [],
       "links": [
@@ -1107,6 +4127,25 @@
         {
           "path": "/tasks/task-management-api/",
           "label": "Task Management REST API"
+        }
+      ]
+    },
+    {
+      "path": "/runs/run-url-001/",
+      "kind": "run",
+      "title": "Run run-url-001",
+      "description": "Run run-url-001 of URL Shortener API (version 1): 8 trial(s), verified.",
+      "params": {
+        "run_id": "run-url-001",
+        "task": "url-shortener-api",
+        "task_version": "1",
+        "bundle": "submissions/url-shortener-api/run-url-001/"
+      },
+      "sections": [],
+      "links": [
+        {
+          "path": "/tasks/url-shortener-api/",
+          "label": "URL Shortener API"
         }
       ]
     }
