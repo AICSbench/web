@@ -3,7 +3,7 @@
 // load finds the page whose path splits into the same parameters. No path or
 // slug is ever built here, so any spelling the export uses survives.
 import { loadExport, pageAt, ExportError } from '../load-export.ts';
-import { modelForTrialId } from '../models/catalog.ts';
+import { modelForTrialId, type ModelEntry } from '../models/catalog.ts';
 import type { Page, TrialRow } from '../types/export.ts';
 
 /** The route that renders each page kind. */
@@ -102,6 +102,24 @@ function modelKey(row: TrialRow): string {
 	return label;
 }
 
+/**
+ * The catalog profile for a model page, derived from the page's raw trial IDs.
+ * A page's model parameter is a stripped model key, so it cannot be used to
+ * attribute a profile: an OpenCode `vendor/gpt-6-luna` trial lands on the same
+ * page as `gpt-6-luna`, but the catalog does not list `vendor/gpt-6-luna`.
+ * Link only when every raw ID on the page resolves to the same profile.
+ */
+function pageProfile(page: Page, trials: readonly TrialRow[]): ModelEntry | null {
+	if (page.params.task === undefined || page.params.model === undefined) return null;
+	const profiles = new Set(
+		trials
+			.filter((trial) => trial.task === page.params.task && modelKey(trial) === page.params.model)
+			.map((trial) => modelForTrialId(trial.model))
+	);
+	if (profiles.size !== 1 || profiles.has(null)) return null;
+	return [...profiles][0] ?? null;
+}
+
 /** The value a section's `by` dimension gives a trial (comparison.dimension_value). */
 function dimensionValue(row: TrialRow, by: string): string {
 	switch (by) {
@@ -186,7 +204,7 @@ export function pageData(kind: Kind, params: Record<string, string> = {}) {
 		canonical: absolute(page.path),
 		jsonLd: jsonLd(page),
 		// A catalog profile for the model a /tasks/<task>/models/<model>/ page names.
-		profile: kind === 'model' ? modelForTrialId(page.params.model ?? '') : null,
+		profile: kind === 'model' ? pageProfile(page, site.trials) : null,
 		// A provider badge for harness and harness + model rows, where one row holds one provider.
 		providers: page.sections.map((section) => sectionProviders(page, section, site.trials)),
 		// The task's versions from data/meta.json (every page under /tasks/<task>/ has params.task).

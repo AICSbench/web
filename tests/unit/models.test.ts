@@ -212,6 +212,25 @@ describe('model results', () => {
 		expect(deepseekResults.groups[0].model).toBe('deepseek/deepseek-v4.1-flash-1017');
 	});
 
+	it('keeps setup variants in distinct keyed groups', () => {
+		const base = rows.find((row) => row.verified && row.model === 'gpt-6-luna')!;
+		const make = (overrides: Partial<TrialRow>): TrialRow => ({
+			...base,
+			model: 'z-ai/glm-5.3-flash',
+			verified: true,
+			...overrides
+		});
+		const results = summarizeModelResults(glm, [
+			make({ run_id: 'run-standard', tooling_mode: 'standard' }),
+			make({ run_id: 'run-minimal', tooling_mode: 'minimal' }),
+			make({ run_id: 'run-api-key', auth_mode: 'api_key' }),
+			make({ run_id: 'run-repairs', max_repairs: 1 }),
+			make({ run_id: 'run-parallel', max_parallel: 2 })
+		]);
+		expect(results.groups).toHaveLength(5);
+		expect(new Set(results.groups.map((group) => group.key)).size).toBe(5);
+	});
+
 	it('shows no results instead of a zero score when no verified trial matches', () => {
 		expect(summarizeModelResults(glm, rows)).toEqual({
 			totalTrials: 0,

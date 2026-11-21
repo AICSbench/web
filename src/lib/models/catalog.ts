@@ -101,7 +101,7 @@ export const MODEL_CATALOG: readonly ModelEntry[] = [
 				}
 			],
 			source: OPENAI_PRICING,
-			note: 'Batch and Flex are 50% of Standard; Fast mode is 2× Standard; regional processing adds 10%.'
+			note: 'OpenAI also bills cache writes at $0.125/1M for 30-minute writes and $0.25/1M for 12-hour writes. Batch and Flex are 50% of Standard; Fast mode is 2× Standard; regional processing adds 10%.'
 		},
 		sources: [
 			{

@@ -252,6 +252,22 @@ describe('edge-case build', () => {
 			});
 			// The verified run is newer as an instant but sorts older as a string.
 			json('data/trials.json', (rows) => {
+				const base = rows.find(
+					(row: { task: string; model: string }) =>
+						row.task === 'task-management-api' && row.model === 'gpt-6-luna'
+				);
+				// An OpenCode gateway ID lands on the gpt-6-luna model page after
+				// model_key strips the prefix, but the catalog does not list it.
+				rows.push({
+					...base,
+					trial_id: 'trial-vendor',
+					model: 'vendor/gpt-6-luna',
+					harness: 'opencode',
+					agent: 'opencode',
+					harness_version: '1.19.5',
+					provider: 'vendor',
+					run_id: 'run-vendor-001'
+				});
 				for (const row of rows) {
 					row.submitted_at =
 						row.run_id === 'run-verified-001'
@@ -354,6 +370,11 @@ describe('edge-case build', () => {
 		expect(profile).toContain('href="../../models/"');
 		const index = html(result.dir, '/models/');
 		expect(index).toContain('href="../models/gpt-6-luna/"');
+	});
+
+	it('omits a model profile link when a raw trial ID is unattributed', () => {
+		const page = html(result.dir, '/tasks/task-management-api/models/gpt-6-luna/');
+		expect(page).not.toContain('Model profile:');
 	});
 });
 

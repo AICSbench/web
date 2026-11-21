@@ -196,7 +196,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each data.results.groups as group (group.task + group.taskVersion + group.suite + group.stack + group.harness + group.model + (group.provider ?? ''))}
+					{#each data.results.groups as group (group.key)}
 						<tr>
 							<th scope="row" data-label="Task and suite">
 								{group.task} v{group.taskVersion}

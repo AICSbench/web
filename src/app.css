@@ -222,6 +222,61 @@ code {
 	}
 }
 
+/* Safari's VoiceOver table navigation can break when table display is changed.
+   Keep the native table and the existing horizontal scroller there. */
+@supports (font: -apple-system-body) {
+	@media (max-width: 760px) {
+		.stacked-table {
+			display: table;
+		}
+
+		.stacked-table thead {
+			display: table-header-group;
+			position: static;
+			width: auto;
+			height: auto;
+			padding: 0;
+			margin: 0;
+			overflow: visible;
+			clip: auto;
+			white-space: normal;
+			border: 0;
+		}
+
+		.stacked-table tbody {
+			display: table-row-group;
+		}
+
+		.stacked-table tr {
+			display: table-row;
+			border: 0;
+			border-radius: 0;
+			padding: 0;
+			margin: 0;
+		}
+
+		.stacked-table th,
+		.stacked-table td {
+			display: table-cell;
+			width: auto;
+			border-bottom: 1px solid var(--border);
+			padding: 0.4rem 0.5rem;
+			text-align: left;
+		}
+
+		.stacked-table td.num {
+			text-align: right;
+			white-space: nowrap;
+		}
+
+		.stacked-table th::before,
+		.stacked-table td::before {
+			content: none;
+			display: none;
+		}
+	}
+}
+
 table {
 	border-collapse: collapse;
 	width: 100%;

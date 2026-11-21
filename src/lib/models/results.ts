@@ -9,6 +9,8 @@ import type { TrialRow } from '../types/export.ts';
 import { modelForTrialId, type ModelEntry } from './catalog.ts';
 
 export interface ModelResultGroup {
+	/** Stable key over every grouping field, for keyed rendering. */
+	key: string;
 	task: string;
 	taskVersion: string;
 	suite: string;
@@ -111,7 +113,7 @@ export function summarizeModelResults(
 		else grouped.set(key, [trial]);
 	}
 
-	const groups: ModelResultGroup[] = [...grouped.values()].map((group) => {
+	const groups: ModelResultGroup[] = [...grouped.entries()].map(([key, group]) => {
 		const first = group[0];
 		const times = group
 			.filter(
@@ -119,6 +121,7 @@ export function summarizeModelResults(
 			)
 			.map((trial) => trial.agent_seconds as number);
 		return {
+			key,
 			task: first.task,
 			taskVersion: first.task_version,
 			suite: first.suite_sha256,
