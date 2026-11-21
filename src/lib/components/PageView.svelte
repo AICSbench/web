@@ -5,6 +5,7 @@
 	import Link from './Link.svelte';
 	import Matrix from './Matrix.svelte';
 	import SeoHead from './SeoHead.svelte';
+	import type { ModelEntry } from '#lib/models/catalog.ts';
 	import type { Page } from '#lib/types/export.ts';
 
 	let {
@@ -16,6 +17,7 @@
 			canonical: string;
 			jsonLd: object;
 			providers?: Record<string, string>[];
+			profile?: ModelEntry | null;
 		};
 		children?: Snippet;
 	} = $props();
@@ -40,6 +42,14 @@
 
 <h1>{page.title}</h1>
 <p class="lead">{page.description}</p>
+
+{#if data.profile}
+	<p class="model-profile">
+		<Link path={`/models/${data.profile.slug}/`}>
+			Model profile: {data.profile.displayName}
+		</Link>
+	</p>
+{/if}
 
 {@render children?.()}
 

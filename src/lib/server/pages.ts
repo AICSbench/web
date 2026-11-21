@@ -3,6 +3,7 @@
 // load finds the page whose path splits into the same parameters. No path or
 // slug is ever built here, so any spelling the export uses survives.
 import { loadExport, pageAt, ExportError } from '../load-export.ts';
+import { modelForTrialId } from '../models/catalog.ts';
 import type { Page, TrialRow } from '../types/export.ts';
 
 /** The route that renders each page kind. */
@@ -184,6 +185,8 @@ export function pageData(kind: Kind, params: Record<string, string> = {}) {
 		page,
 		canonical: absolute(page.path),
 		jsonLd: jsonLd(page),
+		// A catalog profile for the model a /tasks/<task>/models/<model>/ page names.
+		profile: kind === 'model' ? modelForTrialId(page.params.model ?? '') : null,
 		// A provider badge for harness and harness + model rows, where one row holds one provider.
 		providers: page.sections.map((section) => sectionProviders(page, section, site.trials)),
 		// The task's versions from data/meta.json (every page under /tasks/<task>/ has params.task).

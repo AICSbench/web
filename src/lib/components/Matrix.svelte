@@ -4,6 +4,7 @@
 	import Metric from './Metric.svelte';
 	import SectionHeader from './SectionHeader.svelte';
 	import { duration, percent, providerLabel } from '#lib/format.ts';
+	import { profileForRowValue } from '#lib/models/catalog.ts';
 	import type { Matrix, Section } from '#lib/types/export.ts';
 
 	let {
@@ -57,9 +58,14 @@
 				</thead>
 				<tbody>
 					{#each matrix.rows as row, rowIndex (rowIndex)}
+						{@const profile = profileForRowValue('harness_model', row.value)}
 						<tr>
 							<th scope="row" class="value">
-								{row.value}
+								{#if profile}
+									<Link path={`/models/${profile.slug}/`}>{row.value}</Link>
+								{:else}
+									{row.value}
+								{/if}
 								{#if providers[row.value]}
 									<span class="badge provider">{providerLabel(providers[row.value])}</span>
 								{/if}
