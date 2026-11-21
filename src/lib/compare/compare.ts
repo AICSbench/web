@@ -121,6 +121,7 @@ export async function compareMatrix(
 		return { dimensions: [], columns: [], rows: [], refused: normalized.error, providers: {} };
 	}
 	const columns: MatrixColumnView[] = [];
+	const displayedTrials: TrialRow[] = [];
 	const seen = new Set<string>();
 	for (const task of selection.tasks) {
 		const version = task.version ?? newestVersion(data.rows, task.id, selection.filters);
@@ -138,6 +139,7 @@ export async function compareMatrix(
 			refused !== null || version === null
 				? []
 				: await runCompareQuery(data, normalized.dimensions, selection.filters, task.id, version);
+		if (rows.length > 0) displayedTrials.push(...trials);
 		const single: Selection = {
 			view: 'single',
 			task: task.id,
@@ -159,13 +161,6 @@ export async function compareMatrix(
 		columns,
 		rows: buildMatrix(columns),
 		refused: null,
-		providers: providersFor(
-			data.rows.filter(
-				(trial) =>
-					selection.tasks.some((task) => task.id === trial.task) &&
-					matchesFilters(trial, selection.filters)
-			),
-			normalized.dimensions
-		)
+		providers: providersFor(displayedTrials, normalized.dimensions)
 	};
 }

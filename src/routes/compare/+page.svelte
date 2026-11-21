@@ -75,11 +75,14 @@
 				return;
 			}
 			if (selection.view === 'single') {
-				single = await compareSingle(engine, selection);
+				const result = await compareSingle(engine, selection);
+				if (current !== token) return;
+				single = result;
 			} else {
-				matrix = await compareMatrix(engine, selection, window.location.pathname);
+				const result = await compareMatrix(engine, selection, window.location.pathname);
+				if (current !== token) return;
+				matrix = result;
 			}
-			if (current !== token) return;
 			status = 'done';
 			syncUrl();
 		} catch (error) {

@@ -166,5 +166,18 @@ test.describe('the compare page', () => {
 		);
 		// The refused column is not in the coverage count: two columns remain.
 		await expect(table.getByRole('row').nth(1)).toContainText('2/2');
+		await expect(table.getByRole('row').filter({ hasText: 'codex + gpt-6-luna' })).toContainText(
+			'openai'
+		);
+	});
+
+	test('matches a full OpenCode model label exactly, but ignores case for the model key', async ({
+		page
+	}) => {
+		const url = '/compare/?task=auth-api&v=1&by=model&harness=opencode&model=';
+		await page.goto(`${url}openai%2FGPT-6-LUNA`);
+		await expect(page.getByText('No results in this section.')).toBeVisible();
+		await page.goto(`${url}GPT-6-LUNA`);
+		await expect(page.getByRole('table')).toContainText('openai/gpt-6-luna');
 	});
 });

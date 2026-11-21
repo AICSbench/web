@@ -176,7 +176,7 @@ function params(filters: FilterState, task: string, version: string): QueryParam
 		harness: JSON.stringify(filters.harness),
 		harness_version: JSON.stringify(filters.harness_version),
 		// Python compares a model filter to the raw label or the lower-case model key.
-		model: JSON.stringify(filters.model.map((value) => value.toLowerCase())),
+		model: JSON.stringify(filters.model),
 		stack: JSON.stringify(filters.stack),
 		language: JSON.stringify(filters.language),
 		framework: JSON.stringify(filters.framework),

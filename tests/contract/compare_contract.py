@@ -217,7 +217,7 @@ def sql_params(task: str, version: str, filters: dict[str, Any]) -> dict[str, An
         "suite": filters["suite"],
         "harness": json.dumps(filters["harness"]),
         "harness_version": json.dumps(filters["harness_version"]),
-        "model": json.dumps([value.lower() for value in filters["model"]]),
+        "model": json.dumps(filters["model"]),
         "stack": json.dumps(filters["stack"]),
         "language": json.dumps(filters["language"]),
         "framework": json.dumps(filters["framework"]),

@@ -36,7 +36,7 @@ selected AS (
     AND task_version = $task_version
     AND ($verified = 0 OR verified)
     AND ($include_rate_limited = 1 OR NOT rate_limited)
-    AND ($since IS NULL OR CAST(submitted_at AS TIMESTAMPTZ) >= CAST($since AS TIMESTAMPTZ))
+    AND ($since IS NULL OR CAST(submitted_at AS TIMESTAMPTZ) >= CAST($since || 'T00:00:00Z' AS TIMESTAMPTZ))
     AND ($suite IS NULL OR suite_sha256 = $suite)
     AND (len(lists.harness_values) = 0 OR list_contains(lists.harness_values, harness))
     AND (
@@ -45,8 +45,8 @@ selected AS (
     )
     AND (
       len(lists.model_values) = 0
-      OR list_contains(lists.model_values, lower(model))
-      OR list_contains(lists.model_values, model_key_value)
+      OR list_contains(lists.model_values, model)
+      OR list_contains(list_transform(lists.model_values, lambda value: lower(value)), model_key_value)
     )
     AND (len(lists.stack_values) = 0 OR list_contains(lists.stack_values, stack))
     AND (len(lists.language_values) = 0 OR list_contains(lists.language_values, language))
