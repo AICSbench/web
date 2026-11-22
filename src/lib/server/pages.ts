@@ -62,14 +62,87 @@ export function absolute(path: string): string {
 
 const LICENSE = 'https://creativecommons.org/licenses/by/4.0/';
 
+function searchMetadata(page: Page, task: string, trials: readonly TrialRow[]) {
+	const original = { title: page.title, description: page.description };
+	switch (page.kind) {
+		case 'home':
+			return {
+				title: 'AI Coding Agent Benchmarks',
+				description:
+					'Compare AI coding models and CLI agents across real coding tasks and frameworks. Browse pass rates, agent runtimes, and public benchmark runs.'
+			};
+		case 'leaderboard':
+			return {
+				title: 'AI Coding Benchmark Leaderboard',
+				description:
+					'Rank AI coding model and CLI agent combinations by stack across benchmark tasks. See success rates, agent runtimes, and sample counts for verified runs.'
+			};
+		case 'compare':
+			return {
+				title: 'Compare AI Coding Models, Agents & Stacks',
+				description:
+					'Compare benchmark pass rates and agent runtimes by model, CLI agent, or framework. Filter by task version, stack, provider, and run configuration.'
+			};
+		case 'methodology':
+			return {
+				title: 'AI Coding Benchmark Methodology',
+				description:
+					'Learn how AICSbench runs AI coding agents, scores acceptance tests, measures agent time, and separates verified benchmarks from community submissions.'
+			};
+		case 'task':
+			return {
+				title: `${page.title} Benchmark`,
+				description: `${page.title} coding benchmark: compare AI models, CLI agents, and framework stacks by acceptance test pass rate and agent runtime.`
+			};
+		case 'model':
+			return {
+				title: `${page.params.model} Model Benchmark on ${task}`,
+				description: `See ${page.params.model} benchmark results for ${task}, including acceptance test pass rates and agent runtimes by coding agent and framework stack.`
+			};
+		case 'stack':
+			return {
+				title: `${page.params.stack} Stack Benchmark on ${task}`,
+				description: `See how AI coding agents and models perform on ${task} with ${page.params.stack}. Compare acceptance test pass rates and agent runtimes.`
+			};
+		case 'harness':
+			return {
+				title: `${page.params.harness} CLI Benchmark on ${task}`,
+				description: `See ${page.params.harness} CLI coding benchmark results for ${task}. Compare model and stack results by pass rate and agent runtime.`
+			};
+		case 'run': {
+			const first = trials[0];
+			if (!first) return original;
+			const setups = new Set(trials.map((trial) => `${trial.model} via ${trial.harness}`));
+			const stacks = [...new Set(trials.map((trial) => trial.stack))].sort();
+			const setup =
+				setups.size === 1
+					? `${first.model} via ${first.harness}`
+					: `${setups.size} model and agent combinations`;
+			const stack =
+				stacks.length <= 2
+					? stacks.join(' and ')
+					: `${stacks.slice(0, 2).join(', ')} and ${stacks.length - 2} more stacks`;
+			const tier = trials.every((trial) => trial.verified === first.verified)
+				? first.verified
+					? 'verified '
+					: 'community '
+				: '';
+			return {
+				title: `${task} Benchmark${setups.size === 1 ? ` · ${first.model}` : ''} · ${first.run_id}`,
+				description: `${task} v${first.task_version}: ${trials.length} ${tier}trials with ${setup} on ${stack}. See pass rates and agent time.`
+			};
+		}
+	}
+}
+
 /** schema.org JSON-LD: WebSite on /, Dataset on result pages, WebPage elsewhere. */
-function jsonLd(page: Page): object {
+function jsonLd(page: Page, seo: { title: string; description: string }): object {
 	const site = loadExport();
 	const url = absolute(page.path);
 	const base = {
 		'@context': 'https://schema.org',
-		name: page.title,
-		description: page.description,
+		name: seo.title,
+		description: seo.description,
 		url
 	};
 	if (page.kind === 'home') return { ...base, '@type': 'WebSite' };
@@ -199,10 +272,19 @@ export function pageData(kind: Kind, params: Record<string, string> = {}) {
 	const page = pageFor(kind, params);
 	const runPages = site.pages.filter((candidate) => candidate.kind === 'run');
 	const runOf = (runId: string) => site.trials.find((trial) => trial.run_id === runId);
+	const runTrials =
+		kind === 'run' ? site.trials.filter((trial) => trial.run_id === page.params.run_id) : [];
+	const task =
+		site.meta.tasks.find((entry) => entry.id === page.params.task && entry.name)?.name ??
+		page.params.task ??
+		page.title;
+	const seo = searchMetadata(page, task, runTrials);
 	return {
 		page,
+		seo,
+		taskName: task,
 		canonical: absolute(page.path),
-		jsonLd: jsonLd(page),
+		jsonLd: jsonLd(page, seo),
 		// A catalog profile for the model a /tasks/<task>/models/<model>/ page names.
 		profile: kind === 'model' ? pageProfile(page, site.trials) : null,
 		// A provider badge for harness and harness + model rows, where one row holds one provider.
@@ -233,7 +315,7 @@ export function pageData(kind: Kind, params: Record<string, string> = {}) {
 		run:
 			kind === 'run'
 				? {
-						trials: site.trials.filter((trial) => trial.run_id === page.params.run_id),
+						trials: runTrials,
 						submission: site.submission(page.params.run_id ?? ''),
 						bundle: page.params.bundle ?? null,
 						files: site.downloads.filter((file) => file.startsWith(`runs/${page.params.run_id}/`))

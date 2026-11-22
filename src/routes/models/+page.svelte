@@ -10,7 +10,7 @@
 </script>
 
 <SeoHead
-	title="Models · AICSbench"
+	title={`${data.title} · AICSbench`}
 	description={data.description}
 	canonical={data.canonical}
 	jsonLd={data.jsonLd}

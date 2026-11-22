@@ -25,7 +25,7 @@
 </script>
 
 <SeoHead
-	title={`${model.displayName} · AICSbench`}
+	title={`${data.title} · AICSbench`}
 	description={data.description}
 	canonical={data.canonical}
 	jsonLd={data.jsonLd}

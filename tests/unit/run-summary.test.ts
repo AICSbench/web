@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { groupRunTrials } from '../../src/lib/run-summary.ts';
+import { groupRunTrials, runInsights } from '../../src/lib/run-summary.ts';
 import type { TrialRow } from '../../src/lib/types/export.ts';
 
 function trial(overrides: Partial<TrialRow> = {}): TrialRow {
@@ -144,5 +144,441 @@ describe('groupRunTrials', () => {
 
 	it('returns no groups for a run without trials', () => {
 		expect(groupRunTrials([])).toEqual([]);
+	});
+});
+
+describe('runInsights', () => {
+	it('compares only stacks in one setup and excludes rate-limited trials from the mean', () => {
+		const insights = runInsights(
+			[
+				trial({ trial_id: 'f1', stack: 'fastapi', agent_seconds: 100 }),
+				trial({ trial_id: 'f2', stack: 'fastapi', agent_seconds: 110 }),
+				trial({ trial_id: 'f3', stack: 'fastapi', agent_seconds: 120 }),
+				trial({
+					trial_id: 'f4',
+					stack: 'fastapi',
+					agent_seconds: 900,
+					rate_limited: true
+				}),
+				trial({ trial_id: 'l1', stack: 'laravel', agent_seconds: 200 }),
+				trial({ trial_id: 'l2', stack: 'laravel', agent_seconds: 210 }),
+				trial({ trial_id: 'l3', stack: 'laravel', agent_seconds: 220 })
+			],
+			'Task Management REST API'
+		);
+		const text = insights.join('\n');
+
+		expect(text).toContain(
+			'Task Management REST API version 1 (acceptance suite aaaaaaaa) has 7 verified trials across 2 stacks and 1 setup variant.'
+		);
+		expect(text).toContain('7 of 7 trials passed (100% pass rate)');
+		expect(text).toContain(
+			'fastapi recorded the lowest mean agent time at 1m 50s across 3 timed passing trials'
+		);
+		expect(text).toContain('versus 3m 30s for laravel (3 timed passing trials)');
+		expect(text).toContain(
+			'The comparison covers 2 stacks with at least 2 timed passing trials each.'
+		);
+		expect(text).toContain('The compared stacks had the same 100% pass rate');
+		expect(text).not.toContain('directional');
+	});
+
+	it('does not compare stacks that differ in harness', () => {
+		const insights = runInsights(
+			[
+				trial({ stack: 'fastapi', harness: 'codex', agent_seconds: 100 }),
+				trial({ stack: 'fastapi', harness: 'codex', agent_seconds: 110 }),
+				trial({ stack: 'laravel', harness: 'claude', agent_seconds: 200 }),
+				trial({ stack: 'laravel', harness: 'claude', agent_seconds: 210 })
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).not.toContain('lowest mean agent time');
+		expect(text).toContain("The run's 2 stacks do not share a comparable setup");
+	});
+
+	it('does not compare stacks that differ in the agent field', () => {
+		const insights = runInsights(
+			[
+				trial({ stack: 'fastapi', agent: 'codex', agent_seconds: 100 }),
+				trial({ stack: 'fastapi', agent: 'codex', agent_seconds: 110 }),
+				trial({ stack: 'laravel', agent: 'other-agent', agent_seconds: 200 }),
+				trial({ stack: 'laravel', agent: 'other-agent', agent_seconds: 210 })
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).not.toContain('lowest mean agent time');
+		expect(text).toContain("The run's 2 stacks do not share a comparable setup");
+	});
+
+	it('does not compare stacks that differ in model', () => {
+		const insights = runInsights(
+			[
+				trial({ stack: 'fastapi', model: 'gpt-6-luna', agent_seconds: 100 }),
+				trial({ stack: 'fastapi', model: 'gpt-6-luna', agent_seconds: 110 }),
+				trial({ stack: 'laravel', model: 'claude-opus-5-5', agent_seconds: 200 }),
+				trial({ stack: 'laravel', model: 'claude-opus-5-5', agent_seconds: 210 })
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).not.toContain('lowest mean agent time');
+		expect(text).toContain("The run's 2 stacks do not share a comparable setup");
+	});
+
+	it('does not compare stacks that differ in provider', () => {
+		const insights = runInsights(
+			[
+				trial({ stack: 'fastapi', provider: 'openai', agent_seconds: 100 }),
+				trial({ stack: 'fastapi', provider: 'openai', agent_seconds: 110 }),
+				trial({ stack: 'laravel', provider: 'openrouter', agent_seconds: 200 }),
+				trial({ stack: 'laravel', provider: 'openrouter', agent_seconds: 210 })
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).not.toContain('lowest mean agent time');
+		expect(text).toContain("The run's 2 stacks do not share a comparable setup");
+	});
+
+	it('does not compare stacks that differ in agent configuration', () => {
+		const insights = runInsights(
+			[
+				trial({ stack: 'fastapi', max_repairs: 0, agent_seconds: 100 }),
+				trial({ stack: 'fastapi', max_repairs: 0, agent_seconds: 110 }),
+				trial({ stack: 'laravel', max_repairs: 1, agent_seconds: 200 }),
+				trial({ stack: 'laravel', max_repairs: 1, agent_seconds: 210 })
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).not.toContain('lowest mean agent time');
+		expect(text).toContain("The run's 2 stacks do not share a comparable setup");
+	});
+
+	it('calls small samples directional and explains the pass-rate trade-off', () => {
+		const insights = runInsights(
+			[
+				trial({ trial_id: 'f1', stack: 'fastapi', agent_seconds: 100 }),
+				trial({ trial_id: 'f2', stack: 'fastapi', agent_seconds: 110 }),
+				trial({ trial_id: 'f3', stack: 'fastapi', status: 'failed', agent_seconds: 90 }),
+				trial({ trial_id: 'l1', stack: 'laravel', agent_seconds: 200 }),
+				trial({ trial_id: 'l2', stack: 'laravel', agent_seconds: 210 }),
+				trial({ trial_id: 'l3', stack: 'laravel', agent_seconds: 220 })
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).toContain(
+			'fastapi recorded the lowest mean agent time at 1m 45s across 2 timed passing trials'
+		);
+		expect(text).toContain('versus 3m 30s for laravel (3 timed passing trials)');
+		expect(text).toContain(
+			'The trade-off is reliability: laravel passed 3 of 3 trials (100%), while fastapi passed 2 of 3 (66.7%).'
+		);
+		expect(text).toContain('directional rather than a confident ranking');
+	});
+
+	it('never compares verified and community trials', () => {
+		const insights = runInsights(
+			[trial({ stack: 'fastapi', verified: true }), trial({ stack: 'laravel', verified: false })],
+			'Task'
+		);
+
+		expect(insights).toHaveLength(1);
+		expect(insights[0]).toContain('both verified and community trials');
+		expect(insights[0]).not.toContain('mean agent time');
+	});
+
+	it('never compares across different tasks', () => {
+		const insights = runInsights(
+			[trial({ stack: 'fastapi', task: 'task-a' }), trial({ stack: 'laravel', task: 'task-b' })],
+			'Task'
+		);
+
+		expect(insights).toHaveLength(1);
+		expect(insights[0]).toContain('more than one task, version, or acceptance suite');
+	});
+
+	it('never compares across task versions', () => {
+		const insights = runInsights(
+			[
+				trial({ stack: 'fastapi', task_version: '1' }),
+				trial({ stack: 'laravel', task_version: '2' })
+			],
+			'Task'
+		);
+
+		expect(insights).toHaveLength(1);
+		expect(insights[0]).toContain('more than one task, version, or acceptance suite');
+	});
+
+	it('never compares across acceptance suites', () => {
+		const insights = runInsights(
+			[
+				trial({ stack: 'fastapi', suite_sha256: 'a'.repeat(64) }),
+				trial({ stack: 'laravel', suite_sha256: 'b'.repeat(64) })
+			],
+			'Task'
+		);
+
+		expect(insights).toHaveLength(1);
+		expect(insights[0]).toContain('more than one task, version, or acceptance suite');
+	});
+
+	it('compares pass rates without inventing a duration when timing is missing', () => {
+		const insights = runInsights(
+			[
+				trial({ trial_id: 'f1', stack: 'fastapi', agent_seconds: null }),
+				trial({ trial_id: 'f2', stack: 'fastapi', agent_seconds: null }),
+				trial({ trial_id: 'l1', stack: 'laravel', agent_seconds: null }),
+				trial({
+					trial_id: 'l2',
+					stack: 'laravel',
+					status: 'failed',
+					agent_seconds: null
+				})
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).toContain(
+			'fastapi had the highest pass rate at 100% (2/2), compared with 50% (1/2) for laravel'
+		);
+		expect(text).toContain(
+			'No stack in this setup has at least 2 timed passing trials, so no mean agent time is compared.'
+		);
+		expect(text).toContain('Treat this pass-rate gap as directional');
+		expect(text).not.toContain('mean agent time of');
+	});
+
+	it('picks the setup that actually has two comparable stacks', () => {
+		const insights = runInsights(
+			[
+				trial({ trial_id: 'a1', stack: 'fastapi', harness: 'aaa', agent_seconds: null }),
+				trial({ trial_id: 'a2', stack: 'fastapi', harness: 'aaa', agent_seconds: null }),
+				trial({ trial_id: 'a3', stack: 'fastapi', harness: 'aaa', agent_seconds: null }),
+				trial({ trial_id: 'a4', stack: 'laravel', harness: 'aaa', agent_seconds: null }),
+				trial({ trial_id: 'b1', stack: 'fastapi', harness: 'zzz', agent_seconds: null }),
+				trial({ trial_id: 'b2', stack: 'fastapi', harness: 'zzz', agent_seconds: null }),
+				trial({ trial_id: 'b3', stack: 'laravel', harness: 'zzz', agent_seconds: null }),
+				trial({ trial_id: 'b4', stack: 'laravel', harness: 'zzz', agent_seconds: null })
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).toContain('Within the best-covered comparable setup, zzz + gpt-6-luna via openai');
+		expect(text).toContain('both had a 100% pass rate');
+		expect(text).not.toContain('No two stacks in this run share');
+	});
+
+	it('does not claim a time difference when the compared means are tied', () => {
+		const insights = runInsights(
+			[
+				trial({ trial_id: 'f1', stack: 'fastapi', agent_seconds: 100 }),
+				trial({ trial_id: 'f2', stack: 'fastapi', agent_seconds: 120 }),
+				trial({ trial_id: 'l1', stack: 'laravel', agent_seconds: 100 }),
+				trial({ trial_id: 'l2', stack: 'laravel', agent_seconds: 120 })
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).toContain('same 100% pass rate and mean agent time');
+		expect(text).toContain('does not separate them');
+		expect(text).not.toContain('difference is time rather than reliability');
+	});
+
+	it('distinguishes setup variants that share a harness and model label', () => {
+		const insights = runInsights(
+			[
+				trial({ trial_id: 'a1', stack: 'fastapi', max_repairs: 0, agent_seconds: 100 }),
+				trial({ trial_id: 'a2', stack: 'fastapi', max_repairs: 0, agent_seconds: 110 }),
+				trial({ trial_id: 'a3', stack: 'laravel', max_repairs: 0, agent_seconds: 200 }),
+				trial({ trial_id: 'a4', stack: 'laravel', max_repairs: 0, agent_seconds: 210 }),
+				trial({ trial_id: 'b1', stack: 'fastapi', max_repairs: 1, agent_seconds: 100 }),
+				trial({ trial_id: 'b2', stack: 'fastapi', max_repairs: 1, agent_seconds: 110 }),
+				trial({ trial_id: 'b3', stack: 'laravel', max_repairs: 1, agent_seconds: 200 }),
+				trial({ trial_id: 'b4', stack: 'laravel', max_repairs: 1, agent_seconds: 210 })
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).toContain('The run covers 2 setup variants');
+		expect(text).toContain('repairs 0');
+		expect(text).toContain('repairs 1');
+		const labels = text.match(/codex \+ gpt-6-luna via openai \([^)]*\)/g) ?? [];
+		expect(new Set(labels).size).toBe(2);
+	});
+
+	it('keeps a missing requested model distinct from an explicit one', () => {
+		const insights = runInsights(
+			[
+				trial({
+					trial_id: 'a1',
+					stack: 'fastapi',
+					requested_model: null,
+					agent_seconds: 100
+				}),
+				trial({
+					trial_id: 'a2',
+					stack: 'fastapi',
+					requested_model: null,
+					agent_seconds: 110
+				}),
+				trial({
+					trial_id: 'a3',
+					stack: 'laravel',
+					requested_model: null,
+					agent_seconds: 200
+				}),
+				trial({
+					trial_id: 'a4',
+					stack: 'laravel',
+					requested_model: null,
+					agent_seconds: 210
+				}),
+				trial({
+					trial_id: 'b1',
+					stack: 'fastapi',
+					requested_model: 'gpt-6-luna',
+					agent_seconds: 100
+				}),
+				trial({
+					trial_id: 'b2',
+					stack: 'fastapi',
+					requested_model: 'gpt-6-luna',
+					agent_seconds: 110
+				}),
+				trial({
+					trial_id: 'b3',
+					stack: 'laravel',
+					requested_model: 'gpt-6-luna',
+					agent_seconds: 200
+				}),
+				trial({
+					trial_id: 'b4',
+					stack: 'laravel',
+					requested_model: 'gpt-6-luna',
+					agent_seconds: 210
+				})
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).toContain('requested not recorded');
+		expect(text).toContain('requested gpt-6-luna');
+		const labels = text.match(/codex \+ gpt-6-luna via openai \([^)]*\)/g) ?? [];
+		expect(new Set(labels).size).toBe(2);
+	});
+
+	it('says only one stack has timed samples instead of claiming none do', () => {
+		const insights = runInsights(
+			[
+				trial({ trial_id: 'f1', stack: 'fastapi', agent_seconds: 100 }),
+				trial({ trial_id: 'f2', stack: 'fastapi', agent_seconds: 110 }),
+				trial({ trial_id: 'l1', stack: 'laravel', agent_seconds: null }),
+				trial({ trial_id: 'l2', stack: 'laravel', agent_seconds: null })
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).toContain('Only one stack in this setup has at least 2 timed passing trials');
+		expect(text).not.toContain('No stack in this setup has at least 2 timed passing trials');
+	});
+
+	it('does not call every stack tied when only the top two are tied', () => {
+		const insights = runInsights(
+			[
+				trial({ trial_id: 'f1', stack: 'fastapi', agent_seconds: null }),
+				trial({ trial_id: 'f2', stack: 'fastapi', agent_seconds: null }),
+				trial({ trial_id: 'l1', stack: 'laravel', agent_seconds: null }),
+				trial({ trial_id: 'l2', stack: 'laravel', agent_seconds: null }),
+				trial({ trial_id: 'r1', stack: 'rails', agent_seconds: null }),
+				trial({
+					trial_id: 'r2',
+					stack: 'rails',
+					status: 'failed',
+					agent_seconds: null
+				})
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).toContain('The top two stacks tied at 100%');
+		expect(text).not.toContain('The compared stacks had the same pass rate');
+	});
+
+	it('reports insufficient trials without claiming the setups are incompatible', () => {
+		const insights = runInsights(
+			[
+				trial({ trial_id: 'f1', stack: 'fastapi', agent_seconds: null }),
+				trial({ trial_id: 'l1', stack: 'laravel', agent_seconds: null })
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).toContain('In the best-covered setup');
+		expect(text).toContain('fewer than two stacks have at least 2 trials');
+		expect(text).not.toContain('do not share a comparable setup');
+	});
+
+	it('prefers the pass-rate setup with more trials when no setup has two timed stacks', () => {
+		const insights = runInsights(
+			[
+				trial({ trial_id: 'a1', stack: 'fastapi', harness: 'aaa', agent_seconds: 100 }),
+				trial({ trial_id: 'a2', stack: 'fastapi', harness: 'aaa', agent_seconds: 110 }),
+				trial({ trial_id: 'a3', stack: 'laravel', harness: 'aaa', agent_seconds: null }),
+				trial({ trial_id: 'a4', stack: 'laravel', harness: 'aaa', agent_seconds: null }),
+				trial({ trial_id: 'b1', stack: 'fastapi', harness: 'zzz', agent_seconds: null }),
+				trial({ trial_id: 'b2', stack: 'fastapi', harness: 'zzz', agent_seconds: null }),
+				trial({ trial_id: 'b3', stack: 'fastapi', harness: 'zzz', agent_seconds: null }),
+				trial({ trial_id: 'b4', stack: 'laravel', harness: 'zzz', agent_seconds: null }),
+				trial({ trial_id: 'b5', stack: 'laravel', harness: 'zzz', agent_seconds: null }),
+				trial({ trial_id: 'b6', stack: 'laravel', harness: 'zzz', agent_seconds: null })
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).toContain('Within the best-covered comparable setup, zzz + gpt-6-luna via openai');
+		expect(text).not.toContain(
+			'Within the best-covered comparable setup, aaa + gpt-6-luna via openai'
+		);
+	});
+
+	it('does not rank stacks with the same pass rate when timing is missing', () => {
+		const insights = runInsights(
+			[
+				trial({ trial_id: 'f1', stack: 'fastapi', agent_seconds: null }),
+				trial({ trial_id: 'f2', stack: 'fastapi', agent_seconds: null }),
+				trial({ trial_id: 'l1', stack: 'laravel', agent_seconds: null }),
+				trial({ trial_id: 'l2', stack: 'laravel', agent_seconds: null })
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).toContain('both had a 100% pass rate');
+		expect(text).toContain('does not support a stack ranking');
+	});
+
+	it('returns no insights for a run without trials', () => {
+		expect(runInsights([], 'Task')).toEqual([]);
 	});
 });

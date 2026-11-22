@@ -164,7 +164,7 @@ test('client-side navigation keeps working after hydration', async ({ page }) =>
 	await page.getByRole('link', { name: 'Leaderboard', exact: true }).first().click();
 	await expect(page).toHaveURL(/\/leaderboard\/$/);
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Leaderboard');
-	await expect(page).toHaveTitle('Leaderboard · AICSbench');
+	await expect(page).toHaveTitle('AI Coding Benchmark Leaderboard · AICSbench');
 	expect(documents).toEqual([]);
 });
 
