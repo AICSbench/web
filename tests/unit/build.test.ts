@@ -61,6 +61,19 @@ describe('fixture build', () => {
 		expect(html(result.dir, '/methodology/')).toContain('Gateway runs include the gateway');
 	});
 
+	it('summarizes run trials by stack and harness + model, with collapsed trial groups', () => {
+		const run = html(result.dir, '/runs/run-url-001/');
+		expect(run).toContain('Summary by stack');
+		expect(run).toContain('8 trials in 2');
+		expect(run).toContain('fastapi-latest');
+		expect(run).toContain('66.7%');
+		expect(run).toContain('1m 45s');
+		expect(run).toContain('2m 5s');
+		expect(run).toContain('5m 5s');
+		expect(run).toContain('Trials in laravel');
+		expect(run).toMatch(/<details class="stack-group[^"]*">/);
+	});
+
 	it('renders a null mean as "unavailable", never 0', () => {
 		const task = html(result.dir, '/tasks/task-management-api/');
 		const community = task.slice(task.indexOf('community results'));

@@ -24,12 +24,96 @@ test.describe('without JavaScript', () => {
 	test('a run page shows its trials and escaped submitter', async ({ page }) => {
 		await page.goto('/runs/run-community-001/');
 		await expect(page.getByText('<script>alert(1)</script>', { exact: true })).toBeVisible();
-		await expect(page.getByRole('table')).toContainText('trial-002');
+		const group = page.locator('details.stack-group').filter({ hasText: 'laravel' });
+		await group.locator('summary').click();
+		await expect(group.getByRole('table', { name: 'Trials in laravel' })).toContainText(
+			'trial-002'
+		);
 	});
 
 	test('the compare page explains it needs JavaScript', async ({ page }) => {
 		await page.goto('/compare/');
 		await expect(page.locator('#compare-fallback')).toContainText('needs JavaScript');
+	});
+});
+
+test.describe('a run detail grouped by stack', () => {
+	test('summarizes each stack and harness + model combination, then expands trials', async ({
+		page
+	}) => {
+		await page.goto('/runs/run-url-001/');
+		await expect(page.getByText(/8 trials in 2\s+stacks, split into 3/)).toBeVisible();
+		const summary = page.getByRole('table', { name: 'Summary by stack' });
+		await expect(summary).toBeVisible();
+		const rows = summary.getByRole('row');
+		await expect(rows).toHaveCount(4);
+		await expect(rows.nth(1)).toContainText('fastapi-latest');
+		await expect(rows.nth(1)).toContainText('claude');
+		await expect(rows.nth(1)).toContainText('claude-opus-5-5');
+		await expect(rows.nth(1)).toContainText('66.7%');
+		await expect(rows.nth(1)).toContainText('1m 45s');
+		await expect(rows.nth(2)).toContainText('codex');
+		await expect(rows.nth(2)).toContainText('100%');
+		await expect(rows.nth(2)).toContainText('2m 5s');
+		await expect(rows.nth(3)).toContainText('laravel');
+		await expect(rows.nth(3)).toContainText('5m 5s');
+
+		const groups = page.locator('details.stack-group');
+		await expect(groups).toHaveCount(2);
+		const fastapi = groups.filter({ hasText: 'fastapi-latest' }).first();
+		const laravel = groups.filter({ hasText: 'laravel' }).first();
+		await expect(fastapi).toHaveJSProperty('open', false);
+		await expect(laravel).toHaveJSProperty('open', false);
+
+		await fastapi.locator('summary').click();
+		await expect(fastapi).toHaveJSProperty('open', true);
+		const trials = fastapi.getByRole('table', { name: 'Trials in fastapi-latest' });
+		await expect(trials).toBeVisible();
+		await expect(trials.getByRole('row')).toHaveCount(7);
+		await expect(trials).toContainText('trial-006');
+		await expect(trials).toContainText('rate-limited');
+		await expect(trials).toContainText('2m 30s');
+		await expect(trials).toContainText('$0.20');
+		await expect(laravel).toHaveJSProperty('open', false);
+
+		await laravel.locator('summary').click();
+		const laravelTrials = laravel.getByRole('table', { name: 'Trials in laravel' });
+		await expect(laravelTrials).toBeVisible();
+		await expect(laravelTrials.getByRole('row')).toHaveCount(3);
+
+		await fastapi.locator('summary').click();
+		await expect(fastapi).toHaveJSProperty('open', false);
+		await expect(trials).toBeHidden();
+	});
+
+	test('keeps harness + model combinations separate inside one stack', async ({ page }) => {
+		await page.goto('/runs/run-notes-001/');
+		await expect(page.getByText(/7 trials in 1\s+stack, split into 2/)).toBeVisible();
+		const summary = page.getByRole('table', { name: 'Summary by stack' });
+		const rows = summary.getByRole('row');
+		await expect(rows).toHaveCount(3);
+		await expect(rows.nth(1)).toContainText('fastapi-latest');
+		await expect(rows.nth(1)).toContainText('claude');
+		await expect(rows.nth(1)).toContainText('claude-opus-5-5');
+		await expect(rows.nth(1)).toContainText('100%');
+		await expect(rows.nth(1)).toContainText('10m 17s');
+		await expect(rows.nth(2)).toContainText('codex');
+		await expect(rows.nth(2)).toContainText('gpt-6-luna');
+		await expect(rows.nth(2)).toContainText('8m 35s');
+
+		const group = page.locator('details.stack-group');
+		await expect(group).toHaveCount(1);
+		await group.locator('summary').click();
+		await expect(group.getByRole('row')).toHaveCount(8);
+	});
+
+	test('shows unavailable when no passed trial has a timing', async ({ page }) => {
+		await page.goto('/runs/run-misc-001/');
+		const summary = page.getByRole('table', { name: 'Summary by stack' });
+		const row = summary.getByRole('row').nth(1);
+		await expect(row).toContainText('100%');
+		await expect(row).toContainText('unavailable');
+		await expect(row).not.toContainText('0s');
 	});
 });
 
