@@ -11,29 +11,25 @@ export interface ModelIndexEntry {
 	results: ModelResults;
 }
 
-function indexDescription(): string {
-	return 'Official specifications and maker list prices for supported AI models, with verified AICSbench results kept separate.';
-}
-
-function profileDescription(model: ModelEntry): string {
-	return `${model.displayName} by ${model.maker}: official specifications and list prices, plus verified AICSbench results when available.`;
-}
-
 export function modelIndexData() {
 	const site = loadExport();
 	const path = '/models/';
+	const title = 'AI Coding Models: Specs, Pricing & Benchmarks';
+	const description =
+		'Explore AI coding model profiles with official context windows and API list prices. See verified AICSbench results by agent and stack where available.';
 	return {
 		models: MODEL_CATALOG.map((model) => ({
 			model,
 			results: summarizeModelResults(model, site.trials)
 		})) satisfies ModelIndexEntry[],
 		canonical: absolute(path),
-		description: indexDescription(),
+		title,
+		description,
 		jsonLd: {
 			'@context': 'https://schema.org',
 			'@type': 'CollectionPage',
-			name: 'Models',
-			description: indexDescription(),
+			name: title,
+			description,
 			url: absolute(path)
 		}
 	};
@@ -42,16 +38,19 @@ export function modelIndexData() {
 export function modelProfileData(model: ModelEntry) {
 	const site = loadExport();
 	const path = `/models/${model.slug}/`;
-	const description = profileDescription(model);
+	const results = summarizeModelResults(model, site.trials);
+	const title = `${model.displayName}: Specs, Pricing & Coding Benchmarks`;
+	const description = `Explore ${model.displayName} by ${model.maker}: official context window, API list pricing, and verified AI coding benchmark results where available.`;
 	return {
 		model,
-		results: summarizeModelResults(model, site.trials),
+		results,
 		canonical: absolute(path),
+		title,
 		description,
 		jsonLd: {
 			'@context': 'https://schema.org',
 			'@type': 'WebPage',
-			name: `${model.displayName} model profile`,
+			name: title,
 			description,
 			url: absolute(path),
 			about: { '@type': 'Thing', name: model.displayName },

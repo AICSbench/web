@@ -124,6 +124,37 @@ describe('fixture build', () => {
 		expect(run).toMatch(/<details class="stack-group[^"]*">/);
 	});
 
+	it('writes prerendered benchmark insights that only compare like-for-like trials', () => {
+		const run = html(result.dir, '/runs/run-url-001/');
+		expect(run).toContain('<h2 id="benchmark-insights">Benchmark Insights</h2>');
+		expect(run).toContain(
+			'Within the best-covered comparable setup (codex + gpt-6-luna via openai)'
+		);
+		expect(run).toContain('fastapi-latest recorded the lowest mean agent time at 2m 5s');
+		expect(run).toContain('versus 5m 5s for laravel');
+		expect(run).toContain(
+			'The comparison covers 2 stacks with at least 2 timed passing trials each.'
+		);
+		expect(run).toContain('directional rather than a confident ranking');
+
+		const description = attr(run, /<meta name="description" content="([^"]+)"/);
+		const jsonLd = JSON.parse(jsonLdBlocks(run)[0]) as { name: string; description: string };
+		expect(jsonLd.name).toContain('URL Shortener API Benchmark');
+		expect(jsonLd.description).toBe(description);
+
+		const verified = html(result.dir, '/runs/run-verified-001/');
+		expect(verified).toContain('This run covers a single stack, fastapi');
+		expect(verified).not.toContain('lowest mean agent time');
+
+		const community = html(result.dir, '/runs/run-community-001/');
+		expect(community).toContain('2 community trials');
+		expect(community).toContain('0 of 2 trials passed (0% pass rate)');
+		expect(community).not.toContain('verified trials');
+
+		const untimed = html(result.dir, '/runs/run-misc-001/');
+		expect(untimed).toContain('No passed trial recorded a usable agent time');
+	});
+
 	it('renders a null mean as "unavailable", never 0', () => {
 		const task = html(result.dir, '/tasks/task-management-api/');
 		const community = task.slice(task.indexOf('community results'));
@@ -182,6 +213,22 @@ describe('fixture build', () => {
 			expect(data['@type']).toBe(path === '/models/' ? 'CollectionPage' : 'WebPage');
 		}
 		expect(titles.size).toBe(modelPaths().length);
+	});
+
+	it.each([
+		[
+			'/tasks/url-shortener-api/stacks/laravel/',
+			'laravel Stack Benchmark on URL Shortener API',
+			'agent runtimes'
+		],
+		['/models/gpt-6-luna/', 'GPT-6 Luna: Specs, Pricing', 'official context window'],
+		['/runs/run-community-001/', 'Task Management REST API Benchmark', 'community trials']
+	])('describes the contents of %s in prerendered metadata', (path, title, description) => {
+		const doc = html(result.dir, path);
+		const meta = attr(doc, /<meta name="description" content="([^"]+)"/);
+		expect(attr(doc, /<title>([^<]*)<\/title>/)).toContain(title);
+		expect(meta).toContain(description);
+		expect(attr(doc, /<meta property="og:description" content="([^"]+)"/)).toBe(meta);
 	});
 
 	it('writes a sitemap with every page and a robots.txt that points at it', () => {
@@ -318,7 +365,7 @@ describe('edge-case build', () => {
 		expect(block).not.toMatch(/[<>&]/);
 		expect(block).toContain('\\u003c/script\\u003e');
 		expect((JSON.parse(block) as { name: string }).name).toBe(
-			'Evil </script><script>alert(2)</script> & co'
+			'Evil </script><script>alert(2)</script> & co Benchmark'
 		);
 		expect(attr(doc, /<title>([^<]*)<\/title>/)).toContain('&lt;/script>');
 	});

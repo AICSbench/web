@@ -14,6 +14,7 @@
 	}: {
 		data: {
 			page: Page;
+			seo: { title: string; description: string };
 			canonical: string;
 			jsonLd: object;
 			providers?: Record<string, string>[];
@@ -34,8 +35,8 @@
 </script>
 
 <SeoHead
-	title={page.path === '/' ? page.title : `${page.title} · AICSbench`}
-	description={page.description}
+	title={`${data.seo.title} · AICSbench`}
+	description={data.seo.description}
 	canonical={data.canonical}
 	jsonLd={data.jsonLd}
 />

@@ -1,4 +1,4 @@
-import { groupRunTrials } from '#lib/run-summary.ts';
+import { groupRunTrials, runInsights } from '#lib/run-summary.ts';
 import { entriesFor, pageData } from '#lib/server/pages.ts';
 import type { EntryGenerator, PageServerLoad } from './$types';
 
@@ -7,5 +7,9 @@ export const entries: EntryGenerator = () => entriesFor('run') as ReturnType<Ent
 export const load: PageServerLoad = ({ params }) => {
 	const data = pageData('run', params);
 	const run = data.run;
-	return { ...data, run: run ? { ...run, groups: groupRunTrials(run.trials) } : null };
+	return {
+		...data,
+		run: run ? { ...run, groups: groupRunTrials(run.trials) } : null,
+		insights: run ? runInsights(run.trials, data.taskName) : []
+	};
 };

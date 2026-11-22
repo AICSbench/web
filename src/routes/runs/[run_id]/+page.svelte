@@ -126,6 +126,17 @@
 		</div>
 	</section>
 
+	{#if data.insights.length > 0}
+		<section aria-labelledby="benchmark-insights">
+			<h2 id="benchmark-insights">Benchmark Insights</h2>
+			<div class="prose">
+				{#each data.insights as paragraph, index (index)}
+					<p>{paragraph}</p>
+				{/each}
+			</div>
+		</section>
+	{/if}
+
 	<section aria-labelledby="trials">
 		<h2 id="trials">Trials by stack</h2>
 		<p class="sub">Expand a stack to see its individual trials.</p>
