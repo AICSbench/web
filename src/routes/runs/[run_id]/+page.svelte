@@ -13,6 +13,7 @@
 	const groups = $derived(run.groups);
 	const combinations = $derived(groups.reduce((count, group) => count + group.rows.length, 0));
 	const tokens = (n: number) => n.toLocaleString('en-US');
+	const meanTokens = (n: number) => tokens(Math.round(n));
 </script>
 
 <PageView {data}>
@@ -81,7 +82,8 @@
 			{combinations === 1
 				? 'stack + harness + model combination'
 				: 'stack + harness + model combinations'}. Each combination has its own row. Mean agent time
-			covers timed passed trials; rate-limited trials are excluded.
+			covers timed passed trials; rate-limited trials are excluded. Mean total tokens includes all
+			trials with recorded token usage, regardless of outcome.
 		</p>
 		<!-- A scrollable region must be focusable so keyboard users can scroll it (WCAG 2.1.1). -->
 		<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
@@ -96,6 +98,7 @@
 						<th scope="col" class="num">Passed</th>
 						<th scope="col" class="num">Pass rate</th>
 						<th scope="col" class="num">Mean agent time</th>
+						<th scope="col" class="num">Mean total tokens</th>
 					</tr>
 				</thead>
 				{#each groups as group (group.stack)}
@@ -117,6 +120,10 @@
 									{#if row.mean_agent_seconds !== null}
 										<span class="sub">({row.timed} timed)</span>
 									{/if}
+								</td>
+								<td class="num">
+									<Metric value={row.mean_total_tokens} format={meanTokens} />
+									<span class="sub">({row.token_samples}/{row.trials} recorded)</span>
 								</td>
 							</tr>
 						{/each}

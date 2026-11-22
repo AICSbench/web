@@ -129,6 +129,19 @@ describe('groupRunTrials', () => {
 		});
 	});
 
+	it('averages recorded token usage across outcomes and keeps missing usage separate from zero', () => {
+		const [group] = groupRunTrials([
+			trial({ total_tokens: 100 }),
+			trial({ status: 'failed', total_tokens: 350 }),
+			trial({ status: 'rate_limited', rate_limited: true, total_tokens: 0 }),
+			trial(),
+			trial({ model: 'other-model' })
+		]);
+
+		expect(group.rows[0]).toMatchObject({ trials: 4, token_samples: 3, mean_total_tokens: 150 });
+		expect(group.rows[1]).toMatchObject({ trials: 1, token_samples: 0, mean_total_tokens: null });
+	});
+
 	it('returns no groups for a run without trials', () => {
 		expect(groupRunTrials([])).toEqual([]);
 	});

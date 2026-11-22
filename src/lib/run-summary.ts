@@ -13,6 +13,8 @@ export interface RunSummaryRow {
 	/** Passed trials with a usable agent time (rate-limited trials do not count). */
 	timed: number;
 	mean_agent_seconds: number | null;
+	token_samples: number;
+	mean_total_tokens: number | null;
 }
 
 export interface RunStackGroup {
@@ -53,6 +55,9 @@ export function groupRunTrials(trials: TrialRow[]): RunStackGroup[] {
 					const times = passedTrials
 						.filter((trial) => !trial.rate_limited && trial.agent_seconds !== null)
 						.map((trial) => trial.agent_seconds as number);
+					const tokens = combination
+						.map((trial) => trial.total_tokens)
+						.filter((total) => total !== null);
 					return {
 						stack,
 						harness: combination[0].harness,
@@ -64,7 +69,12 @@ export function groupRunTrials(trials: TrialRow[]): RunStackGroup[] {
 						mean_agent_seconds:
 							times.length === 0
 								? null
-								: times.reduce((sum, seconds) => sum + seconds, 0) / times.length
+								: times.reduce((sum, seconds) => sum + seconds, 0) / times.length,
+						token_samples: tokens.length,
+						mean_total_tokens:
+							tokens.length === 0
+								? null
+								: tokens.reduce((sum, total) => sum + total, 0) / tokens.length
 					};
 				})
 				.sort((a, b) => compareText(a.harness, b.harness) || compareText(a.model, b.model));
