@@ -128,7 +128,7 @@ describe('fixture build', () => {
 		const run = html(result.dir, '/runs/run-url-001/');
 		expect(run).toContain('<h2 id="benchmark-insights">Benchmark Insights</h2>');
 		expect(run).toContain(
-			'Within the best-covered comparable setup (codex + gpt-6-luna via openai)'
+			'Within the best-covered comparable setup, codex + gpt-6-luna via openai'
 		);
 		expect(run).toContain('fastapi-latest recorded the lowest mean agent time at 2m 5s');
 		expect(run).toContain('versus 5m 5s for laravel');

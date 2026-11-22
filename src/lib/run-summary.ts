@@ -125,10 +125,16 @@ function setupKey(trial: TrialRow): string {
 	]);
 }
 
-function setupLabel(trials: readonly TrialRow[]): string {
+function setupBaseLabel(trials: readonly TrialRow[]): string {
 	const first = trials[0];
 	const provider = first.provider ? ` via ${first.provider}` : '';
 	return `${first.harness} + ${first.model}${provider}`;
+}
+
+/** Configuration details that keep two otherwise identical setup labels apart. */
+function setupDetail(trials: readonly TrialRow[]): string {
+	const first = trials[0];
+	return ` (harness ${first.harness_version ?? 'version unknown'}; agent ${first.agent}; requested ${first.requested_model ?? first.model}; provider ${first.provider ?? 'none'}; effort ${first.reasoning_effort ?? 'default'}; auth ${first.auth_mode}; tooling ${first.tooling_mode}; repairs ${first.max_repairs}; parallel ${first.max_parallel}; endpoint ${first.endpoint_host ?? 'default'})`;
 }
 
 function stackInsight(stack: string, trials: readonly TrialRow[]): StackInsight {
@@ -155,8 +161,16 @@ function setupInsights(trials: readonly TrialRow[]): SetupInsight[] {
 		else bySetup.set(key, [trial]);
 	}
 
-	return [...bySetup.values()]
-		.map((rows) => {
+	const groups = [...bySetup.values()];
+	const baseLabels = groups.map(setupBaseLabel);
+	const labelCounts = new Map<string, number>();
+	for (const label of baseLabels) {
+		labelCounts.set(label, (labelCounts.get(label) ?? 0) + 1);
+	}
+
+	return groups
+		.map((rows, index) => {
+			const base = baseLabels[index];
 			const byStack = new Map<string, TrialRow[]>();
 			for (const row of rows) {
 				const group = byStack.get(row.stack);
@@ -170,7 +184,7 @@ function setupInsights(trials: readonly TrialRow[]): SetupInsight[] {
 				.filter((row) => row.status === 'passed' && !row.rate_limited && row.agent_seconds !== null)
 				.map((row) => row.agent_seconds as number);
 			return {
-				label: setupLabel(rows),
+				label: (labelCounts.get(base) ?? 0) > 1 ? `${base}${setupDetail(rows)}` : base,
 				trials: rows,
 				stacks,
 				timed: times.length,
@@ -244,9 +258,17 @@ export function runInsights(trials: readonly TrialRow[], taskName: string): stri
 	const withRates = setups.filter(
 		(setup) => setup.stacks.filter((stack) => stack.trials >= MIN_TIMED).length >= 2
 	);
-	const primary = (
-		withTiming.length > 0 ? withTiming : withRates.length > 0 ? withRates : setups
-	)[0];
+	const primary =
+		withTiming.length > 0
+			? withTiming[0]
+			: withRates.length > 0
+				? [...withRates].sort(
+						(a, b) =>
+							b.trials.length - a.trials.length ||
+							b.stacks.length - a.stacks.length ||
+							compareText(a.label, b.label)
+					)[0]
+				: setups[0];
 	const paragraphs = [summary];
 
 	if (withTiming.length > 0) {
@@ -261,9 +283,13 @@ export function runInsights(trials: readonly TrialRow[], taskName: string): stri
 		const runnerUp = timedStacks[1];
 		const confident = timedStacks.every((stack) => stack.timed >= CONFIDENT_TIMED);
 		paragraphs.push(
-			`Within the best-covered comparable setup (${primary.label}), ${fastest.stack} recorded the lowest mean agent time at ${duration(fastest.mean_agent_seconds as number)} across ${plural(fastest.timed, 'timed passing trial')}, versus ${duration(runnerUp.mean_agent_seconds as number)} for ${runnerUp.stack} (${plural(runnerUp.timed, 'timed passing trial')}). The comparison covers ${plural(timedStacks.length, 'stack')} with at least ${plural(MIN_TIMED, 'timed passing trial')} each. ${fastest.stack} passed ${fastest.passed} of ${fastest.trials} ${fastest.trials === 1 ? 'trial' : 'trials'} (${percent(passRate(fastest))} pass rate), while ${runnerUp.stack} passed ${runnerUp.passed} of ${runnerUp.trials} (${percent(passRate(runnerUp))} pass rate).`
+			`Within the best-covered comparable setup, ${primary.label}, ${fastest.stack} recorded the lowest mean agent time at ${duration(fastest.mean_agent_seconds as number)} across ${plural(fastest.timed, 'timed passing trial')}, versus ${duration(runnerUp.mean_agent_seconds as number)} for ${runnerUp.stack} (${plural(runnerUp.timed, 'timed passing trial')}). The comparison covers ${plural(timedStacks.length, 'stack')} with at least ${plural(MIN_TIMED, 'timed passing trial')} each. ${fastest.stack} passed ${fastest.passed} of ${fastest.trials} ${fastest.trials === 1 ? 'trial' : 'trials'} (${percent(passRate(fastest))} pass rate), while ${runnerUp.stack} passed ${runnerUp.passed} of ${runnerUp.trials} (${percent(passRate(runnerUp))} pass rate).`
 		);
 
+		const samePassRate = timedStacks.every((stack) => passRate(stack) === passRate(fastest));
+		const sameTime = timedStacks.every(
+			(stack) => stack.mean_agent_seconds === fastest.mean_agent_seconds
+		);
 		const bestRate = Math.max(...timedStacks.map(passRate));
 		if (passRate(fastest) < bestRate) {
 			const best = timedStacks
@@ -272,9 +298,11 @@ export function runInsights(trials: readonly TrialRow[], taskName: string): stri
 			paragraphs.push(
 				`The trade-off is reliability: ${best.stack} passed ${best.passed} of ${best.trials} trials (${percent(passRate(best))}), while ${fastest.stack} passed ${fastest.passed} of ${fastest.trials} (${percent(passRate(fastest))}).`
 			);
-		} else if (timedStacks.every((stack) => passRate(stack) === passRate(fastest))) {
+		} else if (samePassRate) {
 			paragraphs.push(
-				`The compared stacks had the same ${percent(passRate(fastest))} pass rate, so the difference is time rather than reliability.`
+				sameTime
+					? `The compared stacks had the same ${percent(passRate(fastest))} pass rate and mean agent time, so the run does not separate them.`
+					: `The compared stacks had the same ${percent(passRate(fastest))} pass rate, so the difference is time rather than reliability.`
 			);
 		} else {
 			paragraphs.push(`${fastest.stack} also had the best pass rate among the compared stacks.`);
@@ -282,43 +310,49 @@ export function runInsights(trials: readonly TrialRow[], taskName: string): stri
 
 		if (!confident) {
 			paragraphs.push(
-				`With fewer than ${plural(CONFIDENT_TIMED, 'timed passing trial')} on the smallest sample, the time gap is directional rather than a confident ranking.`
+				sameTime && samePassRate
+					? `With fewer than ${plural(CONFIDENT_TIMED, 'timed passing trial')} on the smallest sample, the run does not establish a difference.`
+					: `With fewer than ${plural(CONFIDENT_TIMED, 'timed passing trial')} on the smallest sample, the comparison is directional rather than a confident ranking.`
 			);
 		}
 	} else if (withRates.length > 0) {
 		const comparableStacks = primary.stacks.filter((stack) => stack.trials >= MIN_TIMED);
-		if (comparableStacks.length >= 2) {
-			const ranked = [...comparableStacks].sort(
-				(a, b) => passRate(b) - passRate(a) || compareText(a.stack, b.stack)
-			);
-			const best = ranked[0];
-			const runnerUp = ranked[1];
-			const tied = passRate(best) === passRate(runnerUp);
-			const lead = tied
-				? `${best.stack} and ${runnerUp.stack} both had a ${percent(passRate(best))} pass rate (${best.passed}/${best.trials} and ${runnerUp.passed}/${runnerUp.trials})`
-				: `${best.stack} had the highest pass rate at ${percent(passRate(best))} (${best.passed}/${best.trials}), compared with ${percent(passRate(runnerUp))} (${runnerUp.passed}/${runnerUp.trials}) for ${runnerUp.stack}`;
+		const ranked = [...comparableStacks].sort(
+			(a, b) => passRate(b) - passRate(a) || compareText(a.stack, b.stack)
+		);
+		const best = ranked[0];
+		const runnerUp = ranked[1];
+		const topTied = passRate(best) === passRate(runnerUp);
+		const allTied = comparableStacks.every((stack) => passRate(stack) === passRate(best));
+		const lead = topTied
+			? `${best.stack} and ${runnerUp.stack} both had a ${percent(passRate(best))} pass rate (${best.passed}/${best.trials} and ${runnerUp.passed}/${runnerUp.trials})`
+			: `${best.stack} had the highest pass rate at ${percent(passRate(best))} (${best.passed}/${best.trials}), compared with ${percent(passRate(runnerUp))} (${runnerUp.passed}/${runnerUp.trials}) for ${runnerUp.stack}`;
+		const timingNote = primary.stacks.some((stack) => stack.timed >= MIN_TIMED)
+			? `Only one stack in this setup has at least ${plural(MIN_TIMED, 'timed passing trial')}, so no mean agent time is compared across stacks.`
+			: `No stack in this setup has at least ${plural(MIN_TIMED, 'timed passing trial')}, so no mean agent time is compared.`;
+		paragraphs.push(
+			`Within the best-covered comparable setup, ${primary.label}, ${plural(comparableStacks.length, 'stack')} have at least ${plural(MIN_TIMED, 'trial')}. ${lead}. ${timingNote}`
+		);
+		if (allTied) {
 			paragraphs.push(
-				`Within the best-covered comparable setup (${primary.label}), ${plural(comparableStacks.length, 'stack')} have at least ${plural(MIN_TIMED, 'trial')}. ${lead}. No stack in this setup has at least ${plural(MIN_TIMED, 'timed passing trial')}, so no mean agent time is compared.`
+				`The compared stacks had the same pass rate, so the run does not support a stack ranking.`
 			);
-			if (tied) {
-				paragraphs.push(
-					`The compared stacks had the same pass rate, so the run does not support a stack ranking.`
-				);
-			} else {
-				paragraphs.push(
-					`Treat this pass-rate gap as directional until the stacks have more trials.`
-				);
-			}
+		} else if (topTied) {
+			paragraphs.push(
+				`The top two stacks tied at ${percent(passRate(best))}, but the other compared stacks had lower pass rates; treat the ordering as directional until the stacks have more trials.`
+			);
 		} else {
-			paragraphs.push(
-				`No two stacks in this run share the same task, version, acceptance suite, harness, model, provider and agent configuration with at least ${plural(MIN_TIMED, 'trial')}, so the run does not support a stack ranking.`
-			);
-			paragraphs.push(`The best-covered setup is ${primary.label}, which ${setupResult(primary)}.`);
+			paragraphs.push(`Treat this pass-rate gap as directional until the stacks have more trials.`);
 		}
 	} else if (stacks === 1) {
 		paragraphs.push(
 			`This run covers a single stack, ${primary.stacks[0].stack}, so there is no stack comparison. ${primary.label} ${setupResult(primary)}.`
 		);
+	} else if (primary.stacks.length >= 2) {
+		paragraphs.push(
+			`In the best-covered setup, ${primary.label}, fewer than two stacks have at least ${plural(MIN_TIMED, 'trial')}, so the run does not support a stack ranking.`
+		);
+		paragraphs.push(`${primary.label} ${setupResult(primary)}.`);
 	} else {
 		paragraphs.push(
 			`The run's ${plural(stacks, 'stack')} do not share a comparable setup, so no stack comparison is drawn. The best-covered setup is ${primary.label}, which ${setupResult(primary)}.`
