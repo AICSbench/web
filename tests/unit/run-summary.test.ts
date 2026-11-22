@@ -409,6 +409,68 @@ describe('runInsights', () => {
 		expect(new Set(labels).size).toBe(2);
 	});
 
+	it('keeps a missing requested model distinct from an explicit one', () => {
+		const insights = runInsights(
+			[
+				trial({
+					trial_id: 'a1',
+					stack: 'fastapi',
+					requested_model: null,
+					agent_seconds: 100
+				}),
+				trial({
+					trial_id: 'a2',
+					stack: 'fastapi',
+					requested_model: null,
+					agent_seconds: 110
+				}),
+				trial({
+					trial_id: 'a3',
+					stack: 'laravel',
+					requested_model: null,
+					agent_seconds: 200
+				}),
+				trial({
+					trial_id: 'a4',
+					stack: 'laravel',
+					requested_model: null,
+					agent_seconds: 210
+				}),
+				trial({
+					trial_id: 'b1',
+					stack: 'fastapi',
+					requested_model: 'gpt-6-luna',
+					agent_seconds: 100
+				}),
+				trial({
+					trial_id: 'b2',
+					stack: 'fastapi',
+					requested_model: 'gpt-6-luna',
+					agent_seconds: 110
+				}),
+				trial({
+					trial_id: 'b3',
+					stack: 'laravel',
+					requested_model: 'gpt-6-luna',
+					agent_seconds: 200
+				}),
+				trial({
+					trial_id: 'b4',
+					stack: 'laravel',
+					requested_model: 'gpt-6-luna',
+					agent_seconds: 210
+				})
+			],
+			'Task'
+		);
+		const text = insights.join('\n');
+
+		expect(text).toContain('requested not recorded');
+		expect(text).toContain('requested gpt-6-luna');
+		const labels = text.match(/codex \+ gpt-6-luna via openai \([^)]*\)/g) ?? [];
+		expect(new Set(labels).size).toBe(2);
+	});
+
 	it('says only one stack has timed samples instead of claiming none do', () => {
 		const insights = runInsights(
 			[

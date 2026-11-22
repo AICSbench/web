@@ -134,7 +134,7 @@ function setupBaseLabel(trials: readonly TrialRow[]): string {
 /** Configuration details that keep two otherwise identical setup labels apart. */
 function setupDetail(trials: readonly TrialRow[]): string {
 	const first = trials[0];
-	return ` (harness ${first.harness_version ?? 'version unknown'}; agent ${first.agent}; requested ${first.requested_model ?? first.model}; provider ${first.provider ?? 'none'}; effort ${first.reasoning_effort ?? 'default'}; auth ${first.auth_mode}; tooling ${first.tooling_mode}; repairs ${first.max_repairs}; parallel ${first.max_parallel}; endpoint ${first.endpoint_host ?? 'default'})`;
+	return ` (harness ${first.harness_version ?? 'version unknown'}; agent ${first.agent}; requested ${first.requested_model ?? 'not recorded'}; provider ${first.provider ?? 'none'}; effort ${first.reasoning_effort ?? 'default'}; auth ${first.auth_mode}; tooling ${first.tooling_mode}; repairs ${first.max_repairs}; parallel ${first.max_parallel}; endpoint ${first.endpoint_host ?? 'default'})`;
 }
 
 function stackInsight(stack: string, trials: readonly TrialRow[]): StackInsight {
