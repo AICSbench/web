@@ -239,9 +239,10 @@
 							</td>
 							<td data-label="Runs and compare">
 								{#each group.runs as run, index (run)}
+									{@const runPath = data.runPaths.get(run)}
 									{#if index > 0}<br />{/if}
 									<span class="nowrap">
-										<Link path={`/runs/${encodeURIComponent(run)}/`}>{run}</Link>
+										{#if runPath}<Link path={runPath}>{run}</Link>{:else}{run}{/if}
 									</span>
 								{/each}
 								{#if group.compareHref}
