@@ -39,6 +39,19 @@
 			</dd>
 		</dl>
 
+		<h2 id="prices-and-estimates">Prices and estimates</h2>
+		<p>
+			<Link path="/models/">Model profiles</Link> show the maker's published list prices for input, cached
+			input and output tokens, with the pricing tier and the date checked. They are not gateway or subscription
+			prices, and they are not AICSbench results.
+		</p>
+		<p>
+			Reports and exports may show a separate <code>estimated_api_cost_usd</code>. That estimate
+			uses a dated OpenRouter base-rate snapshot (prompt, completion and cache-read rates) as a
+			fixed comparison baseline; it is not a maker price or a bill. The two values are labelled
+			separately and are never mixed.
+		</p>
+
 		<h2>Comparability</h2>
 		<p>
 			Results are only compared when they share the task and task version, tooling mode, auth mode,

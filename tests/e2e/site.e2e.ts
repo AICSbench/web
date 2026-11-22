@@ -35,6 +35,21 @@ test.describe('without JavaScript', () => {
 		await page.goto('/compare/');
 		await expect(page.locator('#compare-fallback')).toContainText('needs JavaScript');
 	});
+
+	test('a model profile shows official facts and an empty results state', async ({ page }) => {
+		await page.goto('/models/');
+		await expect(page.getByRole('heading', { level: 1 })).toHaveText('Models');
+		await expect(page.getByRole('link', { name: 'GPT-6 Luna' })).toBeVisible();
+		await page.getByRole('link', { name: 'GPT-6 Luna' }).click();
+		await expect(page.getByRole('heading', { level: 1 })).toHaveText('GPT-6 Luna');
+		await expect(page.getByRole('heading', { name: 'Official specifications' })).toBeVisible();
+		await expect(page.getByRole('heading', { name: 'Official pricing' })).toBeVisible();
+		await expect(page.getByText('18 of 20 verified trials passed')).toBeVisible();
+
+		await page.goto('/models/deepseek-v4.1-flash/');
+		await expect(page.getByText('No verified results yet.')).toBeVisible();
+		await expect(page.getByText('$0.30', { exact: true })).toBeVisible();
+	});
 });
 
 test.describe('a run detail grouped by stack', () => {
@@ -162,6 +177,55 @@ test('the skip link moves keyboard focus to the main content', async ({ page }) 
 	await page.keyboard.press('Tab');
 	const focused = await page.evaluate(() => !!document.activeElement?.closest('main'));
 	expect(focused).toBe(true);
+});
+
+test('a profile Compare link opens the preselected comparison', async ({ page }) => {
+	await page.goto('/models/gpt-6-luna/');
+	const link = page.getByRole('link', { name: 'Compare this group' }).first();
+	await expect(link).toBeVisible();
+	await link.click();
+	await expect(page).toHaveURL(/\/compare\/\?task=auth-api&/);
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Compare results');
+	const table = page.getByRole('table');
+	await expect(table).toBeVisible();
+	await expect(table).toContainText('codex + gpt-6-luna');
+	await expect(table).toContainText('3/3');
+});
+
+test('a task model page links to its profile only when one exists', async ({ page }) => {
+	await page.goto('/tasks/task-management-api/models/gpt-6-luna/');
+	await page.getByRole('link', { name: 'Model profile: GPT-6 Luna' }).click();
+	await expect(page).toHaveURL(/\/models\/gpt-6-luna\/$/);
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText('GPT-6 Luna');
+
+	await page.goto('/tasks/task-management-api/models/claude-opus-5-5/');
+	await expect(page.getByText('Model profile:')).toHaveCount(0);
+});
+
+test('a model profile fits a phone viewport without page overflow', async ({ page }) => {
+	await page.setViewportSize({ width: 375, height: 812 });
+	await page.goto('/models/gpt-6-luna/');
+	await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+	await expect(page.getByRole('table').filter({ hasText: 'Runs and compare' })).toBeVisible();
+	const overflow = await page.evaluate(
+		() => document.documentElement.scrollWidth - document.documentElement.clientWidth
+	);
+	expect(overflow).toBe(0);
+});
+
+test('hydrates a profile with groups that differ only in repair budget', async ({ page }) => {
+	const errors: string[] = [];
+	page.on('pageerror', (error) => errors.push(error.message));
+	await page.goto('/models/glm-5.3-flash/', { waitUntil: 'networkidle' });
+	await expect(page.getByText('2 of 2 verified trials passed')).toBeVisible();
+	const groups = page
+		.getByRole('row')
+		.filter({ hasText: 'misc-api v1' })
+		.filter({ hasText: 'codex' });
+	await expect(groups).toHaveCount(2);
+	await expect(groups.filter({ hasText: '0 repairs' })).toHaveCount(1);
+	await expect(groups.filter({ hasText: '1 repairs' })).toHaveCount(1);
+	expect(errors).toEqual([]);
 });
 
 test.describe('the compare page', () => {

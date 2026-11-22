@@ -26,6 +26,25 @@ export function usd(value: number): string {
 	return value < 0.01 && value > 0 ? `$${value.toFixed(4)}` : `$${value.toFixed(2)}`;
 }
 
+const perMillionFormat = new Intl.NumberFormat('en-US', {
+	style: 'currency',
+	currency: 'USD',
+	minimumFractionDigits: 2,
+	maximumFractionDigits: 4
+});
+
+/** A maker's USD rate per million tokens: 0.1 -> "$0.10", 0.003 -> "$0.003". */
+export function usdPerMillion(value: number): string {
+	return perMillionFormat.format(value);
+}
+
+const tokenFormat = new Intl.NumberFormat('en-US');
+
+/** 1050000 -> "1,050,000". */
+export function tokens(value: number): string {
+	return tokenFormat.format(value);
+}
+
 /** "2026-11-19T00:00:00Z" -> "2026-11-19". */
 export function day(iso: string): string {
 	return iso.slice(0, 10);

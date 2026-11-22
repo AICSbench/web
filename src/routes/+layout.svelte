@@ -16,6 +16,7 @@
 	<nav aria-label="Site">
 		<Link path="/"><strong>AICSbench</strong></Link>
 		<Link path="/leaderboard/">Leaderboard</Link>
+		<Link path="/models/">Models</Link>
 		<Link path="/compare/">Compare</Link>
 		<Link path="/methodology/">Methodology</Link>
 	</nav>

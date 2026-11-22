@@ -1,9 +1,11 @@
 <script lang="ts">
 	// One leaderboard section from pages.json, in the order the export gives its rows.
 	import BarChart from './BarChart.svelte';
+	import Link from './Link.svelte';
 	import Metric from './Metric.svelte';
 	import SectionHeader from './SectionHeader.svelte';
 	import { axisLabel, duration, percent, providerLabel, usd } from '#lib/format.ts';
+	import { profileForRowValue } from '#lib/models/catalog.ts';
 	import type { Section } from '#lib/types/export.ts';
 
 	let {
@@ -50,10 +52,17 @@
 				</thead>
 				<tbody>
 					{#each section.rows as row, index (index)}
+						{@const profile = profileForRowValue(section.by, row.value)}
 						<tr>
 							<td class="num">{index + 1}</td>
 							<th scope="row" class="value">
-								{section.by === 'provider' ? providerLabel(row.value) : row.value}
+								{#if profile}
+									<Link path={`/models/${profile.slug}/`}>
+										{section.by === 'provider' ? providerLabel(row.value) : row.value}
+									</Link>
+								{:else}
+									{section.by === 'provider' ? providerLabel(row.value) : row.value}
+								{/if}
 								{#if providers[row.value]}
 									<span class="badge provider">{providerLabel(providers[row.value])}</span>
 								{/if}

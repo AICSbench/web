@@ -2,6 +2,7 @@
 import { existsSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
+import { modelPaths } from '../../src/lib/models/catalog.ts';
 import {
 	FIXTURE,
 	attr,
@@ -33,10 +34,12 @@ describe('fixture build', () => {
 		if (result.status !== 0) throw new Error(result.output);
 	});
 
-	it('prerenders every page in pages.json, and only those', () => {
+	it('prerenders every page in pages.json and every model profile', () => {
 		for (const page of pages)
 			expect(existsSync(join(result.dir, page.path, 'index.html'))).toBe(true);
-		expect(htmlFiles(result.dir)).toHaveLength(pages.length);
+		for (const path of modelPaths())
+			expect(existsSync(join(result.dir, path, 'index.html')), path).toBe(true);
+		expect(htmlFiles(result.dir)).toHaveLength(pages.length + modelPaths().length);
 		expect(new Set(pages.map((page) => page.kind)).size).toBe(9);
 	});
 
@@ -47,6 +50,53 @@ describe('fixture build', () => {
 		expect(task).toContain('Run run-verified-001');
 		expect(html(result.dir, '/runs/run-verified-001/')).toContain('run-verified-001');
 		expect(html(result.dir, '/leaderboard/')).toContain('claude + claude-opus-5-5');
+	});
+
+	it('renders model profiles with official facts and verified results kept separate', () => {
+		const index = html(result.dir, '/models/');
+		expect(index).toContain('GPT-6 Luna');
+		expect(index).toContain('18 / 20 passed');
+		expect(index).toContain('No verified results yet');
+		expect(index).toContain('gateway or subscription prices');
+
+		const luna = html(result.dir, '/models/gpt-6-luna/');
+		expect(luna).toContain('Official specifications');
+		expect(luna).toContain('Official pricing');
+		expect(luna).toContain('1,050,000 tokens');
+		expect(luna).toContain('Text, Image');
+		expect(luna).toContain('$0.10');
+		expect(luna).toContain('$0.01');
+		expect(luna).toContain('$0.50');
+		expect(luna).toContain('18 of 20 verified trials passed');
+		expect(luna).toContain('openai/gpt-6-luna');
+		expect(luna).toContain('Compare this group');
+		expect(luna).toContain('href="../../compare/?task=auth-api');
+
+		const glm = html(result.dir, '/models/glm-5.3-flash/');
+		expect(glm).toContain('GLM-5.3-FlashX is a separate');
+		const glmResults = glm.slice(glm.indexOf('AICSbench results'));
+		expect(glmResults).toContain('No verified results yet.');
+		expect(glmResults).not.toContain('0 of 0');
+		expect(glmResults).not.toContain('0%');
+
+		const deepseek = html(result.dir, '/models/deepseek-v4.1-flash/');
+		expect(deepseek).toContain('Peak (weekday');
+		expect(deepseek).toContain('Off-peak');
+		expect(deepseek).toContain('$0.30');
+		expect(deepseek).toContain('$0.006');
+		expect(deepseek).toContain('$1.20');
+	});
+
+	it('links benchmark views to a profile only when the model maps', () => {
+		const modelPage = html(result.dir, '/tasks/task-management-api/models/gpt-6-luna/');
+		expect(modelPage).toContain('Model profile: GPT-6 Luna');
+		expect(modelPage).toContain('href="../../../../models/gpt-6-luna/"');
+
+		const other = html(result.dir, '/tasks/task-management-api/models/claude-opus-5-5/');
+		expect(other).not.toContain('Model profile:');
+
+		const board = html(result.dir, '/leaderboard/');
+		expect(board).toContain('href="../models/gpt-6-luna/"');
 	});
 
 	it('shows the provider next to a harness + model row and labels legacy trials', () => {
@@ -115,10 +165,33 @@ describe('fixture build', () => {
 		expect(titles.size).toBe(pages.length);
 	});
 
+	it('gives every model page a title, description, canonical URL and JSON-LD', () => {
+		const titles = new Set<string>();
+		for (const path of modelPaths()) {
+			const doc = html(result.dir, path);
+			const title = attr(doc, /<title>([^<]*)<\/title>/);
+			expect(title, path).toBeTruthy();
+			titles.add(title!);
+			expect(attr(doc, /<meta name="description" content="([^"]+)"/), path).toBeTruthy();
+			expect(attr(doc, /<link rel="canonical" href="([^"]+)"/)).toBe(BASE_URL + path.slice(1));
+			const blocks = jsonLdBlocks(doc);
+			expect(blocks, path).toHaveLength(1);
+			const data = JSON.parse(blocks[0]) as Record<string, unknown>;
+			expect(data['@context']).toBe('https://schema.org');
+			expect(data.url).toBe(BASE_URL + path.slice(1));
+			expect(data['@type']).toBe(path === '/models/' ? 'CollectionPage' : 'WebPage');
+		}
+		expect(titles.size).toBe(modelPaths().length);
+	});
+
 	it('writes a sitemap with every page and a robots.txt that points at it', () => {
 		const sitemap = readFileSync(join(result.dir, 'sitemap.xml'), 'utf8');
 		const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-		expect(locs.sort()).toEqual(pages.map((page) => BASE_URL + page.path.slice(1)).sort());
+		const expected = [
+			...pages.map((page) => BASE_URL + page.path.slice(1)),
+			...modelPaths().map((path) => BASE_URL + path.slice(1))
+		];
+		expect(locs.sort()).toEqual(expected.sort());
 		const robots = readFileSync(join(result.dir, 'robots.txt'), 'utf8');
 		expect(robots).toContain('Allow: /');
 		expect(robots).toContain(`Sitemap: ${BASE_URL}sitemap.xml`);
@@ -192,6 +265,22 @@ describe('edge-case build', () => {
 			});
 			// The verified run is newer as an instant but sorts older as a string.
 			json('data/trials.json', (rows) => {
+				const base = rows.find(
+					(row: { task: string; model: string }) =>
+						row.task === 'task-management-api' && row.model === 'gpt-6-luna'
+				);
+				// An OpenCode gateway ID lands on the gpt-6-luna model page after
+				// model_key strips the prefix, but the catalog does not list it.
+				rows.push({
+					...base,
+					trial_id: 'trial-vendor',
+					model: 'vendor/gpt-6-luna',
+					harness: 'opencode',
+					agent: 'opencode',
+					harness_version: '1.19.5',
+					provider: 'vendor',
+					run_id: 'run-vendor-001'
+				});
 				for (const row of rows) {
 					row.submitted_at =
 						row.run_id === 'run-verified-001'
@@ -287,10 +376,23 @@ describe('edge-case build', () => {
 		expect(doc).toContain('href="../../runs/run-verified-001/"');
 		expect(doc).toContain('href="../../_app/');
 	});
+
+	it('links model pages under BASE_PATH with relative URLs', () => {
+		const profile = html(result.dir, '/models/gpt-6-luna/');
+		expect(profile).toContain('href="../../compare/?task=auth-api');
+		expect(profile).toContain('href="../../models/"');
+		const index = html(result.dir, '/models/');
+		expect(index).toContain('href="../models/gpt-6-luna/"');
+	});
+
+	it('omits a model profile link when a raw trial ID is unattributed', () => {
+		const page = html(result.dir, '/tasks/task-management-api/models/gpt-6-luna/');
+		expect(page).not.toContain('Model profile:');
+	});
 });
 
 describe('export without submissions', () => {
-	it('builds only the pages it lists', () => {
+	it('builds the listed pages and the model catalog without inventing results', () => {
 		const dir = editedExport((json) => {
 			json('pages.json', (data) => {
 				data.pages = data.pages
@@ -313,10 +415,14 @@ describe('export without submissions', () => {
 		rmSync(join(dir, 'runs'), { recursive: true });
 		const result = build(dir);
 		expect(result.status, result.output).toBe(0);
-		expect(htmlFiles(result.dir)).toHaveLength(4);
+		expect(htmlFiles(result.dir)).toHaveLength(4 + modelPaths().length);
 		expect(html(result.dir, '/')).toContain('No verified runs yet.');
 		expect(html(result.dir, '/leaderboard/')).toContain('No verified runs yet.');
-		expect(readFileSync(join(result.dir, 'sitemap.xml'), 'utf8').match(/<loc>/g)).toHaveLength(4);
+		expect(html(result.dir, '/models/').match(/No verified results yet/g)).toHaveLength(3);
+		expect(html(result.dir, '/models/gpt-6-luna/')).toContain('No verified results yet.');
+		expect(readFileSync(join(result.dir, 'sitemap.xml'), 'utf8').match(/<loc>/g)).toHaveLength(
+			4 + modelPaths().length
+		);
 	});
 });
 
