@@ -38,7 +38,22 @@ async function createData(): Promise<CompareData> {
 	});
 	const worker = new Worker(bundle.mainWorker!);
 	const db = new duckdb.AsyncDuckDB(new duckdb.ConsoleLogger(), worker);
-	await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
+	let moduleUrl = bundle.mainModule;
+	if (import.meta.env.VITE_PR_PREVIEW === '1') {
+		// Cloudflare Pages cannot host the uncompressed modules (>25 MiB each).
+		const compressed = await fetch(`${moduleUrl}.gz`);
+		if (!compressed.ok || !compressed.body)
+			throw new Error(`DuckDB WASM: HTTP ${compressed.status}`);
+		const wasm = await new Response(
+			compressed.body.pipeThrough(new DecompressionStream('gzip'))
+		).arrayBuffer();
+		moduleUrl = URL.createObjectURL(new Blob([wasm], { type: 'application/wasm' }));
+	}
+	try {
+		await db.instantiate(moduleUrl, bundle.pthreadWorker);
+	} finally {
+		if (moduleUrl !== bundle.mainModule) URL.revokeObjectURL(moduleUrl);
+	}
 	await db.open({ path: ':memory:' });
 	const conn = await db.connect();
 	// Insert the parsed rows directly: DuckDB's JSON loader would fetch its

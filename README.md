@@ -56,4 +56,20 @@ fails when it is stale. `tests/fixtures/export/` is a verbatim copy of
 GitHub Pages on a `data-published` repository dispatch, on push to `main`, and by hand. Pages must
 use **GitHub Actions** as its source.
 
+### Pull request previews
+
+`PR preview` builds the exact base and head commits against the same published export. It
+compares full-page Chromium screenshots at desktop and mobile sizes and keeps only changed,
+added, or removed pages. Download the build and the `pr-preview-report/index.html` gallery
+from the workflow summary. This comparison covers the default view of each prerendered route,
+not every interaction or filter combination.
+
+For live previews, create a separate Cloudflare Pages **Direct Upload** project with `main`
+as its production branch. Set the GitHub Actions variable `CLOUDFLARE_PREVIEW_PROJECT` to its
+name, and add the `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` secrets (token permission:
+**Account → Cloudflare Pages → Edit**). Same-repository PRs deploy to branch `pr-<number>`;
+a single PR comment links the exact deployment and gallery and embeds up to 12 before/after
+pairs. Without Cloudflare configuration the comment links the Actions artifact instead. Fork
+PRs produce an Actions artifact only. Production GitHub Pages is unchanged.
+
 Results data is published under CC BY 4.0; the code is under the MIT licence in `LICENSE`.
