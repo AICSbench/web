@@ -15,6 +15,7 @@ import {
 
 const BASE_URL = 'https://aicsbench.github.io/web/';
 const XSS = '<script>alert(1)</script>';
+const AUTH_RUN_PATH = '/runs/run-auth-001-a1b2c3d4/';
 const pages = (
 	JSON.parse(readFileSync(join(FIXTURE, 'pages.json'), 'utf8')) as {
 		pages: { path: string; kind: string; title: string }[];
@@ -275,6 +276,13 @@ describe('edge-case build', () => {
 	beforeAll(() => {
 		const dir = editedExport((json) => {
 			json('pages.json', (data) => {
+				for (const page of data.pages) {
+					if (page.kind === 'run' && page.params.run_id === 'run-auth-001')
+						page.path = AUTH_RUN_PATH;
+					for (const link of page.links) {
+						if (link.path === '/runs/run-auth-001/') link.path = AUTH_RUN_PATH;
+					}
+				}
 				const task = data.pages.find(
 					(page: { kind: string; params: { task?: string } }) =>
 						page.kind === 'task' && page.params.task === 'task-management-api'
@@ -426,6 +434,8 @@ describe('edge-case build', () => {
 
 	it('links model pages under BASE_PATH with relative URLs', () => {
 		const profile = html(result.dir, '/models/gpt-6-luna/');
+		expect(profile).toContain(`href="../..${AUTH_RUN_PATH}"`);
+		expect(html(result.dir, AUTH_RUN_PATH)).toContain('run-auth-001');
 		expect(profile).toContain('href="../../compare/?task=auth-api');
 		expect(profile).toContain('href="../../models/"');
 		const index = html(result.dir, '/models/');

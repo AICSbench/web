@@ -39,11 +39,15 @@ export function modelProfileData(model: ModelEntry) {
 	const site = loadExport();
 	const path = `/models/${model.slug}/`;
 	const results = summarizeModelResults(model, site.trials);
+	const runPaths = new Map(
+		site.pages.filter((page) => page.kind === 'run').map((page) => [page.params.run_id, page.path])
+	);
 	const title = `${model.displayName}: Specs, Pricing & Coding Benchmarks`;
 	const description = `Explore ${model.displayName} by ${model.maker}: official context window, API list pricing, and verified AI coding benchmark results where available.`;
 	return {
 		model,
 		results,
+		runPaths,
 		canonical: absolute(path),
 		title,
 		description,
