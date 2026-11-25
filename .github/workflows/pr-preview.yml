@@ -1,0 +1,153 @@
+name: PR preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions: {}
+
+concurrency:
+  group: pr-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    outputs:
+      artifact-url: ${{ steps.upload.outputs.artifact-url }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: preview-base
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: aicsbench/data
+          ref: export
+          path: preview-export
+          persist-credentials: false
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            preview-base/pnpm-lock.yaml
+      - name: Build both revisions with the same export
+        env:
+          EXPORT_DIR: ${{ github.workspace }}/preview-export
+        run: |
+          pnpm --dir preview-base install --frozen-lockfile
+          pnpm --dir preview-base build
+          pnpm install --frozen-lockfile
+          VITE_PR_PREVIEW=1 pnpm build
+          # Pages caps individual assets at 25 MiB; both DuckDB modules exceed it.
+          find build -name 'duckdb-*.wasm' -type f -exec gzip -n {} +
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Capture changed pages on desktop and mobile
+        run: |
+          python3 -m http.server 4175 --bind 127.0.0.1 --directory preview-base/build &
+          python3 -m http.server 4176 --bind 127.0.0.1 --directory build &
+          for port in 4175 4176; do
+            curl --fail --silent --retry 5 --retry-connrefused "http://127.0.0.1:$port/" >/dev/null
+          done
+          pnpm exec tsx scripts/preview-screenshots.ts preview-base/build build build/pr-preview-report
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        id: upload
+        with:
+          name: pr-preview
+          path: build/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Link the downloadable preview
+        env:
+          ARTIFACT_URL: ${{ steps.upload.outputs.artifact-url }}
+        run: printf '[Download preview and screenshots](%s) (open `pr-preview-report/index.html` after extracting).\n' "$ARTIFACT_URL" >> "$GITHUB_STEP_SUMMARY"
+
+  publish:
+    # This fresh runner consumes only static output. It never checks out or runs
+    # the PR's source, package scripts, or deployment configuration.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    needs: compare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: pr-preview
+          path: site
+      - name: Limit deployment to static assets
+        run: |
+          rm -rf site/_worker.js site/_routes.json
+          printf '/*\n  X-Robots-Tag: noindex\n' > site/_headers
+      - name: Check Cloudflare configuration
+        id: config
+        env:
+          PROJECT: ${{ vars.CLOUDFLARE_PREVIEW_PROJECT }}
+          ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [[ -z "$PROJECT" || -z "$ACCOUNT" || -z "$TOKEN" ]]; then
+            echo '::notice::Cloudflare preview not configured; using the Actions artifact.'
+          elif [[ "$PROJECT" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
+            echo "project=$PROJECT" >> "$GITHUB_OUTPUT"
+          else
+            echo '::error::Invalid CLOUDFLARE_PREVIEW_PROJECT'
+            exit 1
+          fi
+      - name: Deploy preview to Cloudflare Pages
+        id: deploy
+        if: steps.config.outputs.project != ''
+        uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site --project-name=${{ steps.config.outputs.project }} --branch=pr-${{ github.event.pull_request.number }}
+      - name: Update the PR preview comment
+        if: ${{ !cancelled() }}
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        env:
+          PREVIEW_URL: ${{ steps.deploy.outputs.deployment-url }}
+          ARTIFACT_URL: ${{ needs.compare.outputs.artifact-url }}
+        with:
+          script: |
+            const fs = require('node:fs');
+            const marker = '<!-- aicsbench-pr-preview -->';
+            const { owner, repo } = context.repo;
+            const { number: issue_number, head, base } = context.payload.pull_request;
+            const { data: pr } = await github.rest.pulls.get({ owner, repo, pull_number: issue_number });
+            if (pr.state !== 'open' || pr.head.sha !== head.sha || pr.base.sha !== base.sha) return;
+            const preview = process.env.PREVIEW_URL.replace(/\/$/, '');
+            const { pages, changes } = JSON.parse(fs.readFileSync('site/pr-preview-report/changes.json', 'utf8'));
+            const gallery = `${preview}/pr-preview-report/`;
+            const body = [marker, '### Frontend preview', '',
+              preview ? `[Open preview](${preview}/) · [Full before/after gallery](${gallery})` : 'Live preview unavailable — use the downloadable build and gallery below.',
+              `[Download build and screenshots](${process.env.ARTIFACT_URL})`, '',
+              `${Number(changes.length)} changed desktop/mobile captures across ${Number(pages)} checked pages. Base: \`${base.sha.slice(0, 7)}\` · PR: \`${head.sha.slice(0, 7)}\`.`];
+            if (preview && changes.length) {
+              const image = (file, side) => typeof file === 'string' && new RegExp(`^\\d+-${side}\\.png$`).test(file)
+                ? `<img src="${gallery}${file}" alt="${side}" width="300">` : 'Page not present';
+              body.push('', '| Page | Before | After |', '| --- | --- | --- |');
+              for (const row of changes.slice(0, 12)) {
+                const route = String(row.route).replace(/[^a-zA-Z0-9/_%.-]/g, '');
+                const viewport = row.viewport === 'mobile' ? 'mobile' : 'desktop';
+                body.push(`| \`${route}\` (${viewport}) | ${image(row.before, 'before')} | ${image(row.after, 'after')} |`);
+              }
+              if (changes.length > 12) body.push('', `See the gallery for the other ${changes.length - 12} captures.`);
+            }
+            const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number });
+            const existing = comments.find((comment) => comment.user?.login === 'github-actions[bot]' && comment.body?.startsWith(marker));
+            const text = body.join('\n');
+            if (existing) await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body: text });
+            else await github.rest.issues.createComment({ owner, repo, issue_number, body: text });
